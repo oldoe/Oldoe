@@ -1,0 +1,12 @@
+name: OldoeServer
+version: 1.0.0
+main: com.oldoe.plugin.Plugin
+description: Oldoe server plugin.
+author: littlefryingpan
+website: https://oldoe.com
+api-version: 1.19
+commands:
+  spawn:
+    description: "Go to spawn location"
+    usage: "/spawn"
+    aliases: [s, spawn]
