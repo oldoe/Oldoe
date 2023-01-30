@@ -13,9 +13,9 @@ bin/
 target/
 
 #Intelli J files
-.bin
-.lock
-.xml
+*.bin
+*.lock
+*.xml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
