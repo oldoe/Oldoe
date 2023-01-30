@@ -13,6 +13,8 @@ public class Plugin extends JavaPlugin implements Listener {
     public void onEnable() {
         Bukkit.getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new EntitySpawningListener(), this);
+        getServer().getPluginManager().registerEvents(new ExplosionListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityChangeBlockListener(), this);
         this.getCommand("spawn").setExecutor(new SpawnCommand());
     }
 
