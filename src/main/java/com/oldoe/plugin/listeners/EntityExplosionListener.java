@@ -1,4 +1,4 @@
-package com.oldoe.plugin;
+package com.oldoe.plugin.listeners;
 
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 
-public class ExplosionListener implements Listener {
+public class EntityExplosionListener implements Listener {
 
     @EventHandler
     public void onEntityExplodeEvent(EntityExplodeEvent event) {

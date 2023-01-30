@@ -1,5 +1,8 @@
 package com.oldoe.plugin;
 
+import com.oldoe.plugin.listeners.EntityChangeBlockListener;
+import com.oldoe.plugin.listeners.EntityExplosionListener;
+import com.oldoe.plugin.listeners.EntitySpawningListener;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -13,7 +16,7 @@ public class Plugin extends JavaPlugin implements Listener {
     public void onEnable() {
         Bukkit.getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new EntitySpawningListener(), this);
-        getServer().getPluginManager().registerEvents(new ExplosionListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityExplosionListener(), this);
         getServer().getPluginManager().registerEvents(new EntityChangeBlockListener(), this);
         this.getCommand("spawn").setExecutor(new SpawnCommand());
     }

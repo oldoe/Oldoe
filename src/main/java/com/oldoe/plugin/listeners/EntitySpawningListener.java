@@ -1,4 +1,4 @@
-package com.oldoe.plugin;
+package com.oldoe.plugin.listeners;
 
 import org.bukkit.World;
 import org.bukkit.entity.Entity;

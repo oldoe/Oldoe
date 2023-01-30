@@ -1,4 +1,4 @@
-package com.oldoe.plugin;
+package com.oldoe.plugin.listeners;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
