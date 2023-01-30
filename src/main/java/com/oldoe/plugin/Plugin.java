@@ -1,5 +1,6 @@
 package com.oldoe.plugin;
 
+import com.oldoe.plugin.listeners.BlockFromToListener;
 import com.oldoe.plugin.listeners.EntityChangeBlockListener;
 import com.oldoe.plugin.listeners.EntityExplosionListener;
 import com.oldoe.plugin.listeners.EntitySpawningListener;
@@ -18,6 +19,7 @@ public class Plugin extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new EntitySpawningListener(), this);
         getServer().getPluginManager().registerEvents(new EntityExplosionListener(), this);
         getServer().getPluginManager().registerEvents(new EntityChangeBlockListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockFromToListener(), this);
         this.getCommand("spawn").setExecutor(new SpawnCommand());
     }
 
