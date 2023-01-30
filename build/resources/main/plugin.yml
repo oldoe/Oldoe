@@ -1,12 +1,20 @@
 name: OldoeServer
 version: 1.0.0
-main: com.oldoe.plugin.Plugin
+main: com.oldoe.plugin.Oldoe
 description: Oldoe server plugin.
 author: littlefryingpan
-website: https://oldoe.com
+website: https://www.oldoe.com
 api-version: 1.19
 commands:
   spawn:
     description: "Go to spawn location"
     usage: "/spawn"
     aliases: [s, spawn]
+  sethome:
+    description: "Set home location"
+    usage: "/sethome"
+    aliases: [ sethome ]
+  home:
+    description: "Go to home location"
+    usage: "/home"
+    aliases: [ h, home ]

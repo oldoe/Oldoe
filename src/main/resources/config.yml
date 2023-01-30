@@ -1,0 +1,4 @@
+db_ip: ip
+db_name: dbName
+db_username: username
+db_password: password
