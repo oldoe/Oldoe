@@ -62,7 +62,7 @@ public class MYSQLConnector {
     private void makeTables() {
         // MySQL code to create the users table
         String usersTable = String.format("CREATE TABLE IF NOT EXISTS `%s`.`oldoe_users` (" +
-                "`id` INT(11) NOT NULL," +
+                "`id` INT(11) NOT NULL AUTO_INCREMENT," +
                 "`uuid` VARCHAR(255) NOT NULL ," +
                 "PRIMARY KEY (`id`), " +
                 "UNIQUE KEY `uuid` (`uuid`) " +
