@@ -19,7 +19,7 @@ public class PlayerJoinListener implements Listener {
         String uuid = player.getUniqueId().toString();
 
         // Add the player to the players table if not already in it
-        Oldoe.GetDatabase().executeSQL(String.format("INSERT INTO `oldoe_users` (uuid) VALUES ('%s')", uuid));
+        Oldoe.GetDatabase().executeSQL(String.format("INSERT INTO `oldoe_users` (uuid, name) VALUES ('%s', '%s')", uuid, player.getName()));
         Oldoe.GetDatabase().close();
     }
 }

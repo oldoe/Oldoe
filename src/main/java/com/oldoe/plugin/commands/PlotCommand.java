@@ -38,7 +38,10 @@ public class PlotCommand implements CommandExecutor {
     }
 
     private void Buy(Player player) {
+        // For test purpose
+        if (player.isOp()) {
 
+        }
     }
 
     private void Sell(Player player) {

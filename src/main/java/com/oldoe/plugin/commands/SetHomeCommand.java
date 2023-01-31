@@ -34,7 +34,7 @@ public class SetHomeCommand implements CommandExecutor {
     private void saveHome(String uuid, Location loc) {
         int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
         String sql = String.format(
-                "INSERT INTO `oldoe_homes` (uuid, world, x, y, z, pitch, yaw) " +
+                "REPLACE INTO `oldoe_homes` (uuid, world, x, y, z, pitch, yaw) " +
                         "VALUES (%d, '%s', %f, %f, %f, %f, %f)",
                 userID,
                 loc.getWorld().getName(),

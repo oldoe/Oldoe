@@ -64,6 +64,7 @@ public class MYSQLConnector {
         String usersTable = String.format("CREATE TABLE IF NOT EXISTS `%s`.`oldoe_users` (" +
                 "`id` INT(11) NOT NULL AUTO_INCREMENT," +
                 "`uuid` VARCHAR(255) NOT NULL ," +
+                "`name` VARCHAR(255) NOT NULL ," +
                 "PRIMARY KEY (`id`), " +
                 "UNIQUE KEY `uuid` (`uuid`) " +
                 ") ENGINE = InnoDB;", database);
@@ -79,12 +80,38 @@ public class MYSQLConnector {
                 "`pitch` FLOAT NOT NULL , " +
                 "`yaw` FLOAT NOT NULL , " +
                 "PRIMARY KEY (`id`)," +
+                "UNIQUE KEY `uuid` (`uuid`), " +
                 "FOREIGN KEY (`uuid`) REFERENCES oldoe_users(`id`) ON UPDATE CASCADE ON DELETE CASCADE" +
+                ") ENGINE = InnoDB;", database);
+
+        // MySQL code to create the plots table
+        String plotsTable = String.format("CREATE TABLE IF NOT EXISTS `%s`.`oldoe_plots` ( " +
+                "`id` INT(11) NOT NULL AUTO_INCREMENT , " +
+                "`owner` INT(11) NOT NULL , " +
+                "`world` VARCHAR(255) NOT NULL , " +
+                "`name` VARCHAR(255) NOT NULL , " +
+                "`desc` VARCHAR(255) NOT NULL , " +
+                "`x` Int(11) NOT NULL , " +
+                "`z` Int(11) NOT NULL , " +
+                "PRIMARY KEY (`id`)," +
+                "FOREIGN KEY (`owner`) REFERENCES oldoe_users(`id`) ON UPDATE CASCADE ON DELETE CASCADE" +
+                ") ENGINE = InnoDB;", database);
+
+        // MySQL code to create the plots permission table
+        String plotPermTable = String.format("CREATE TABLE IF NOT EXISTS `%s`.`oldoe_plot_perms` ( " +
+                "`id` INT(11) NOT NULL AUTO_INCREMENT , " +
+                "`plot` INT(11) NOT NULL , " +
+                "`user` INT(11) NOT NULL , " +
+                "PRIMARY KEY (`id`)," +
+                "FOREIGN KEY (`plot`) REFERENCES oldoe_plots(`id`) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                "FOREIGN KEY (`user`) REFERENCES oldoe_users(`id`) ON UPDATE CASCADE ON DELETE CASCADE" +
                 ") ENGINE = InnoDB;", database);
 
         // Execute queries and close statement
         executeSQL(usersTable);
         executeSQL(homesTable);
+        executeSQL(plotsTable);
+        executeSQL(plotPermTable);
         close();
     }
 

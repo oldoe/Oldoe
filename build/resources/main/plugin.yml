@@ -18,3 +18,7 @@ commands:
     description: "Go to home location"
     usage: "/home"
     aliases: [ h, home ]
+  plot:
+    description: "Check status of plot"
+    usage: "/plot"
+    aliases: [ p, plot ]
