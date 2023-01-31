@@ -17,8 +17,8 @@ public class EntitySpawningListener implements Listener {
 
         // Hostile mobs that are wanting to spawn in the overworld
         if (entity instanceof Monster && entity.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
-            // Prevent hostile mobs from spawning within 50 blocks of spawn.
-            if (Math.abs(entity.getLocation().getX()) < 50 && Math.abs(entity.getLocation().getZ()) < 50 ) {
+            // Prevent hostile mobs from spawning within 128 blocks of spawn.
+            if (Math.abs(entity.getLocation().getX()) < 128 && Math.abs(entity.getLocation().getZ()) < 128) {
                 event.setCancelled(true);
             }
         }
