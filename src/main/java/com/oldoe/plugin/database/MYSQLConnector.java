@@ -90,7 +90,6 @@ public class MYSQLConnector {
                 "`owner` INT(11) NOT NULL , " +
                 "`world` VARCHAR(255) NOT NULL , " +
                 "`name` VARCHAR(255) NOT NULL , " +
-                "`desc` VARCHAR(255) NOT NULL , " +
                 "`x` Int(11) NOT NULL , " +
                 "`z` Int(11) NOT NULL , " +
                 "PRIMARY KEY (`id`)," +

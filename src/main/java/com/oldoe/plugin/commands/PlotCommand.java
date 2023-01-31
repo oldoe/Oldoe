@@ -1,10 +1,15 @@
 package com.oldoe.plugin.commands;
 
+import com.oldoe.plugin.Oldoe;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import static com.oldoe.plugin.converters.CoordConverter.CoordToPlot;
 
 public class PlotCommand implements CommandExecutor {
     @Override
@@ -16,7 +21,7 @@ public class PlotCommand implements CommandExecutor {
             if (args.length > 0) {
                 switch (args[0]) {
                     case ("buy"):
-                        Buy(player);
+                        Buy(player, uuid);
                         break;
                     case ("sell"):
                         Sell(player);
@@ -37,10 +42,33 @@ public class PlotCommand implements CommandExecutor {
         return true;
     }
 
-    private void Buy(Player player) {
+    private void Buy(Player player, String uuid) {
         // For test purpose
         if (player.isOp()) {
 
+            // TODO, check if plot is already owned, can be in the sql call via an exception (if already exists respond)
+            int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
+
+            Location loc = player.getLocation();
+
+            int x = CoordToPlot(loc.getX());
+            int z = CoordToPlot(loc.getZ());
+
+            String name = "None";
+
+            String sql = String.format(
+                    "INSERT INTO `oldoe_plots` (owner, world, name, x, z) " +
+                            "VALUES (%d, '%s', '%s', %d, %d)",
+                    userID,
+                    loc.getWorld().getName(),
+                    name,
+                    x,
+                    z
+            );
+            Oldoe.GetDatabase().executeSQL(sql);
+            Oldoe.GetDatabase().close();
+
+            player.sendMessage(ChatColor.GREEN + "Plot purchased! (" + x + ", " + z + ")");
         }
     }
 
