@@ -2,6 +2,7 @@ package com.oldoe.plugin.listeners;
 
 import com.oldoe.plugin.Oldoe;
 import net.kyori.adventure.text.Component;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +12,7 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().sendMessage(Component.text("Welcome to Oldoe, " + event.getPlayer().getName() + "!"));
+        event.getPlayer().sendMessage(Component.text(ChatColor.GREEN + "Welcome to Oldoe, " + event.getPlayer().getName() + "!"));
 
         Player player = event.getPlayer();
         // Get the unique id of the player

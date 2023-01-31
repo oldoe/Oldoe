@@ -1,5 +1,6 @@
 package com.oldoe.plugin.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,7 +19,7 @@ public class SpawnCommand implements CommandExecutor {
             if (player.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
                 player.teleport(player.getWorld().getSpawnLocation());
             } else {
-                player.sendMessage("The /spawn command does not work here.");
+                player.sendMessage(ChatColor.RED + "The /spawn command does not work here.");
             }
         }
 

@@ -1,6 +1,7 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -21,9 +22,9 @@ public class SetHomeCommand implements CommandExecutor {
                 String uuid = player.getUniqueId().toString();
                 Location loc = player.getLocation();
                 saveHome(uuid, loc);
-                player.sendMessage("Home saved!");
+                player.sendMessage(ChatColor.GREEN + "Home saved!");
             } else {
-                player.sendMessage("The /sethome command does not work here.");
+                player.sendMessage(ChatColor.RED + "The /sethome command does not work here.");
             }
         }
 

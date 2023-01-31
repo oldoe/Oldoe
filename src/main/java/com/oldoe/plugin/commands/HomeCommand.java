@@ -2,6 +2,7 @@ package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -25,12 +26,12 @@ public class HomeCommand implements CommandExecutor {
             if (player.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
                 Location home = GetHome(uuid);
                 if (home == null) {
-                    player.sendMessage("Error, no home set! Set a home by typing /sethome");
+                    player.sendMessage(ChatColor.RED + "You currently have no home. Set your home by typing /sethome");
                 } else {
                     player.teleport(home);
                 }
             } else {
-                player.sendMessage("The /home command does not work here.");
+                player.sendMessage(ChatColor.RED + "The /home command does not work here.");
             }
         }
 
