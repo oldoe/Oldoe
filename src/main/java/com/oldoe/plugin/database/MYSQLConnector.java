@@ -65,7 +65,7 @@ public class MYSQLConnector {
                 "`id` INT(11) NOT NULL AUTO_INCREMENT," +
                 "`uuid` VARCHAR(255) NOT NULL ," +
                 "`name` VARCHAR(255) NOT NULL ," +
-                "`cash` DECIMAL(12,2) ," +
+                "`cash` DECIMAL(12,2) NOT NULL DEFAULT 0.00 ," +
                 "PRIMARY KEY (`id`), " +
                 "UNIQUE KEY `uuid` (`uuid`) " +
                 ") ENGINE = InnoDB;", database);

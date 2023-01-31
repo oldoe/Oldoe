@@ -2,12 +2,9 @@ package com.oldoe.plugin.listeners;
 
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.entity.ExplosionPrimeEvent;
 
 public class EntityExplosionListener implements Listener {
 

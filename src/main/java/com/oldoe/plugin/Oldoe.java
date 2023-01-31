@@ -28,10 +28,13 @@ public class Oldoe extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new EntityChangeBlockListener(), this);
         getServer().getPluginManager().registerEvents(new BlockFromToListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
         this.getCommand("spawn").setExecutor(new SpawnCommand());
         this.getCommand("sethome").setExecutor(new SetHomeCommand());
         this.getCommand("home").setExecutor(new HomeCommand());
         this.getCommand("plot").setExecutor(new PlotCommand());
+        this.getCommand("cash").setExecutor(new PlotCommand());
 
         initConfig();
 

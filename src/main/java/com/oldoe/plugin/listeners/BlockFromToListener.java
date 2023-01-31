@@ -4,9 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.material.MaterialData;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
