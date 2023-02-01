@@ -1,10 +1,7 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,6 +26,17 @@ public class HomeCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "You currently have no home. Set your home by typing /sethome");
                 } else {
                     player.teleport(home);
+                    player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 0.9f, 0.5f);
+                    /*
+                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Oldoe.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 0.9f, 0.5f);
+                        }
+                    }, 20L * 1);
+
+                     */
+
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "The /home command does not work here.");

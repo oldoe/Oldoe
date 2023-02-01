@@ -10,6 +10,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class SetHomeCommand implements CommandExecutor {
 
     @Override
@@ -33,14 +37,15 @@ public class SetHomeCommand implements CommandExecutor {
 
     private void saveHome(String uuid, Location loc) {
         int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
+
         String sql = String.format(
                 "REPLACE INTO `oldoe_homes` (uuid, world, x, y, z, pitch, yaw) " +
                         "VALUES (%d, '%s', %f, %f, %f, %f, %f)",
                 userID,
                 loc.getWorld().getName(),
-                loc.getX(),
-                loc.getY(),
-                loc.getZ(),
+                new BigDecimal(loc.getX()).setScale(2, RoundingMode.HALF_UP).doubleValue(),
+                new BigDecimal(loc.getY()).setScale(2, RoundingMode.HALF_UP).doubleValue(),
+                new BigDecimal(loc.getZ()).setScale(2, RoundingMode.HALF_UP).doubleValue(),
                 loc.getPitch(),
                 loc.getYaw()
         );

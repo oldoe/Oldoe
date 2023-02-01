@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-import static com.oldoe.plugin.database.Permissions.HasPlotPermissions;
+import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
 
 public class BlockPlaceListener implements Listener {
 

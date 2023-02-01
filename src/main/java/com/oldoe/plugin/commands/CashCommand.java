@@ -1,6 +1,7 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -10,9 +11,11 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
+import static com.oldoe.plugin.database.PreparedQueries.GetCash;
+import static com.oldoe.plugin.database.PreparedQueries.UpdateMoney;
 
 public class CashCommand implements CommandExecutor {
 
@@ -23,27 +26,61 @@ public class CashCommand implements CommandExecutor {
             Player player = (Player) sender;
             String uuid = player.getUniqueId().toString();
 
-            BigDecimal cash = new BigDecimal(0.00);
+            DecimalFormat df = new DecimalFormat("#,###.00");
+            BigDecimal cash = GetCash(uuid);
 
-            try {
-                String sql = String.format("SELECT `cash` FROM `oldoe_users` WHERE `uuid` = '%s'", uuid);
-                ResultSet resultSet = Oldoe.GetDatabase().executeSQL(sql);
+            // Commands:
+            // /cash
+            // /cash send {user} amount
+            // comm, args[0], args[1], args[2]
+            if (args.length < 1) {
+                player.sendMessage(ChatColor.GREEN + "Cash: $" + df.format(cash));
+            } else {
+                if (args[0].equals("send")) {
+                    if (args.length > 1) {
+                        String user = args[1];
 
-                if (resultSet != null) {
-                    while (resultSet.next()) {
-                        cash = resultSet.getBigDecimal("cash");
+                        Player recipient = Bukkit.getPlayer(user);
+
+                        if (recipient == null) {
+                            player.sendMessage(ChatColor.RED + "User must be online in order to send cash.");
+                        } else {
+                            BigDecimal sendAmount = new BigDecimal(0.00);
+                            try {
+                                sendAmount = new BigDecimal(args[2]).setScale(2, RoundingMode.HALF_UP);
+                            } catch (NumberFormatException ex) {
+                                player.sendMessage(ChatColor.RED + "Invalid number. Command usage: /cash send {user} {amount}.");
+                                return true;
+                            }
+
+                            if (sendAmount.intValue() >= 1) {
+                                // -1 = less than, 0 equal too, 1 greater than
+                                if (cash.compareTo(sendAmount) > -1) {
+                                    UpdateMoney(uuid, false, sendAmount);
+                                    player.sendMessage(ChatColor.GREEN + "You have sent $" + df.format(sendAmount) + " to " + recipient.getName());
+                                    UpdateMoney(recipient.getUniqueId().toString(), true, sendAmount);
+                                    recipient.sendMessage(ChatColor.GREEN + "You have received $" + df.format(sendAmount) + " from " + player.getName());
+
+                                } else {
+                                    player.sendMessage(ChatColor.RED + "You can't send more cash than you currently have!");
+                                }
+                            } else {
+                                SendCommandUsage(player);
+                            }
+                        }
+                    } else {
+                        SendCommandUsage(player);
                     }
+                } else {
+                    SendCommandUsage(player);
                 }
-            } catch (SQLException e) {
             }
-            finally {
-                Oldoe.GetDatabase().close();
-            }
-
-            player.sendMessage(ChatColor.GREEN + "Cash: " + cash.toString());
         }
 
         return true;
     }
 
+    private void SendCommandUsage(Player p) {
+        p.sendMessage(ChatColor.RED + "Command usage: /cash send {user} {amount}");
+    }
 }
