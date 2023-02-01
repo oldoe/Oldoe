@@ -12,7 +12,7 @@ public class CoordConverter {
         val *= 128;
         val += 64;
 
-        if (coord > 0) {
+        if (coord >= 0) {
             return val;
         } else {
             return -val;

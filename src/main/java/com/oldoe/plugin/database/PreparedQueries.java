@@ -71,7 +71,7 @@ public class PreparedQueries {
             Oldoe.GetDatabase().close();
         }
 
-        if (owner == -1 && owner != userID) {
+        if (owner == -1 || owner != userID) {
             return false;
         } else {
             return true;

@@ -60,7 +60,6 @@ public class CashCommand implements CommandExecutor {
                                     player.sendMessage(ChatColor.GREEN + "You have sent $" + df.format(sendAmount) + " to " + recipient.getName());
                                     UpdateMoney(recipient.getUniqueId().toString(), true, sendAmount);
                                     recipient.sendMessage(ChatColor.GREEN + "You have received $" + df.format(sendAmount) + " from " + player.getName());
-
                                 } else {
                                     player.sendMessage(ChatColor.RED + "You can't send more cash than you currently have!");
                                 }

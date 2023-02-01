@@ -3,6 +3,7 @@ package com.oldoe.plugin.commands;
 import com.oldoe.plugin.Oldoe;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -116,6 +117,7 @@ public class PlotCommand implements CommandExecutor {
             Oldoe.GetDatabase().close();
 
             player.sendMessage(ChatColor.GREEN + "Plot purchased! (" + x + ", " + z + ")");
+            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.9f, 0.5f);
         }
     }
 
@@ -130,7 +132,8 @@ public class PlotCommand implements CommandExecutor {
             int x = CoordToPlot(loc.getX());
             int z = CoordToPlot(loc.getZ());
 
-            player.sendMessage(ChatColor.GREEN + "Plot sold! (" + x + ", " + z + ")");
+            player.sendMessage(ChatColor.GREEN + "Plot sold! You no longer own: (" + x + ", " + z + ")");
+            player.sendMessage(ChatColor.GREEN + "You received $" + plotPrice + " for your plot.");
         } else {
             player.sendMessage(ChatColor.RED + "You do not own this plot!");
         }
