@@ -6,10 +6,30 @@ import org.bukkit.Location;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 
 import static com.oldoe.plugin.converters.CoordConverter.CoordToPlot;
 
 public class PreparedQueries {
+
+    public static int GetPlayerIdByName(String name) {
+        int userID = -1;
+        try {
+            String sql = String.format("SELECT `id` FROM `oldoe_users` WHERE `name` LIKE '%s'", name);
+            ResultSet resultSet = Oldoe.GetDatabase().executeSQL(sql);
+
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    userID = resultSet.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+        }
+
+        return userID;
+    }
 
     public static Boolean HasPlotPermissions(String uuid, Location loc) {
 
@@ -19,16 +39,18 @@ public class PreparedQueries {
         int z = CoordToPlot(loc.getBlockZ());
 
         int owner = -1;
+        int plotID = -1;
 
         try {
             String sql = String.format(
-                    "SELECT `owner` FROM `oldoe_plots` WHERE x = '%d' AND z = '%d'",
+                    "SELECT `owner`, `id` FROM `oldoe_plots` WHERE x = '%d' AND z = '%d'",
                     x, z
             );
             ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
             if (rs != null) {
                 while (rs.next()) {
                     owner = rs.getInt("owner");
+                    plotID = rs.getInt("id");
                 }
             }
         } catch (SQLException e) {
@@ -37,12 +59,37 @@ public class PreparedQueries {
             Oldoe.GetDatabase().close();
         }
 
-        // TODO also check for plot members, can be part of the query above
-        if (owner != -1 && owner != userID) {
+        Boolean isPlotMember = IsPlotMember(plotID, userID);
+        if (owner != -1 && owner != userID && !isPlotMember) {
             return false;
         } else {
             return true;
         }
+    }
+
+    public static int GetPlotID(Location loc) {
+        int x = CoordToPlot(loc.getBlockX());
+        int z = CoordToPlot(loc.getBlockZ());
+
+        int id = -1;
+
+        try {
+            String sql = String.format(
+                    "SELECT `id` FROM `oldoe_plots` WHERE x = '%d' AND z = '%d'",
+                    x, z
+            );
+            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    id = rs.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            //e.printStackTrace();
+        } finally {
+            Oldoe.GetDatabase().close();
+        }
+        return id;
     }
 
     public static Boolean IsPlotOwner(String uuid, Location loc) {
@@ -76,6 +123,52 @@ public class PreparedQueries {
         } else {
             return true;
         }
+    }
+
+    public static Boolean IsPlotMember(int plotID, int userID) {
+
+        int id = -1;
+
+        try {
+            String sql = String.format("SELECT * FROM `oldoe_plot_perms` WHERE `plot` = '%d' AND `user` = '%d'", plotID, userID);
+            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    id = rs.getInt("id");
+                }
+            }
+        Oldoe.GetDatabase().close();
+        } catch (SQLException e) {
+            //e.printStackTrace();
+        } finally {
+            Oldoe.GetDatabase().close();
+        }
+
+        if (id == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static List<String> GetPlotMembers(int plotID) {
+        List<String> members = new ArrayList<>();
+
+        try {
+            String sql = String.format(
+                    "SELECT sh.name FROM `oldoe_users` sh JOIN `oldoe_plot_perms` su ON sh.id = su.user WHERE su.plot= '%d'", plotID);
+            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    members.add(rs.getString("name"));
+                }
+            }
+        } catch (SQLException e) {
+            //e.printStackTrace();
+        } finally {
+            Oldoe.GetDatabase().close();
+        }
+        return members;
     }
 
     public static Boolean IsPlotPublic(Location loc) {

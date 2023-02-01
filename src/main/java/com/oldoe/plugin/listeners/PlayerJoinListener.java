@@ -21,14 +21,20 @@ public class PlayerJoinListener implements Listener {
         if (Oldoe.GetDatabase().getPlayerID(uuid) == -1) {
             Bukkit.broadcast(Component.text(ChatColor.GREEN + player.getName() + " has joined for the first time."));
 
+            player.sendMessage(Component.text(ChatColor.WHITE + "------------------------------"));
+            player.sendMessage(Component.text(ChatColor.GREEN + "Welcome to " + ChatColor.WHITE + "Oldoe!"));
+            player.sendMessage(Component.text(ChatColor.GREEN + "Website: " + ChatColor.WHITE + " www.oldoe.com"));
+            player.sendMessage(Component.text(ChatColor.GREEN + "Day: " + ChatColor.WHITE + player.getWorld().getFullTime() / 24000));
+            player.sendMessage(Component.text(ChatColor.WHITE + "------------------------------"));
+
             // Add the player to the players table if not already in it
             Oldoe.GetDatabase().executeSQL(String.format("INSERT INTO `oldoe_users` (uuid, name) VALUES ('%s', '%s')", uuid, player.getName()));
             Oldoe.GetDatabase().close();
         } else {
-            player.sendMessage(Component.text(ChatColor.GREEN + "---------------"));
+            player.sendMessage(Component.text(ChatColor.WHITE + "------------------------------"));
             player.sendMessage(Component.text(ChatColor.GREEN + "Welcome back, " + player.getName() + "!"));
             player.sendMessage(Component.text(ChatColor.GREEN + "Day: " + player.getWorld().getFullTime() / 24000));
-            player.sendMessage(Component.text(ChatColor.GREEN + "---------------"));
+            player.sendMessage(Component.text(ChatColor.WHITE + "------------------------------"));
         }
     }
 }

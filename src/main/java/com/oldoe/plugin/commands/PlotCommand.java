@@ -1,6 +1,7 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -13,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import static com.oldoe.plugin.converters.CoordConverter.CoordToPlot;
 import static com.oldoe.plugin.database.PreparedQueries.*;
@@ -36,10 +38,10 @@ public class PlotCommand implements CommandExecutor {
                         List(player);
                         break;
                     case("add"):
-                        Add(player);
+                        ModifyMembers(player, uuid, args, true);
                         break;
                     case("remove"):
-                        Remove(player);
+                        ModifyMembers(player, uuid, args, false);
                         break;
                 }
             }
@@ -68,12 +70,14 @@ public class PlotCommand implements CommandExecutor {
                     Oldoe.GetDatabase().close();
                 }
 
+                int plotID = GetPlotID(loc);
+                List<String> members = GetPlotMembers(plotID);
+
                 player.sendMessage(ChatColor.WHITE +
-                                "-----------------",
+                                "-----------------Plot Info-----------------",
                                 "Plot Owner: " + owner,
                                 "Coordinates: (" + x + ", " + z + ")",
-                                "-----------------"
-                        );
+                                "Members: " + members.toString());
             }
         }
 
@@ -144,11 +148,67 @@ public class PlotCommand implements CommandExecutor {
 
     }
 
-    private void Add(Player player) {
+    /*
+     * /plot add/remove {user}
+     */
+    private void ModifyMembers(Player player, String uuid, String[] args, boolean add) {
+        if (args.length > 1) {
 
-    }
+            Location loc = player.getLocation();
+            if (IsPlotOwner(uuid, loc)) {
 
-    private void Remove(Player player) {
+                int newMemberID = GetPlayerIdByName(args[1]);
 
+                if (newMemberID != -1) {
+                    int plotID = GetPlotID(loc);
+
+                    if (add) {
+
+                        if(IsPlotMember(plotID, newMemberID)) {
+                            player.sendMessage(ChatColor.RED + args[1] + " is already a member of this plot.");
+                            return;
+                        }
+
+                        String sql = String.format(
+                                "INSERT INTO `oldoe_plot_perms` (plot, user) " +
+                                        "VALUES (%d, %d)",
+                                plotID,
+                                newMemberID
+                        );
+                        Oldoe.GetDatabase().executeSQL(sql);
+                        Oldoe.GetDatabase().close();
+
+                        player.sendMessage(ChatColor.GREEN + args[1] + " added to plot.");
+                    } else {
+
+                        if(!IsPlotMember(plotID, newMemberID)) {
+                            player.sendMessage(ChatColor.RED + args[1] + " is already not a member of this plot.");
+                            return;
+                        }
+
+                        String sql = String.format(
+                                "DELETE FROM `oldoe_plot_perms` WHERE plot = '%d' AND user = '%d'",
+                                plotID,
+                                newMemberID
+                        );
+                        Oldoe.GetDatabase().executeSQL(sql);
+                        Oldoe.GetDatabase().close();
+
+                        player.sendMessage(ChatColor.GREEN + args[1] + " removed from plot.");
+                    }
+
+
+                } else {
+                    player.sendMessage(ChatColor.RED + "Sorry, unable to find a player by that name.");
+                }
+
+            } else {
+                player.sendMessage(ChatColor.RED + "Only the plot owner can add/remove users!");
+            }
+
+        } else {
+            player.sendMessage(ChatColor.RED + "Command usage: /plot add {player}");
+            player.sendMessage(ChatColor.RED + "Command usage: /plot remove {player}");
+        }
     }
 }
