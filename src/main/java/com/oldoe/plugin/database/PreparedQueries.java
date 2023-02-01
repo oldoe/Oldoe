@@ -15,8 +15,8 @@ public class PreparedQueries {
 
         int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
 
-        int x = CoordToPlot(loc.getX());
-        int z = CoordToPlot(loc.getZ());
+        int x = CoordToPlot(loc.getBlockX());
+        int z = CoordToPlot(loc.getBlockZ());
 
         int owner = -1;
 
@@ -49,8 +49,8 @@ public class PreparedQueries {
 
         int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
 
-        int x = CoordToPlot(loc.getX());
-        int z = CoordToPlot(loc.getZ());
+        int x = CoordToPlot(loc.getBlockX());
+        int z = CoordToPlot(loc.getBlockZ());
 
         int owner = -1;
 
@@ -80,8 +80,8 @@ public class PreparedQueries {
 
     public static Boolean IsPlotPublic(Location loc) {
 
-        int x = CoordToPlot(loc.getX());
-        int z = CoordToPlot(loc.getZ());
+        int x = CoordToPlot(loc.getBlockX());
+        int z = CoordToPlot(loc.getBlockZ());
 
         int owner = -1;
 
@@ -110,8 +110,8 @@ public class PreparedQueries {
     }
 
     public static void DeletePlot(Location loc) {
-        int x = CoordToPlot(loc.getX());
-        int z = CoordToPlot(loc.getZ());
+        int x = CoordToPlot(loc.getBlockX());
+        int z = CoordToPlot(loc.getBlockZ());
 
         String sql = String.format("DELETE FROM `oldoe_plots` WHERE x = '%d' AND z = '%d'", x, z);
         Oldoe.GetDatabase().executeSQL(sql);
