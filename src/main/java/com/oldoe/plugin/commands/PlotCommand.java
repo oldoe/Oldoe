@@ -1,10 +1,7 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,6 +22,11 @@ public class PlotCommand implements CommandExecutor {
         if (sender instanceof  Player) {
             Player player = (Player) sender;
             String uuid = player.getUniqueId().toString();
+
+            if (!player.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
+                player.sendMessage(ChatColor.RED + "The /plot command does not work here.");
+                return false;
+            }
 
             if (args.length > 0) {
                 switch (args[0]) {
