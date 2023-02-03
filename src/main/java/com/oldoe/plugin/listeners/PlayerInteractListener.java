@@ -22,7 +22,14 @@ public class PlayerInteractListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
         String uuid = event.getPlayer().getUniqueId().toString();
-        Location loc = event.getInteractionPoint().getBlock().getLocation();
+
+        Location interactPoint = event.getInteractionPoint();
+
+        if (interactPoint == null) {
+            return;
+        }
+
+        Location loc = interactPoint.getBlock().getLocation();
 
         if (loc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
             if (!HasPlotPermissions(uuid, loc)) {
