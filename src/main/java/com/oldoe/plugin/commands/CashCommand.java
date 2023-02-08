@@ -34,7 +34,7 @@ public class CashCommand implements CommandExecutor {
             // /cash send {user} amount
             // comm, args[0], args[1], args[2]
             if (args.length < 1) {
-                player.sendMessage(ChatColor.GREEN + "Cash: $" + df.format(cash));
+                player.sendMessage(ChatColor.GREEN + "Cash: " + ChatColor.WHITE + "$" + df.format(cash));
             } else {
                 if (args[0].equals("send")) {
                     if (args.length > 1) {

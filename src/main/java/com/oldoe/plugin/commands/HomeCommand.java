@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 public class HomeCommand implements CommandExecutor {
 
@@ -67,7 +68,7 @@ public class HomeCommand implements CommandExecutor {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
             Oldoe.GetDatabase().close();
             return homeLocation;

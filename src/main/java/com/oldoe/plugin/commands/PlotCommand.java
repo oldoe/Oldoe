@@ -11,7 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import static com.oldoe.plugin.converters.CoordConverter.CoordToPlot;
 import static com.oldoe.plugin.database.PreparedQueries.*;
@@ -37,13 +39,17 @@ public class PlotCommand implements CommandExecutor {
                         Sell(player, uuid);
                         break;
                     case("list"):
-                        List(player);
+                        List(player, uuid);
                         break;
                     case("add"):
                         ModifyMembers(player, uuid, args, true);
                         break;
                     case("remove"):
                         ModifyMembers(player, uuid, args, false);
+                        break;
+                    default:
+                        player.sendMessage(ChatColor.RED + "Command usage: /plot add/remove {name}");
+                        player.sendMessage(ChatColor.RED + "Command usage: /plot buy/sell");
                         break;
                 }
             }
@@ -67,7 +73,7 @@ public class PlotCommand implements CommandExecutor {
                         }
                     }
                 } catch (SQLException e) {
-                    //e.printStackTrace();
+                    Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
                 } finally {
                     Oldoe.GetDatabase().close();
                 }
@@ -75,11 +81,10 @@ public class PlotCommand implements CommandExecutor {
                 int plotID = GetPlotID(loc);
                 List<String> members = GetPlotMembers(plotID);
 
-                player.sendMessage(ChatColor.WHITE +
-                                "-----------------Plot Info-----------------",
-                                "Plot Owner: " + owner,
-                                "Coordinates: (" + x + ", " + z + ")",
-                                "Members: " + members.toString());
+                player.sendMessage(ChatColor.WHITE + "-----------------" + ChatColor.GOLD + "Plot Info" + ChatColor.WHITE + "-----------------",
+                                ChatColor.GOLD + "Plot Owner: " + ChatColor.WHITE + owner,
+                                ChatColor.GOLD + "Coordinates: " + ChatColor.WHITE + "(" + x + ", " + z + ")",
+                                ChatColor.GOLD + "Members: " + ChatColor.WHITE + members.toString());
             }
         }
 
@@ -146,8 +151,27 @@ public class PlotCommand implements CommandExecutor {
 
     }
 
-    private void List(Player player) {
+    private void List(Player player, String uuid) {
+        int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
 
+        List<String> Plots = new ArrayList<>();
+
+        try {
+            String sql = String.format("SELECT * FROM `oldoe_plots` WHERE owner= '%d'", userID);
+            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    Plots.add(String.format("X: %d Z: %d", rs.getInt("x"), rs.getInt("z")));
+                }
+            }
+        } catch (SQLException e) {
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
+        } finally {
+            Oldoe.GetDatabase().close();
+        }
+
+        player.sendMessage(ChatColor.WHITE + "-----------------" + ChatColor.GOLD + "Plot List" + ChatColor.WHITE + "-----------------",
+                ChatColor.WHITE + Plots.toString());
     }
 
     /*

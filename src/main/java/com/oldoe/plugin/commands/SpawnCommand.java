@@ -22,7 +22,8 @@ public class SpawnCommand implements CommandExecutor {
 
             if (player.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
                 player.teleport(player.getWorld().getSpawnLocation());
-                player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.9f, 0.5f);
+                //player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.9f, 0.5f);
+                player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 0.9f, 0.5f);
             } else {
                 player.sendMessage(ChatColor.RED + "The /spawn command does not work here.");
             }

@@ -26,6 +26,7 @@ public class PreparedQueries {
                 }
             }
         } catch (SQLException e) {
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         }
 
         return userID;
@@ -54,7 +55,7 @@ public class PreparedQueries {
                 }
             }
         } catch (SQLException e) {
-            //e.printStackTrace();
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
             Oldoe.GetDatabase().close();
         }
@@ -85,7 +86,7 @@ public class PreparedQueries {
                 }
             }
         } catch (SQLException e) {
-            //e.printStackTrace();
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
             Oldoe.GetDatabase().close();
         }
@@ -113,7 +114,7 @@ public class PreparedQueries {
                 }
             }
         } catch (SQLException e) {
-            //e.printStackTrace();
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
             Oldoe.GetDatabase().close();
         }
@@ -139,7 +140,7 @@ public class PreparedQueries {
             }
         Oldoe.GetDatabase().close();
         } catch (SQLException e) {
-            //e.printStackTrace();
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
             Oldoe.GetDatabase().close();
         }
@@ -164,7 +165,7 @@ public class PreparedQueries {
                 }
             }
         } catch (SQLException e) {
-            //e.printStackTrace();
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
             Oldoe.GetDatabase().close();
         }
@@ -190,7 +191,7 @@ public class PreparedQueries {
                 }
             }
         } catch (SQLException e) {
-            //e.printStackTrace();
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
             Oldoe.GetDatabase().close();
         }
@@ -224,6 +225,7 @@ public class PreparedQueries {
                 }
             }
         } catch (SQLException e) {
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         }
         finally {
             Oldoe.GetDatabase().close();
