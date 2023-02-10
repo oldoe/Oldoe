@@ -26,3 +26,7 @@ commands:
     description: "Check your cash balance"
     usage: "/cash"
     aliases: [ c, cash ]
+  msg:
+    description: "Send another user a private message"
+    usage: "/msg"
+    aliases: [ m, msg, message ]
