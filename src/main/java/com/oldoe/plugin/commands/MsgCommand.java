@@ -17,9 +17,15 @@ public class MsgCommand implements CommandExecutor {
             Player otherPlayer = Bukkit.getPlayer(args[0]);
 
             if (otherPlayer != null) {
+
+                if (otherPlayer == sender) {
+                    sender.sendMessage(ChatColor.RED + "You can't message yourself.");
+                    return true;
+                }
+
                 StringBuffer sb = new StringBuffer();
                 for(int i = 1; i < args.length; i++) {
-                    sb.append(args[i]);
+                    sb.append(args[i] + " ");
                 }
 
                 String msg = sb.toString();

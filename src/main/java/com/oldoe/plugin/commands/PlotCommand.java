@@ -81,7 +81,7 @@ public class PlotCommand implements CommandExecutor {
                 int plotID = GetPlotID(loc);
                 List<String> members = GetPlotMembers(plotID);
 
-                player.sendMessage(ChatColor.WHITE + "-----------------" + ChatColor.GOLD + "Plot Info" + ChatColor.WHITE + "-----------------",
+                player.sendMessage(ChatColor.WHITE + "------" + ChatColor.GOLD + "Plot Info" + ChatColor.WHITE + "------",
                                 ChatColor.GOLD + "Plot Owner: " + ChatColor.WHITE + owner,
                                 ChatColor.GOLD + "Coordinates: " + ChatColor.WHITE + "(" + x + ", " + z + ")",
                                 ChatColor.GOLD + "Members: " + ChatColor.WHITE + members.toString());
@@ -170,8 +170,14 @@ public class PlotCommand implements CommandExecutor {
             Oldoe.GetDatabase().close();
         }
 
-        player.sendMessage(ChatColor.WHITE + "-----------------" + ChatColor.GOLD + "Plot List" + ChatColor.WHITE + "-----------------",
-                ChatColor.WHITE + Plots.toString());
+        player.sendMessage(ChatColor.WHITE + "------" + ChatColor.GOLD + "Plot List" + ChatColor.WHITE + "------");
+        for (String p : Plots) {
+            player.sendMessage(ChatColor.WHITE + p);
+        }
+
+        if (Plots.size() == 0) {
+            player.sendMessage(ChatColor.RED + "You don't have any plots.");
+        }
     }
 
     /*
