@@ -47,6 +47,7 @@ public class Oldoe extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
         this.getCommand("spawn").setExecutor(new SpawnCommand());
         this.getCommand("sethome").setExecutor(new SetHomeCommand());
         this.getCommand("home").setExecutor(new HomeCommand());
