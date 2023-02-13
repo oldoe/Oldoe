@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import static com.oldoe.plugin.converters.CoordConverter.CoordToPlot;
+import static com.oldoe.plugin.helpers.CoordConverter.CoordToPlot;
 import static com.oldoe.plugin.database.PreparedQueries.*;
 
 public class PlotCommand implements CommandExecutor {

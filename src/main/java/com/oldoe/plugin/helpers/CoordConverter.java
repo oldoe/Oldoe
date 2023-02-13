@@ -1,6 +1,4 @@
-package com.oldoe.plugin.converters;
-
-import org.bukkit.Location;
+package com.oldoe.plugin.helpers;
 
 public class CoordConverter {
 

@@ -35,7 +35,6 @@ public class Oldoe extends JavaPlugin implements Listener {
     public void onEnable() {
 
         instance = this;
-
         Bukkit.getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new EntitySpawningListener(), this);
         getServer().getPluginManager().registerEvents(new EntityExplosionListener(), this);
