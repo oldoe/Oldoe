@@ -17,7 +17,7 @@ import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
 
 public class PlayerInteractListener implements Listener {
 
-    private List<Material> untouchables = Arrays.asList(Material.CHEST, Material.BARREL, Material.SHULKER_BOX, Material.HOPPER, Material.DISPENSER, Material.BREWING_STAND, Material.FURNACE, Material.BLAST_FURNACE);
+    private List<Material> untouchables = Arrays.asList(Material.CHEST, Material.BARREL, Material.SHULKER_BOX, Material.HOPPER, Material.DISPENSER, Material.BREWING_STAND, Material.FURNACE, Material.BLAST_FURNACE, Material.ANVIL, Material.COMPARATOR, Material.REPEATER);
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event){

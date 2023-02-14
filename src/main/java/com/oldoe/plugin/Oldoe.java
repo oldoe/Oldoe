@@ -57,6 +57,7 @@ public class Oldoe extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
         getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(), this);
+        getServer().getPluginManager().registerEvents(new BucketListeners(), this);
         this.getCommand("spawn").setExecutor(new SpawnCommand());
         this.getCommand("sethome").setExecutor(new SetHomeCommand());
         this.getCommand("home").setExecutor(new HomeCommand());
@@ -71,16 +72,6 @@ public class Oldoe extends JavaPlugin implements Listener {
         this.dbConnector = new MYSQLConnector(this);
 
         this.softBlocks = GetSoftBlocksMaterials();
-    }
-
-    private List<Material> GetSoftBlocksMaterials() {
-        List<Material> materials = new ArrayList<>();
-        for (Material mat : Material.values()) {
-            if (mat.isBlock() && mat.getHardness() < 0.2f) {
-                materials.add(mat);
-            }
-        }
-        return materials;
     }
 
     @Override
@@ -115,5 +106,15 @@ public class Oldoe extends JavaPlugin implements Listener {
         config.addDefault("db_password", "db_Password");
         config.options().copyDefaults(true);
         saveConfig();
+    }
+
+    private List<Material> GetSoftBlocksMaterials() {
+        List<Material> materials = new ArrayList<>();
+        for (Material mat : Material.values()) {
+            if (mat.isBlock() && mat.getHardness() < 0.2f) {
+                materials.add(mat);
+            }
+        }
+        return materials;
     }
 }
