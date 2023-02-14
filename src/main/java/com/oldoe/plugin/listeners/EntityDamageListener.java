@@ -6,10 +6,12 @@ import org.bukkit.World;
 import org.bukkit.entity.Enemy;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.projectiles.ProjectileSource;
 
 import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
 
@@ -37,14 +39,29 @@ public class EntityDamageListener implements Listener {
             return;
         }
         else {
-            if(entityDamager instanceof Player && entity.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
-                Player damager = (Player) entityDamager;
-                String uuid = damager.getUniqueId().toString();
-                Location loc = event.getEntity().getLocation();
+            if (entity.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
+                if(entityDamager instanceof Player) {
+                    Player damager = (Player) entityDamager;
+                    String uuid = damager.getUniqueId().toString();
+                    Location loc = event.getEntity().getLocation();
 
-                if (!HasPlotPermissions(uuid, loc)) {
-                    damager.sendMessage(ChatColor.RED + "This is a private plot, you do not have permission here.");
-                    event.setCancelled(true);
+                    if (!HasPlotPermissions(uuid, loc)) {
+                        damager.sendMessage(ChatColor.RED + "This is a private plot, you do not have permission here.");
+                        event.setCancelled(true);
+                    }
+                }
+                else if (entityDamager instanceof Projectile) {
+                    ProjectileSource shooter = ((Projectile) event.getDamager()).getShooter();
+                    if (shooter instanceof Player) {
+                        Player damager = (Player) shooter;
+                        String uuid = damager.getUniqueId().toString();
+                        Location loc = event.getEntity().getLocation();
+
+                        if (!HasPlotPermissions(uuid, loc)) {
+                            damager.sendMessage(ChatColor.RED + "This is a private plot, you do not have permission here.");
+                            event.setCancelled(true);
+                        }
+                    }
                 }
             }
         }
