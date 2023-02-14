@@ -19,12 +19,13 @@ public class CashCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
         if (sender instanceof Player) {
 
             Player player = (Player) sender;
             String uuid = player.getUniqueId().toString();
 
-            DecimalFormat df = new DecimalFormat("#,###.00");
             BigDecimal cash = GetCash(uuid);
 
             // Commands:
@@ -70,6 +71,32 @@ public class CashCommand implements CommandExecutor {
                     }
                 } else {
                     SendCommandUsage(player);
+                }
+            }
+        }
+        else {
+            if (args.length > 1 && args[0].equals("send")) {
+                if (args.length > 1) {
+                    String user = args[1];
+
+                    Player recipient = Bukkit.getPlayer(user);
+
+                    if (recipient == null) {
+                    } else {
+                        BigDecimal sendAmount = new BigDecimal(0.00);
+                        try {
+                            sendAmount = new BigDecimal(args[2]).setScale(2, RoundingMode.HALF_UP);
+                        } catch (NumberFormatException ex) {
+                            sender.sendMessage(ChatColor.RED + "Invalid number. Command usage: /cash send {user} {amount}.");
+                            return true;
+                        }
+
+                        if (sendAmount.intValue() >= 1) {
+                                UpdateMoney(recipient.getUniqueId().toString(), true, sendAmount);
+                                recipient.sendMessage(ChatColor.GREEN + "You have received $" + df.format(sendAmount) + " from " + sender.getName());
+
+                        }
+                    }
                 }
             }
         }

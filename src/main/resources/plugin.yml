@@ -29,4 +29,8 @@ commands:
   msg:
     description: "Send another user a private message"
     usage: "/msg"
-    aliases: [ m, msg, message ]
+    aliases: [ m, r, msg, message ]
+  border:
+    description: "Display plot borders"
+    usage: "/border"
+    aliases: [ border ]

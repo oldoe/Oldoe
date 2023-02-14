@@ -16,5 +16,4 @@ public class CoordConverter {
             return -val;
         }
     }
-
 }

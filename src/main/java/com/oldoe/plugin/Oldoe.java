@@ -6,20 +6,29 @@ import com.oldoe.plugin.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Oldoe extends JavaPlugin implements Listener {
 
     private static MYSQLConnector dbConnector = null;
     private static List<Material> softBlocks = null;
+    private static HashMap<UUID, UUID> lastMessage = new HashMap<>();
+    private static List<UUID> borderPlayers = new ArrayList<>();
     private FileConfiguration config = getConfig();
 
     public static List<Material> GetSoftBlocks() {
         return softBlocks;
+    }
+
+    public static UUID GetLastPlayerMessaged(UUID id) {
+        return lastMessage.get(id);
     }
 
     public static MYSQLConnector GetDatabase() {
@@ -47,12 +56,14 @@ public class Oldoe extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
         getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveListener(), this);
         this.getCommand("spawn").setExecutor(new SpawnCommand());
         this.getCommand("sethome").setExecutor(new SetHomeCommand());
         this.getCommand("home").setExecutor(new HomeCommand());
         this.getCommand("plot").setExecutor(new PlotCommand());
         this.getCommand("cash").setExecutor(new CashCommand());
         this.getCommand("msg").setExecutor(new MsgCommand());
+        this.getCommand("border").setExecutor(new BorderCommand());
 
 
         initConfig();
@@ -78,6 +89,23 @@ public class Oldoe extends JavaPlugin implements Listener {
         if (dbConnector != null) {
             dbConnector.closeConnection();
         }
+    }
+
+    public static void SetLastMessage(UUID from, UUID to) {
+        lastMessage.put(from, to);
+    }
+
+    public static void TogglePlayerBorder(UUID playerUUID) {
+        if (borderPlayers.contains(playerUUID)) {
+            borderPlayers.remove(playerUUID);
+        }
+        else {
+            borderPlayers.add(playerUUID);
+        }
+    }
+
+    public static boolean isBorderActivate(UUID playerUUID) {
+        return borderPlayers.contains(playerUUID);
     }
 
     private void initConfig() {
