@@ -21,3 +21,6 @@ Welcome to the Oldoe Minecraft plugin repository, designed exclusively for a pri
 | /Spawn  | Teleports user to World Spawn location.  |
 | /SetHome  | Sets a users /home location  |
 | /Home  | Teleports a user to their defined home  |
+| /cash  | See users cash balance  |
+| /border  | Visually display plot borders  |
+| /plot  | Display current plot info  |
