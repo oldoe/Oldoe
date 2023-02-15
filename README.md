@@ -1,4 +1,6 @@
 # Oldoe
+![alt text](https://www.oldoe.com/assets/imgs/logo_sm.png)
+
 ## A Bukkit/Paper Plugin
 Welcome to the Oldoe Minecraft plugin repository, designed exclusively for a private server! This custom plugin offers a unique set of features that will enhance the gameplay for all players on your server. The goal of this plugin is to provide a memorable and unique experience. Browse through the features and code to see how Oldoe can bring your private server to the next level.
 
@@ -21,3 +23,6 @@ Welcome to the Oldoe Minecraft plugin repository, designed exclusively for a pri
 | /Spawn  | Teleports user to World Spawn location.  |
 | /SetHome  | Sets a users /home location  |
 | /Home  | Teleports a user to their defined home  |
+| /cash  | See users cash balance  |
+| /border  | Visually display plot borders  |
+| /plot  | Display current plot info  |
