@@ -66,6 +66,7 @@ public class Oldoe extends JavaPlugin implements Listener {
         this.getCommand("cash").setExecutor(new CashCommand());
         this.getCommand("msg").setExecutor(new MsgCommand());
         this.getCommand("border").setExecutor(new BorderCommand());
+        this.getCommand("help").setExecutor(new HelpCommand());
 
 
         initConfig();

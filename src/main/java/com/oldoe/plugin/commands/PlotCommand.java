@@ -58,8 +58,8 @@ public class PlotCommand implements CommandExecutor {
 
                 Location loc = player.getLocation();
 
-                int x = CoordToPlot(loc.getBlockX());
-                int z = CoordToPlot(loc.getBlockZ());
+                int x = CoordToPlot(loc.getX());
+                int z = CoordToPlot(loc.getZ());
 
                 try {
                     String sql = String.format(
@@ -110,8 +110,8 @@ public class PlotCommand implements CommandExecutor {
 
             UpdateMoney(uuid, false, plotPrice);
 
-            int x = CoordToPlot(loc.getBlockX());
-            int z = CoordToPlot(loc.getBlockZ());
+            int x = CoordToPlot(loc.getX());
+            int z = CoordToPlot(loc.getZ());
 
             String name = "None";
 
@@ -140,8 +140,8 @@ public class PlotCommand implements CommandExecutor {
 
             DeletePlot(loc);
 
-            int x = CoordToPlot(loc.getBlockX());
-            int z = CoordToPlot(loc.getBlockZ());
+            int x = CoordToPlot(loc.getX());
+            int z = CoordToPlot(loc.getZ());
 
             player.sendMessage(ChatColor.GREEN + "Plot sold! You no longer own: (" + x + ", " + z + ")");
             player.sendMessage(ChatColor.GREEN + "You received $" + plotPrice + " for your plot.");

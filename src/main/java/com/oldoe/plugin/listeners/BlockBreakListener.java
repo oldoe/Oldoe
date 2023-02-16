@@ -10,13 +10,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
+import static com.oldoe.plugin.helpers.CoordConverter.BlockToLocation;
 
 public class BlockBreakListener implements Listener {
 
     @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent event) {
         String uuid = event.getPlayer().getUniqueId().toString();
-        Location loc = event.getBlock().getLocation();
+        Location loc = BlockToLocation(event.getBlock());
 
         if (loc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
             if (!HasPlotPermissions(uuid, loc)) {

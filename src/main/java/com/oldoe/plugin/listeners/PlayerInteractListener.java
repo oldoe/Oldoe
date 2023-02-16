@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
+import static com.oldoe.plugin.helpers.CoordConverter.BlockToLocation;
 
 public class PlayerInteractListener implements Listener {
 
@@ -29,7 +30,7 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        Location loc = interactPoint.getBlock().getLocation();
+        Location loc = BlockToLocation(interactPoint.getBlock());
 
         if (loc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
             if (!HasPlotPermissions(uuid, loc)) {
