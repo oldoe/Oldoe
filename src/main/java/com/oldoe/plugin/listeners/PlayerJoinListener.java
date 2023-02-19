@@ -36,7 +36,7 @@ public class PlayerJoinListener implements Listener {
             player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.9f, 0.5f);
         } else {
             player.sendMessage(Component.text(ChatColor.WHITE + "------------------------------"));
-            player.sendMessage(Component.text(ChatColor.GOLD + "Welcome back, " + ChatColor.WHITE + player.getName() + " to Oldoe!"));
+            player.sendMessage(Component.text(ChatColor.GOLD + "Welcome back to Oldoe!"));
             player.sendMessage(Component.text(ChatColor.GOLD + "Day: " + ChatColor.WHITE + player.getWorld().getFullTime() / 24000));
             player.sendMessage(Component.text(ChatColor.WHITE + "------------------------------"));
         }
