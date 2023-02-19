@@ -44,31 +44,9 @@ public class Oldoe extends JavaPlugin implements Listener {
     public void onEnable() {
 
         instance = this;
-        Bukkit.getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(new EntitySpawningListener(), this);
-        getServer().getPluginManager().registerEvents(new EntityExplosionListener(), this);
-        getServer().getPluginManager().registerEvents(new EntityChangeBlockListener(), this);
-        getServer().getPluginManager().registerEvents(new BlockFromToListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
-        getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
-        getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
-        getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerMoveListener(), this);
-        getServer().getPluginManager().registerEvents(new BucketListeners(), this);
-        getServer().getPluginManager().registerEvents(new PlayerSpawnLocationListener(), this);
-        this.getCommand("spawn").setExecutor(new SpawnCommand());
-        this.getCommand("sethome").setExecutor(new SetHomeCommand());
-        this.getCommand("home").setExecutor(new HomeCommand());
-        this.getCommand("plot").setExecutor(new PlotCommand());
-        this.getCommand("cash").setExecutor(new CashCommand());
-        this.getCommand("msg").setExecutor(new MsgCommand());
-        this.getCommand("border").setExecutor(new BorderCommand());
-        this.getCommand("help").setExecutor(new HelpCommand());
 
-
+        registerEvents();
+        loadCommands();
         initConfig();
 
         this.dbConnector = new MYSQLConnector(this);
@@ -108,6 +86,35 @@ public class Oldoe extends JavaPlugin implements Listener {
         config.addDefault("db_password", "db_Password");
         config.options().copyDefaults(true);
         saveConfig();
+    }
+
+    private void registerEvents() {
+        Bukkit.getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new EntitySpawningListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityExplosionListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityChangeBlockListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockFromToListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveListener(), this);
+        getServer().getPluginManager().registerEvents(new BucketListeners(), this);
+        getServer().getPluginManager().registerEvents(new PlayerSpawnLocationListener(), this);
+    }
+
+    private void loadCommands() {
+        this.getCommand("spawn").setExecutor(new SpawnCommand());
+        this.getCommand("sethome").setExecutor(new SetHomeCommand());
+        this.getCommand("home").setExecutor(new HomeCommand());
+        this.getCommand("plot").setExecutor(new PlotCommand());
+        this.getCommand("cash").setExecutor(new CashCommand());
+        this.getCommand("msg").setExecutor(new MsgCommand());
+        this.getCommand("border").setExecutor(new BorderCommand());
+        this.getCommand("help").setExecutor(new HelpCommand());
     }
 
     private List<Material> GetSoftBlocksMaterials() {
