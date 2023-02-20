@@ -27,6 +27,10 @@ public class PlayerMoveListener implements Listener {
 
         // Player moving to a new block (To avoid counting yaw/pitch change)
         if (fromLoc.getBlockX() != toLoc.getBlockX() || fromLoc.getBlockZ() != toLoc.getBlockZ()) {
+
+            // If player moves to a new block, count the activity.
+            oPlayer.setLastMovementNow();
+
             if (toLoc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
 
                 if (oPlayer.borderEnabled()) {
