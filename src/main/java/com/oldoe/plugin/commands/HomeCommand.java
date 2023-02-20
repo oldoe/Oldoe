@@ -1,6 +1,7 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.services.DataService;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -54,7 +55,7 @@ public class HomeCommand implements CommandExecutor {
                     "SELECT * FROM `oldoe_homes` sh JOIN `oldoe_users` su ON sh.uuid = su.id WHERE su.uuid = '%s'",
                     uuid
             );
-            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            ResultSet rs = DataService.getDatabase().executeSQL(sql);
             if (rs != null) {
                 while (rs.next()) {
                     homeLocation = new Location(
@@ -70,7 +71,7 @@ public class HomeCommand implements CommandExecutor {
         } catch (SQLException e) {
             Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
-            Oldoe.GetDatabase().close();
+            DataService.getDatabase().close();
             return homeLocation;
         }
     }

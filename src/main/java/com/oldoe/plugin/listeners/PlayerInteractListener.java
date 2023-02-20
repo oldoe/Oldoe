@@ -1,6 +1,5 @@
 package com.oldoe.plugin.listeners;
 
-import com.oldoe.plugin.Oldoe;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;

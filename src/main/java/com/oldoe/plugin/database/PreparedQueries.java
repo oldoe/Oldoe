@@ -1,6 +1,7 @@
 package com.oldoe.plugin.database;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.services.DataService;
 import org.bukkit.Location;
 
 import java.math.BigDecimal;
@@ -18,7 +19,7 @@ public class PreparedQueries {
         int userID = -1;
         try {
             String sql = String.format("SELECT `id` FROM `oldoe_users` WHERE `name` LIKE '%s'", name);
-            ResultSet resultSet = Oldoe.GetDatabase().executeSQL(sql);
+            ResultSet resultSet = DataService.getDatabase().executeSQL(sql);
 
             if (resultSet != null) {
                 while (resultSet.next()) {
@@ -34,7 +35,7 @@ public class PreparedQueries {
 
     public static Boolean HasPlotPermissions(String uuid, Location loc) {
 
-        int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
+        int userID = DataService.getDatabase().getPlayerID(uuid);
 
         int x = CoordToPlot(loc.getX());
         int z = CoordToPlot(loc.getZ());
@@ -47,7 +48,7 @@ public class PreparedQueries {
                     "SELECT `owner`, `id` FROM `oldoe_plots` WHERE x = '%d' AND z = '%d'",
                     x, z
             );
-            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            ResultSet rs = DataService.getDatabase().executeSQL(sql);
             if (rs != null) {
                 while (rs.next()) {
                     owner = rs.getInt("owner");
@@ -57,7 +58,7 @@ public class PreparedQueries {
         } catch (SQLException e) {
             Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
-            Oldoe.GetDatabase().close();
+            DataService.getDatabase().close();
         }
 
         Boolean isPlotMember = IsPlotMember(plotID, userID);
@@ -79,7 +80,7 @@ public class PreparedQueries {
                     "SELECT `id` FROM `oldoe_plots` WHERE x = '%d' AND z = '%d'",
                     x, z
             );
-            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            ResultSet rs = DataService.getDatabase().executeSQL(sql);
             if (rs != null) {
                 while (rs.next()) {
                     id = rs.getInt("id");
@@ -88,14 +89,14 @@ public class PreparedQueries {
         } catch (SQLException e) {
             Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
-            Oldoe.GetDatabase().close();
+            DataService.getDatabase().close();
         }
         return id;
     }
 
     public static Boolean IsPlotOwner(String uuid, Location loc) {
 
-        int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
+        int userID =  DataService.getDatabase().getPlayerID(uuid);
 
         int x = CoordToPlot(loc.getBlockX());
         int z = CoordToPlot(loc.getBlockZ());
@@ -107,7 +108,7 @@ public class PreparedQueries {
                     "SELECT `owner` FROM `oldoe_plots` WHERE x = '%d' AND z = '%d'",
                     x, z
             );
-            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            ResultSet rs = DataService.getDatabase().executeSQL(sql);
             if (rs != null) {
                 while (rs.next()) {
                     owner = rs.getInt("owner");
@@ -116,7 +117,7 @@ public class PreparedQueries {
         } catch (SQLException e) {
             Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
-            Oldoe.GetDatabase().close();
+            DataService.getDatabase().close();
         }
 
         if (owner == -1 || owner != userID) {
@@ -132,17 +133,17 @@ public class PreparedQueries {
 
         try {
             String sql = String.format("SELECT * FROM `oldoe_plot_perms` WHERE `plot` = '%d' AND `user` = '%d'", plotID, userID);
-            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            ResultSet rs = DataService.getDatabase().executeSQL(sql);
             if (rs != null) {
                 while (rs.next()) {
                     id = rs.getInt("id");
                 }
             }
-        Oldoe.GetDatabase().close();
+            DataService.getDatabase().close();
         } catch (SQLException e) {
             Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
-            Oldoe.GetDatabase().close();
+            DataService.getDatabase().close();
         }
 
         if (id == -1) {
@@ -158,7 +159,7 @@ public class PreparedQueries {
         try {
             String sql = String.format(
                     "SELECT sh.name FROM `oldoe_users` sh JOIN `oldoe_plot_perms` su ON sh.id = su.user WHERE su.plot= '%d'", plotID);
-            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            ResultSet rs = DataService.getDatabase().executeSQL(sql);
             if (rs != null) {
                 while (rs.next()) {
                     members.add(rs.getString("name"));
@@ -167,7 +168,7 @@ public class PreparedQueries {
         } catch (SQLException e) {
             Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
-            Oldoe.GetDatabase().close();
+            DataService.getDatabase().close();
         }
         return members;
     }
@@ -184,7 +185,7 @@ public class PreparedQueries {
                     "SELECT `owner` FROM `oldoe_plots` WHERE x = '%d' AND z = '%d'",
                     x, z
             );
-            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            ResultSet rs = DataService.getDatabase().executeSQL(sql);
             if (rs != null) {
                 while (rs.next()) {
                     owner = rs.getInt("owner");
@@ -193,7 +194,7 @@ public class PreparedQueries {
         } catch (SQLException e) {
             Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
-            Oldoe.GetDatabase().close();
+            DataService.getDatabase().close();
         }
 
         if (owner == -1) {
@@ -208,8 +209,8 @@ public class PreparedQueries {
         int z = CoordToPlot(loc.getZ());
 
         String sql = String.format("DELETE FROM `oldoe_plots` WHERE x = '%d' AND z = '%d'", x, z);
-        Oldoe.GetDatabase().executeSQL(sql);
-        Oldoe.GetDatabase().close();
+        DataService.getDatabase().executeSQL(sql);
+        DataService.getDatabase().close();
     }
 
     public static BigDecimal GetCash(String uuid) {
@@ -217,7 +218,7 @@ public class PreparedQueries {
 
         try {
             String sql = String.format("SELECT `cash` FROM `oldoe_users` WHERE `uuid` = '%s'", uuid);
-            ResultSet resultSet = Oldoe.GetDatabase().executeSQL(sql);
+            ResultSet resultSet = DataService.getDatabase().executeSQL(sql);
 
             if (resultSet != null) {
                 while (resultSet.next()) {
@@ -228,7 +229,7 @@ public class PreparedQueries {
             Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         }
         finally {
-            Oldoe.GetDatabase().close();
+            DataService.getDatabase().close();
         }
 
         return cash;
@@ -248,7 +249,7 @@ public class PreparedQueries {
                 amt.doubleValue(),
                 uuid
         );
-        Oldoe.GetDatabase().executeSQL(sql);
-        Oldoe.GetDatabase().close();
+        DataService.getDatabase().executeSQL(sql);
+        DataService.getDatabase().close();
     }
 }

@@ -1,11 +1,14 @@
 package com.oldoe.plugin.listeners;
 
+import com.oldoe.plugin.models.OldoePlayer;
+import com.oldoe.plugin.services.PlayerService;
+import com.oldoe.plugin.services.ServiceManager;
 import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import static com.oldoe.plugin.Oldoe.isBorderActivate;
 import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
 import static com.oldoe.plugin.database.PreparedQueries.IsPlotPublic;
 import static com.oldoe.plugin.helpers.CoordConverter.CoordToPlot;
@@ -17,13 +20,16 @@ public class PlayerMoveListener implements Listener {
         Location fromLoc = event.getFrom();
         Location toLoc = event.getTo();
 
-        String uuid = event.getPlayer().getUniqueId().toString();
+        Player player = event.getPlayer();
+        String uuid = player.getUniqueId().toString();
+
+        OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
 
         // Player moving to a new block (To avoid counting yaw/pitch change)
         if (fromLoc.getBlockX() != toLoc.getBlockX() || fromLoc.getBlockZ() != toLoc.getBlockZ()) {
             if (toLoc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
 
-                if (isBorderActivate(event.getPlayer().getUniqueId())) {
+                if (oPlayer.borderEnabled()) {
 
                     // if user has /border on.
                     int PlotXCenter = CoordToPlot(toLoc.getX());
@@ -33,28 +39,28 @@ public class PlayerMoveListener implements Listener {
                         int x = PlotXCenter -64 + i;
                         int z = PlotZCenter -64;
                         int y = event.getPlayer().getWorld().getHighestBlockAt(x, z).getY();
-                        event.getPlayer().spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
+                        player.spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
                     }
 
                     for(int i=0;i<=128;i++){
                         int x = PlotXCenter -64 + i;
                         int z = PlotZCenter +64;
                         int y = event.getPlayer().getWorld().getHighestBlockAt(x, z).getY();
-                        event.getPlayer().spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
+                        player.spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
                     }
 
                     for(int i=0;i<=128;i++){
                         int x = PlotXCenter +64;
                         int z = PlotZCenter -64 + i;
                         int y = event.getPlayer().getWorld().getHighestBlockAt(x, z).getY();
-                        event.getPlayer().spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
+                        player.spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
                     }
 
                     for(int i=0;i<=128;i++){
                         int x = PlotXCenter -64;
                         int z = PlotZCenter -64 + i;
                         int y = event.getPlayer().getWorld().getHighestBlockAt(x, z).getY();
-                        event.getPlayer().spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
+                        player.spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
                     }
 
                 }
@@ -78,27 +84,27 @@ public class PlayerMoveListener implements Listener {
                 boolean isPrivate = false;
 
                 if (isToPublic) {
-                    event.getPlayer().sendMessage(ChatColor.GREEN + "You have entered a public plot.");
+                    player.sendMessage(ChatColor.GREEN + "You have entered a public plot.");
                     return;
                 }
 
                 if (isFromPublic && hasPermsTo) {
-                    event.getPlayer().sendMessage(ChatColor.GREEN + "Private plot, you have permissions here.");
+                    player.sendMessage(ChatColor.GREEN + "Private plot, you have permissions here.");
                     return;
                 }
 
                 if (isFromPublic && !hasPermsTo) {
-                    event.getPlayer().sendMessage(ChatColor.RED + "Private plot, you do not have permissions here.");
+                    player.sendMessage(ChatColor.RED + "Private plot, you do not have permissions here.");
                     return;
                 }
 
                 if (hasPermsFrom && !hasPermsTo) {
-                    event.getPlayer().sendMessage(ChatColor.RED + "Private plot, you do not have permissions here.");
+                    player.sendMessage(ChatColor.RED + "Private plot, you do not have permissions here.");
                     return;
                 }
 
                 if (!hasPermsFrom && hasPermsTo) {
-                    event.getPlayer().sendMessage(ChatColor.GREEN + "Private plot, you have permissions here.");
+                    player.sendMessage(ChatColor.GREEN + "Private plot, you have permissions here.");
                     return;
                 }
             }

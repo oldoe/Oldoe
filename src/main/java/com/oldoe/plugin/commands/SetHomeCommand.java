@@ -1,6 +1,7 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.services.DataService;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -35,7 +36,7 @@ public class SetHomeCommand implements CommandExecutor {
     }
 
     private void saveHome(String uuid, Location loc) {
-        int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
+        int userID = DataService.getDatabase().getPlayerID(uuid);
 
         String sql = String.format(
                 "REPLACE INTO `oldoe_homes` (uuid, world, x, y, z, pitch, yaw) " +
@@ -48,8 +49,7 @@ public class SetHomeCommand implements CommandExecutor {
                 loc.getPitch(),
                 loc.getYaw()
         );
-        Oldoe.GetDatabase().executeSQL(sql);
-        Oldoe.GetDatabase().close();
+        DataService.getDatabase().executeSQL(sql);
     }
 
 }

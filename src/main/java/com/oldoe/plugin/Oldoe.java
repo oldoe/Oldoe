@@ -1,39 +1,27 @@
 package com.oldoe.plugin;
 
-import com.oldoe.plugin.commands.*;
-import com.oldoe.plugin.database.MYSQLConnector;
-import com.oldoe.plugin.listeners.*;
-import org.bukkit.Bukkit;
+import com.oldoe.plugin.services.ServiceManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class Oldoe extends JavaPlugin implements Listener {
 
-    private static MYSQLConnector dbConnector = null;
     private static List<Material> softBlocks = null;
-    private static HashMap<UUID, UUID> lastMessage = new HashMap<>();
-    private static List<UUID> borderPlayers = new ArrayList<>();
     private FileConfiguration config = getConfig();
 
     public static List<Material> GetSoftBlocks() {
         return softBlocks;
     }
 
-    public static UUID GetLastPlayerMessaged(UUID id) {
-        return lastMessage.get(id);
-    }
+    private static ServiceManager serviceManager = new ServiceManager();
 
-    public static MYSQLConnector GetDatabase() {
-        return dbConnector;
-    }
+    public static ServiceManager GetServiceManager() { return serviceManager; }
+
     private static Oldoe instance;
 
     public static Oldoe getInstance() {
@@ -44,39 +32,16 @@ public class Oldoe extends JavaPlugin implements Listener {
     public void onEnable() {
 
         instance = this;
-
-        registerEvents();
-        loadCommands();
         initConfig();
 
-        this.dbConnector = new MYSQLConnector(this);
+        GetServiceManager().Register(instance);
 
         this.softBlocks = GetSoftBlocksMaterials();
     }
 
     @Override
     public void onDisable() {
-        // Close any existing mysql connections
-        if (dbConnector != null) {
-            dbConnector.closeConnection();
-        }
-    }
-
-    public static void SetLastMessage(UUID from, UUID to) {
-        lastMessage.put(from, to);
-    }
-
-    public static void TogglePlayerBorder(UUID playerUUID) {
-        if (borderPlayers.contains(playerUUID)) {
-            borderPlayers.remove(playerUUID);
-        }
-        else {
-            borderPlayers.add(playerUUID);
-        }
-    }
-
-    public static boolean isBorderActivate(UUID playerUUID) {
-        return borderPlayers.contains(playerUUID);
+        GetServiceManager().UnRegister();
     }
 
     private void initConfig() {
@@ -86,35 +51,6 @@ public class Oldoe extends JavaPlugin implements Listener {
         config.addDefault("db_password", "db_Password");
         config.options().copyDefaults(true);
         saveConfig();
-    }
-
-    private void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(new EntitySpawningListener(), this);
-        getServer().getPluginManager().registerEvents(new EntityExplosionListener(), this);
-        getServer().getPluginManager().registerEvents(new EntityChangeBlockListener(), this);
-        getServer().getPluginManager().registerEvents(new BlockFromToListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
-        getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
-        getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
-        getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerMoveListener(), this);
-        getServer().getPluginManager().registerEvents(new BucketListeners(), this);
-        getServer().getPluginManager().registerEvents(new PlayerSpawnLocationListener(), this);
-    }
-
-    private void loadCommands() {
-        this.getCommand("spawn").setExecutor(new SpawnCommand());
-        this.getCommand("sethome").setExecutor(new SetHomeCommand());
-        this.getCommand("home").setExecutor(new HomeCommand());
-        this.getCommand("plot").setExecutor(new PlotCommand());
-        this.getCommand("cash").setExecutor(new CashCommand());
-        this.getCommand("msg").setExecutor(new MsgCommand());
-        this.getCommand("border").setExecutor(new BorderCommand());
-        this.getCommand("help").setExecutor(new HelpCommand());
     }
 
     private List<Material> GetSoftBlocksMaterials() {

@@ -1,6 +1,7 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.services.DataService;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -66,7 +67,7 @@ public class PlotCommand implements CommandExecutor {
                             "SELECT sh.name FROM `oldoe_users` sh JOIN `oldoe_plots` su ON sh.id = su.owner WHERE su.x= '%d' AND su.z = '%d'",
                             x, z
                     );
-                    ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+                    ResultSet rs = DataService.getDatabase().executeSQL(sql);
                     if (rs != null) {
                         while (rs.next()) {
                             owner = rs.getString("name");
@@ -75,7 +76,7 @@ public class PlotCommand implements CommandExecutor {
                 } catch (SQLException e) {
                     Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
                 } finally {
-                    Oldoe.GetDatabase().close();
+                    DataService.getDatabase().close();
                 }
 
                 int plotID = GetPlotID(loc);
@@ -106,7 +107,7 @@ public class PlotCommand implements CommandExecutor {
 
         if (GetCash(uuid).compareTo(plotPrice) > -1) {
 
-            int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
+            int userID =  DataService.getDatabase().getPlayerID(uuid);
 
             UpdateMoney(uuid, false, plotPrice);
 
@@ -124,8 +125,7 @@ public class PlotCommand implements CommandExecutor {
                     x,
                     z
             );
-            Oldoe.GetDatabase().executeSQL(sql);
-            Oldoe.GetDatabase().close();
+            DataService.getDatabase().executeSQL(sql);
 
             player.sendMessage(ChatColor.GREEN + "Plot purchased! (" + x + ", " + z + ")");
             player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.9f, 0.5f);
@@ -152,13 +152,13 @@ public class PlotCommand implements CommandExecutor {
     }
 
     private void List(Player player, String uuid) {
-        int userID =  Oldoe.GetDatabase().getPlayerID(uuid);
+        int userID =  DataService.getDatabase().getPlayerID(uuid);
 
         List<String> Plots = new ArrayList<>();
 
         try {
             String sql = String.format("SELECT * FROM `oldoe_plots` WHERE owner= '%d'", userID);
-            ResultSet rs = Oldoe.GetDatabase().executeSQL(sql);
+            ResultSet rs = DataService.getDatabase().executeSQL(sql);
             if (rs != null) {
                 while (rs.next()) {
                     Plots.add(String.format("X: %d Z: %d", rs.getInt("x"), rs.getInt("z")));
@@ -167,7 +167,7 @@ public class PlotCommand implements CommandExecutor {
         } catch (SQLException e) {
             Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
         } finally {
-            Oldoe.GetDatabase().close();
+            DataService.getDatabase().close();
         }
 
         player.sendMessage(ChatColor.WHITE + "------" + ChatColor.GOLD + "Plot List" + ChatColor.WHITE + "------");
@@ -207,8 +207,7 @@ public class PlotCommand implements CommandExecutor {
                                 plotID,
                                 newMemberID
                         );
-                        Oldoe.GetDatabase().executeSQL(sql);
-                        Oldoe.GetDatabase().close();
+                        DataService.getDatabase().executeSQL(sql);
 
                         player.sendMessage(ChatColor.GREEN + args[1] + " added to plot.");
                     } else {
@@ -223,8 +222,7 @@ public class PlotCommand implements CommandExecutor {
                                 plotID,
                                 newMemberID
                         );
-                        Oldoe.GetDatabase().executeSQL(sql);
-                        Oldoe.GetDatabase().close();
+                        DataService.getDatabase().executeSQL(sql);
 
                         player.sendMessage(ChatColor.GREEN + args[1] + " removed from plot.");
                     }

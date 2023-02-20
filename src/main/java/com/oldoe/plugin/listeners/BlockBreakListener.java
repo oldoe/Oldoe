@@ -1,6 +1,7 @@
 package com.oldoe.plugin.listeners;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.services.DataService;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -33,8 +34,7 @@ public class BlockBreakListener implements Listener {
                         "UPDATE `oldoe_users` SET `cash` = `cash` + 1 WHERE `uuid` = '%s'",
                         uuid
                 );
-                Oldoe.GetDatabase().executeSQL(sql);
-                Oldoe.GetDatabase().close();
+                DataService.getDatabase().executeSQL(sql);
             }
         }
     }

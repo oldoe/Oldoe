@@ -1,6 +1,9 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.models.OldoePlayer;
+import com.oldoe.plugin.services.PlayerService;
+import com.oldoe.plugin.services.ServiceManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -37,18 +40,25 @@ public class MsgCommand implements CommandExecutor {
 
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
+                    OldoePlayer oSender = PlayerService.GetPlayer(p.getUniqueId());
+                    OldoePlayer oRecipient = PlayerService.GetPlayer(otherPlayer.getUniqueId());
+
                     // Save each other for /reply and msg functions
-                    Oldoe.SetLastMessage(otherPlayer.getUniqueId(), p.getUniqueId());
-                    Oldoe.SetLastMessage(p.getUniqueId(), otherPlayer.getUniqueId());
+                    oSender.setLastMessaged(otherPlayer.getName());
+                    oRecipient.setLastMessaged(p.getName());
                 }
 
             } else {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    UUID r = Oldoe.GetLastPlayerMessaged(p.getUniqueId());
-                    if (r != null) {
-                        Player recPlayer = Bukkit.getPlayer(r);
+                    OldoePlayer oPlayer = PlayerService.GetPlayer(p.getUniqueId());
+                    String lastMsgName = oPlayer.getLastMessaged();
+
+                    if (lastMsgName != null) {
+                        Player recPlayer = Bukkit.getPlayer(lastMsgName);
                         if (recPlayer != null) {
+
+                            OldoePlayer oRecipient = PlayerService.GetPlayer(recPlayer.getUniqueId());
 
                             StringBuffer sb = new StringBuffer();
                             for(int i = 0; i < args.length; i++) {
@@ -60,8 +70,8 @@ public class MsgCommand implements CommandExecutor {
                             sender.sendMessage(ChatColor.GOLD + "<Message> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
 
                             // Save each other for /reply and msg functions
-                            Oldoe.SetLastMessage(recPlayer.getUniqueId(), p.getUniqueId());
-                            Oldoe.SetLastMessage(p.getUniqueId(), recPlayer.getUniqueId());
+                            oPlayer.setLastMessaged(recPlayer.getName());
+                            oRecipient.setLastMessaged(p.getName());
                         }
                     }
                 }

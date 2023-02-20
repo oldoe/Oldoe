@@ -1,6 +1,8 @@
 package com.oldoe.plugin.commands;
 
-import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.models.OldoePlayer;
+import com.oldoe.plugin.services.PlayerService;
+import com.oldoe.plugin.services.ServiceManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +14,8 @@ public class BorderCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            Oldoe.TogglePlayerBorder(player.getUniqueId());
+            OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId().toString());
+            oPlayer.toggleBorder();
             return true;
         }
         return false;
