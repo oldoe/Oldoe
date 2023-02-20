@@ -33,6 +33,7 @@ public class PlayerJoinQuitListener implements Listener {
 
             // Add the player to the players table if not already in it
             DataService.getDatabase().executeSQL(String.format("INSERT INTO `oldoe_users` (uuid, name) VALUES ('%s', '%s')", uuid, player.getName()));
+            DataService.getDatabase().close();
 
             // Play a deep welcome sound.
             player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.9f, 0.5f);

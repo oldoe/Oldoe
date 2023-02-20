@@ -35,6 +35,7 @@ public class BlockPlaceListener implements Listener {
                         uuid
                 );
                 DataService.getDatabase().executeSQL(sql);
+                DataService.getDatabase().close();
             }
         }
     }

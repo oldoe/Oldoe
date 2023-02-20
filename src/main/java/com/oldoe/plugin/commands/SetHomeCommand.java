@@ -50,6 +50,7 @@ public class SetHomeCommand implements CommandExecutor {
                 loc.getYaw()
         );
         DataService.getDatabase().executeSQL(sql);
+        DataService.getDatabase().close();
     }
 
 }

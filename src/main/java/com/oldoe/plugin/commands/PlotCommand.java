@@ -126,6 +126,7 @@ public class PlotCommand implements CommandExecutor {
                     z
             );
             DataService.getDatabase().executeSQL(sql);
+            DataService.getDatabase().close();
 
             player.sendMessage(ChatColor.GREEN + "Plot purchased! (" + x + ", " + z + ")");
             player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.9f, 0.5f);
@@ -208,6 +209,7 @@ public class PlotCommand implements CommandExecutor {
                                 newMemberID
                         );
                         DataService.getDatabase().executeSQL(sql);
+                        DataService.getDatabase().close();
 
                         player.sendMessage(ChatColor.GREEN + args[1] + " added to plot.");
                     } else {
@@ -223,6 +225,7 @@ public class PlotCommand implements CommandExecutor {
                                 newMemberID
                         );
                         DataService.getDatabase().executeSQL(sql);
+                        DataService.getDatabase().close();
 
                         player.sendMessage(ChatColor.GREEN + args[1] + " removed from plot.");
                     }
