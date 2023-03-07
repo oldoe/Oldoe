@@ -1,5 +1,7 @@
 package com.oldoe.plugin.listeners;
 
+import com.oldoe.plugin.models.OldoePlayer;
+import com.oldoe.plugin.services.PlayerService;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -17,7 +19,14 @@ public class PlayerChatListener implements Listener {
     public void onPlayerChat(AsyncChatEvent event) {
         TextComponent msg = (TextComponent) event.message();
 
-        Component comp = LegacyComponentSerializer.builder().character('&').extractUrls().build().deserialize(Component.text(ChatColor.GOLD + "> " + ChatColor.WHITE + event.getPlayer().getName() + ": ").content() + msg.content());
+        OldoePlayer oPlayer = PlayerService.GetPlayer(event.getPlayer().getUniqueId());
+
+        String badge = new String();
+        if (oPlayer.isStaff()) {
+            badge = "[Staff] ";
+        }
+
+        Component comp = LegacyComponentSerializer.builder().character('&').extractUrls().build().deserialize(Component.text(ChatColor.GOLD + "\u2022 " + ChatColor.RED + badge + ChatColor.WHITE + event.getPlayer().getName() + ": ").content() + msg.content());
 
         for(Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(comp);

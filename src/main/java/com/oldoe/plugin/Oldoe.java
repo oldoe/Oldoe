@@ -49,6 +49,7 @@ public class Oldoe extends JavaPlugin implements Listener {
         config.addDefault("db_name", "mcDatabase");
         config.addDefault("db_username", "db_Username");
         config.addDefault("db_password", "db_Password");
+        config.addDefault("staff", "");
         config.options().copyDefaults(true);
         saveConfig();
     }

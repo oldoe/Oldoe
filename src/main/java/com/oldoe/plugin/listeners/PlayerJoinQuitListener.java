@@ -1,5 +1,6 @@
 package com.oldoe.plugin.listeners;
 
+import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.DataService;
 import com.oldoe.plugin.services.PlayerService;
@@ -11,7 +12,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.permissions.PermissionAttachment;
+
+import java.util.List;
 
 public class PlayerJoinQuitListener implements Listener {
 
@@ -46,11 +51,26 @@ public class PlayerJoinQuitListener implements Listener {
 
         //int id, String uuid, String displayName
         OldoePlayer oldoePlayer = new OldoePlayer(uuid, player.getName());
+
+        List<String> staffList = Oldoe.getInstance().getConfig().getStringList("staff");
+
+        if (staffList != null && staffList.contains(uuid)) {
+            oldoePlayer.setStaff();
+        }
+
         PlayerService.AddPlayer(oldoePlayer);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+
+        OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
+        PlayerService.RemovePlayer(oPlayer);
+    }
+
+    @EventHandler
+    public void onPlayerKick(PlayerKickEvent event) {
         Player player = event.getPlayer();
 
         OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());

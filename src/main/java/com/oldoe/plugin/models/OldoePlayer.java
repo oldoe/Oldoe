@@ -6,17 +6,23 @@ public class OldoePlayer {
 
     private int dbID;
     private int permission = 0;
+    private Boolean isStaff = false;
     private String uuid;
     private String name;
+    private String lastDmName;
     private boolean borderEnabled = false;
 
     private Instant lastMovement;
-    private String lastDmName;
+    private Instant lastPlotMessage;
+    private Instant loginTime;
+
 
     public OldoePlayer(String uuid, String displayName) {
         this.uuid = uuid;
         this.name = displayName;
         this.lastMovement = Instant.now();
+        this.lastPlotMessage = Instant.now();
+        this.loginTime = Instant.now();
     }
 
     public void SetPermission(int level) {
@@ -31,8 +37,20 @@ public class OldoePlayer {
         return lastMovement;
     }
 
+    public Instant getLastPlotMessageTime() {
+        return lastPlotMessage;
+    }
+
+    public Instant getLoginTime() {
+        return loginTime;
+    }
+
     public void setLastMovementNow() {
         this.lastMovement = Instant.now();
+    }
+
+    public void setLastPlotMessageNow() {
+        this.lastPlotMessage = Instant.now();
     }
 
     public String getName() {
@@ -46,6 +64,12 @@ public class OldoePlayer {
     public void setLastMessaged(String name) {
          this.lastDmName = name;
     }
+
+    public void setStaff() {
+        this.isStaff = true;
+    }
+
+    public boolean isStaff() { return this.isStaff; }
 
     public String getUUID() {
         return uuid;

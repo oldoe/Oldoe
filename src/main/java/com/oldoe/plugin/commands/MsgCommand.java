@@ -1,9 +1,7 @@
 package com.oldoe.plugin.commands;
 
-import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
-import com.oldoe.plugin.services.ServiceManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -11,8 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 public class MsgCommand implements CommandExecutor {
 
@@ -35,8 +31,8 @@ public class MsgCommand implements CommandExecutor {
                 }
 
                 String msg = sb.toString();
-                otherPlayer.sendMessage(ChatColor.GOLD + "<Message> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + otherPlayer.getName() + ": " + msg);
-                sender.sendMessage(ChatColor.GOLD + "<Message> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + otherPlayer.getName() + ": " + msg);
+                otherPlayer.sendMessage(ChatColor.GOLD + "<msg> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + otherPlayer.getName() + ": " + msg);
+                sender.sendMessage(ChatColor.GOLD + "<msg> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + otherPlayer.getName() + ": " + msg);
 
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
@@ -66,8 +62,8 @@ public class MsgCommand implements CommandExecutor {
                             }
 
                             String msg = sb.toString();
-                            recPlayer.sendMessage(ChatColor.GOLD + "<Message> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
-                            sender.sendMessage(ChatColor.GOLD + "<Message> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
+                            recPlayer.sendMessage(ChatColor.GOLD + "<msg> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
+                            sender.sendMessage(ChatColor.GOLD + "<msg> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
 
                             // Save each other for /reply and msg functions
                             oPlayer.setLastMessaged(recPlayer.getName());

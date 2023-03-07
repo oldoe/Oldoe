@@ -9,6 +9,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
 import static com.oldoe.plugin.database.PreparedQueries.IsPlotPublic;
 import static com.oldoe.plugin.helpers.CoordConverter.CoordToPlot;
@@ -73,6 +76,14 @@ public class PlayerMoveListener implements Listener {
                 if ((fromLoc.getBlockX() >> 6) == (toLoc.getBlockX() >> 6) && (fromLoc.getBlockZ() >> 6) == (toLoc.getBlockZ() >> 6)) {
                     return;
                 }
+
+                Duration lastMessageDiff = Duration.between(oPlayer.getLastPlotMessageTime(), Instant.now());
+
+                if (lastMessageDiff.toSeconds() < 5L) {
+                    return;
+                }
+
+                oPlayer.setLastPlotMessageNow();
 
                 boolean isFromPublic = IsPlotPublic(event.getFrom());
                 boolean isToPublic = IsPlotPublic(event.getTo());

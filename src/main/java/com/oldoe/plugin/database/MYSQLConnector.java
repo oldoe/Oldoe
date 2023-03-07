@@ -33,7 +33,7 @@ public class MYSQLConnector {
     private void getConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").getDeclaredConstructor().newInstance();
-            setConnection(DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s?user=%s&password=%s&autoReconnect=true&useSSL=false", ip , 3306, database, username, password)));
+            setConnection(DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s?user=%s&password=%s&autoReconnect=true&useSSL=false&testOnBorrow=true&validationQuery='SELECT 1'&validationInterval=60000", ip , 3306, database, username, password)));
         } catch (Exception e) {
             plugin.getServer().getLogger().log(Level.SEVERE, plugin.getName() + " - DB Connection Error: " + e.getMessage());
         }

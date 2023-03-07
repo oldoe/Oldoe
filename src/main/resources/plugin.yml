@@ -38,3 +38,7 @@ commands:
     description: "Display command help"
     usage: "/help"
     aliases: [ h, help ]
+  staff:
+    description: "Staff command"
+    usage: "/staff"
+    aliases: [ s, staff ]
