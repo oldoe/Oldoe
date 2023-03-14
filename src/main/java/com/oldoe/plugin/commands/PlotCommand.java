@@ -1,7 +1,9 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.DataService;
+import com.oldoe.plugin.services.PlayerService;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -134,8 +136,9 @@ public class PlotCommand implements CommandExecutor {
     }
 
     private void Sell(Player player, String uuid) {
+        OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
         Location loc = player.getLocation();
-        if (IsPlotOwner(uuid, loc)) {
+        if (IsPlotOwner(oPlayer.getID(), loc)) {
             BigDecimal plotPrice = new BigDecimal(25000);
             UpdateMoney(uuid, true, plotPrice);
 
@@ -187,8 +190,9 @@ public class PlotCommand implements CommandExecutor {
     private void ModifyMembers(Player player, String uuid, String[] args, boolean add) {
         if (args.length > 1) {
 
+            OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
             Location loc = player.getLocation();
-            if (IsPlotOwner(uuid, loc)) {
+            if (IsPlotOwner(oPlayer.getID(), loc)) {
 
                 int newMemberID = GetPlayerIdByName(args[1]);
 

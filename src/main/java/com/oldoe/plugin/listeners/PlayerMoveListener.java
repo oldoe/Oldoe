@@ -2,7 +2,6 @@ package com.oldoe.plugin.listeners;
 
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
-import com.oldoe.plugin.services.ServiceManager;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,13 +22,12 @@ public class PlayerMoveListener implements Listener {
         Location fromLoc = event.getFrom();
         Location toLoc = event.getTo();
 
-        Player player = event.getPlayer();
-        String uuid = player.getUniqueId().toString();
-
-        OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
-
         // Player moving to a new block (To avoid counting yaw/pitch change)
         if (fromLoc.getBlockX() != toLoc.getBlockX() || fromLoc.getBlockZ() != toLoc.getBlockZ()) {
+
+            Player player = event.getPlayer();
+
+            OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
 
             // If player moves to a new block, count the activity.
             oPlayer.setLastMovementNow();
@@ -93,8 +91,8 @@ public class PlayerMoveListener implements Listener {
                     return;
                 }
 
-                boolean hasPermsFrom = HasPlotPermissions(uuid, event.getFrom());
-                boolean hasPermsTo = HasPlotPermissions(uuid, event.getTo());
+                boolean hasPermsFrom = HasPlotPermissions(oPlayer.getID(), event.getFrom());
+                boolean hasPermsTo = HasPlotPermissions(oPlayer.getID(), event.getTo());
 
                 boolean isPrivate = false;
 

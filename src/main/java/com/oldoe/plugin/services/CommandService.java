@@ -14,6 +14,7 @@ public class CommandService {
         instance.getCommand("msg").setExecutor(new MsgCommand());
         instance.getCommand("border").setExecutor(new BorderCommand());
         instance.getCommand("help").setExecutor(new HelpCommand());
+        instance.getCommand("pvp").setExecutor(new PvpCommand());
         instance.getCommand("staff").setExecutor(new StaffCommand());
     }
 }

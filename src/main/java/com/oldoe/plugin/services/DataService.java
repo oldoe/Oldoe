@@ -2,7 +2,6 @@ package com.oldoe.plugin.services;
 
 import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.database.MYSQLConnector;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class DataService {
 

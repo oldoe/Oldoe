@@ -12,7 +12,7 @@ public class BlockFromToListener  implements Listener {
 
     @EventHandler
     public void onBlockFromToEvent(BlockFromToEvent event) {
-        List<Material> unbreakables = Arrays.asList(Material.TORCH, Material.REDSTONE, Material.REDSTONE_WIRE, Material.REDSTONE_TORCH, Material.REDSTONE_WALL_TORCH);
+        List<Material> unbreakables = Arrays.asList(Material.TORCH, Material.WALL_TORCH, Material.REDSTONE, Material.REDSTONE_WIRE, Material.REDSTONE_TORCH, Material.REDSTONE_WALL_TORCH);
 
         Material blockType = event.getToBlock().getType();
         if (unbreakables.contains(blockType)) {

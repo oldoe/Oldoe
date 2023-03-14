@@ -42,35 +42,32 @@ public class ServiceManager {
         dataService.registerService(Oldoe.getInstance());
 
         BukkitScheduler scheduler = Oldoe.getInstance().getServer().getScheduler();
-        scheduler.scheduleSyncRepeatingTask(instance, new Runnable() {
-            @Override
-            public void run() {
-                Instant now = Instant.now();
+        scheduler.scheduleSyncRepeatingTask(instance, () -> {
+            Instant now = Instant.now();
 
-                List<Player> toKick = new ArrayList<>();
+            List<Player> toKick = new ArrayList<>();
 
-                for(OldoePlayer p : PlayerService.GetPlayers()) {
-                    Player player = Bukkit.getPlayer(p.getName());
-                    Duration res = Duration.between(p.getLastMovement(), now);
-                    Duration loginDiff = Duration.between(p.getLoginTime(), now);
+            for(OldoePlayer p : PlayerService.GetPlayers()) {
+                Player player = Bukkit.getPlayer(p.getName());
+                Duration res = Duration.between(p.getLastMovement(), now);
+                Duration loginDiff = Duration.between(p.getLoginTime(), now);
 
-                    if (loginDiff.toMinutes() > 1438) {
-                        toKick.add(player);
-                    }
-
-                    if (res.toMinutes() > 5L ) {
-                        if (res.toMinutes() < 7L) {
-                            player.sendMessage(ChatColor.GOLD + "You are now afk.");
-                        }
-                        player.setSleepingIgnored(true);
-                    } else {
-                        player.setSleepingIgnored(false);
-                    }
+                if (loginDiff.toMinutes() > 1438) {
+                    toKick.add(player);
                 }
 
-                for (Player player : toKick) {
-                    player.kick(Component.text("24H kick"));
+                if (res.toMinutes() > 5L ) {
+                    if (res.toMinutes() < 7L) {
+                        player.sendMessage(ChatColor.GOLD + "You are now afk.");
+                    }
+                    player.setSleepingIgnored(true);
+                } else {
+                    player.setSleepingIgnored(false);
                 }
+            }
+
+            for (Player player : toKick) {
+                player.kick(Component.text("24H kick"));
             }
         }, 0L, 1200L);
     }

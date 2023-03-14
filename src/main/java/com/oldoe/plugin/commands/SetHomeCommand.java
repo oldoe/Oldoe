@@ -1,6 +1,5 @@
 package com.oldoe.plugin.commands;
 
-import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.services.DataService;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

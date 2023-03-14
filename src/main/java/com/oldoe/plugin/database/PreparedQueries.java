@@ -33,9 +33,9 @@ public class PreparedQueries {
         return userID;
     }
 
-    public static Boolean HasPlotPermissions(String uuid, Location loc) {
+    public static Boolean HasPlotPermissions(int userID, Location loc) {
 
-        int userID = DataService.getDatabase().getPlayerID(uuid);
+        //int userID = DataService.getDatabase().getPlayerID(uuid);
 
         int x = CoordToPlot(loc.getX());
         int z = CoordToPlot(loc.getZ());
@@ -94,9 +94,9 @@ public class PreparedQueries {
         return id;
     }
 
-    public static Boolean IsPlotOwner(String uuid, Location loc) {
+    public static Boolean IsPlotOwner(int userID, Location loc) {
 
-        int userID =  DataService.getDatabase().getPlayerID(uuid);
+        //int userID =  DataService.getDatabase().getPlayerID(uuid);
 
         int x = CoordToPlot(loc.getBlockX());
         int z = CoordToPlot(loc.getBlockZ());

@@ -1,5 +1,7 @@
 package com.oldoe.plugin.listeners;
 
+import com.oldoe.plugin.models.OldoePlayer;
+import com.oldoe.plugin.services.PlayerService;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,7 +23,6 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
-        String uuid = event.getPlayer().getUniqueId().toString();
 
         Location interactPoint = event.getInteractionPoint();
 
@@ -29,10 +30,12 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
+        OldoePlayer oPlayer = PlayerService.GetPlayer(event.getPlayer().getUniqueId());
+
         Location loc = BlockToLocation(interactPoint.getBlock());
 
         if (loc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
-            if (!HasPlotPermissions(uuid, loc)) {
+            if (!HasPlotPermissions(oPlayer.getID(), loc)) {
                 if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && untouchables.contains(event.getClickedBlock().getType())) {
                     event.getPlayer().sendMessage(ChatColor.RED + "This is a private plot, you do not have permission here.");
                     event.setCancelled(true);

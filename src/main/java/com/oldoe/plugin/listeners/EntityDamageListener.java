@@ -1,5 +1,7 @@
 package com.oldoe.plugin.listeners;
 
+import com.oldoe.plugin.models.OldoePlayer;
+import com.oldoe.plugin.services.PlayerService;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -39,24 +41,44 @@ public class EntityDamageListener implements Listener {
         }
         else {
             if (entity.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
-                if(entityDamager instanceof Player) {
-                    Player damager = (Player) entityDamager;
-                    String uuid = damager.getUniqueId().toString();
+                if(entityDamager instanceof Player damager) {
+                    OldoePlayer oDamager = PlayerService.GetPlayer(damager.getUniqueId());
+
+                    // Player vs player damage
+                    if (entity instanceof Player) {
+                        OldoePlayer oPlayer = PlayerService.GetPlayer(entity.getUniqueId());
+                        if (oDamager.isPvpEnabled() && oPlayer.isPvpEnabled()) {
+                            return;
+                        } else {
+                            damager.sendMessage(ChatColor.RED + "Both players must have pvp turned on. Type /pvp to enable.");
+                        }
+                    }
+
                     Location loc = event.getEntity().getLocation();
 
-                    if (!HasPlotPermissions(uuid, loc)) {
+                    if (!HasPlotPermissions(oDamager.getID(), loc)) {
                         damager.sendMessage(ChatColor.RED + "This is a private plot, you do not have permission here.");
                         event.setCancelled(true);
                     }
                 }
                 else if (entityDamager instanceof Projectile) {
                     ProjectileSource shooter = ((Projectile) event.getDamager()).getShooter();
-                    if (shooter instanceof Player) {
-                        Player damager = (Player) shooter;
-                        String uuid = damager.getUniqueId().toString();
+                    if (shooter instanceof Player damager) {
+                        OldoePlayer oDamager = PlayerService.GetPlayer(damager.getUniqueId());
+
+                        // Player vs player damage
+                        if (entity instanceof Player) {
+                            OldoePlayer oPlayer = PlayerService.GetPlayer(entity.getUniqueId());
+                            if (oDamager.isPvpEnabled() && oPlayer.isPvpEnabled()) {
+                                return;
+                            } else {
+                                damager.sendMessage(ChatColor.RED + "Both players must have pvp turned on. Type /pvp to enable.");
+                            }
+                        }
+
                         Location loc = event.getEntity().getLocation();
 
-                        if (!HasPlotPermissions(uuid, loc)) {
+                        if (!HasPlotPermissions(oDamager.getID(), loc)) {
                             damager.sendMessage(ChatColor.RED + "This is a private plot, you do not have permission here.");
                             event.setCancelled(true);
                         }

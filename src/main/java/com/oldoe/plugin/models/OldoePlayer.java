@@ -7,6 +7,7 @@ public class OldoePlayer {
     private int dbID;
     private int permission = 0;
     private Boolean isStaff = false;
+    private Boolean pvpEnabled = false;
     private String uuid;
     private String name;
     private String lastDmName;
@@ -17,7 +18,8 @@ public class OldoePlayer {
     private Instant loginTime;
 
 
-    public OldoePlayer(String uuid, String displayName) {
+    public OldoePlayer(int id, String uuid, String displayName) {
+        this.dbID = id;
         this.uuid = uuid;
         this.name = displayName;
         this.lastMovement = Instant.now();
@@ -70,6 +72,10 @@ public class OldoePlayer {
     }
 
     public boolean isStaff() { return this.isStaff; }
+
+    public boolean isPvpEnabled() { return this.pvpEnabled; }
+
+    public void setPVP(Boolean isEnabled) { this.pvpEnabled = isEnabled; }
 
     public String getUUID() {
         return uuid;

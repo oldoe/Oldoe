@@ -38,6 +38,10 @@ commands:
     description: "Display command help"
     usage: "/help"
     aliases: [ h, help ]
+  pvp:
+    description: "Enable PVP"
+    usage: "/pvp"
+    aliases: [ pvp ]
   staff:
     description: "Staff command"
     usage: "/staff"

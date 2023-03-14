@@ -117,19 +117,26 @@ public class MYSQLConnector {
 
     public int getPlayerID(String uuid) {
         int userID = -1;
-        try {
-            String sql = String.format("SELECT id FROM oldoe_users WHERE uuid LIKE '%s'", uuid);
-            ResultSet resultSet = executeSQL(sql);
+        int count = 0;
 
-            if (resultSet != null) {
-                while (resultSet.next()) {
-                    userID = resultSet.getInt("id");
+        while(count < 1) {
+
+            try {
+                String sql = String.format("SELECT id FROM oldoe_users WHERE uuid LIKE '%s'", uuid);
+                ResultSet resultSet = executeSQL(sql);
+
+                if (resultSet != null) {
+                    while (resultSet.next()) {
+                        userID = resultSet.getInt("id");
+                    }
                 }
+                break; // If we got an answer without exception, break.
+            } catch (SQLException e) {
+                plugin.getLogger().log(Level.SEVERE, e.getMessage());
             }
-        } catch (SQLException e) {
-            plugin.getLogger().log(Level.SEVERE, e.getMessage());
-        }
 
+            count++;
+        }
         return userID;
     }
 
