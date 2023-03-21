@@ -15,10 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
 
 public class PlayerJoinQuitListener implements Listener {
 
@@ -40,19 +37,10 @@ public class PlayerJoinQuitListener implements Listener {
             player.sendMessage(Component.text(ChatColor.WHITE + "------------------------------"));
 
             // Add the player to the players table if not already in it
-            ResultSet res = DataService.getDatabase().executeSQL(String.format("INSERT INTO `oldoe_users` (uuid, name) VALUES ('%s', '%s')", uuid, player.getName()));
-
-            if (res != null) {
-                try {
-                    while (res.next()) {
-                        playerID = res.getInt("id");
-                    }
-                } catch (SQLException e) {
-                    Oldoe.getInstance().getLogger().log(Level.SEVERE, "SQLException: " + e.getMessage());
-                }
-
-            }
+            DataService.getDatabase().executeSQL(String.format("INSERT INTO `oldoe_users` (uuid, name) VALUES ('%s', '%s')", uuid, player.getName()));
             DataService.getDatabase().close();
+
+            playerID = DataService.getDatabase().getPlayerID(uuid);
 
             // Play a deep welcome sound.
             player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.9f, 0.5f);

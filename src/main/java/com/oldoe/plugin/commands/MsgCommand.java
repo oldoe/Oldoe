@@ -21,7 +21,7 @@ public class MsgCommand implements CommandExecutor {
             if (otherPlayer != null) {
 
                 if (otherPlayer == sender) {
-                    sender.sendMessage(ChatColor.RED + "You can't message yourself.");
+                    sender.sendMessage(ChatColor.RED + "You can't message yourself!");
                     return true;
                 }
 
@@ -31,8 +31,8 @@ public class MsgCommand implements CommandExecutor {
                 }
 
                 String msg = sb.toString();
-                otherPlayer.sendMessage(ChatColor.GOLD + "<msg> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + otherPlayer.getName() + ": " + msg);
-                sender.sendMessage(ChatColor.GOLD + "<msg> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + otherPlayer.getName() + ": " + msg);
+                otherPlayer.sendMessage(ChatColor.GREEN + "<msg> " + ChatColor.WHITE + sender.getName() + " > " + ChatColor.WHITE + otherPlayer.getName() + ": " + msg);
+                sender.sendMessage(ChatColor.GREEN + "<msg> " + ChatColor.WHITE + sender.getName() + " > " + ChatColor.WHITE + otherPlayer.getName() + ": " + msg);
 
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
@@ -62,8 +62,8 @@ public class MsgCommand implements CommandExecutor {
                             }
 
                             String msg = sb.toString();
-                            recPlayer.sendMessage(ChatColor.GOLD + "<msg> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
-                            sender.sendMessage(ChatColor.GOLD + "<msg> " + ChatColor.WHITE + sender.getName() + ChatColor.GOLD + " to " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
+                            recPlayer.sendMessage(ChatColor.GREEN + "<msg> " + ChatColor.WHITE + sender.getName() + " > " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
+                            sender.sendMessage(ChatColor.GREEN + "<msg> " + ChatColor.WHITE + sender.getName() + " > " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
 
                             // Save each other for /reply and msg functions
                             oPlayer.setLastMessaged(recPlayer.getName());

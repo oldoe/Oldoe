@@ -51,6 +51,8 @@ public class EntityDamageListener implements Listener {
                             return;
                         } else {
                             damager.sendMessage(ChatColor.RED + "Both players must have pvp turned on. Type /pvp to enable.");
+                            event.setCancelled(true);
+                            return;
                         }
                     }
 
@@ -73,6 +75,8 @@ public class EntityDamageListener implements Listener {
                                 return;
                             } else {
                                 damager.sendMessage(ChatColor.RED + "Both players must have pvp turned on. Type /pvp to enable.");
+                                event.setCancelled(true);
+                                return;
                             }
                         }
 

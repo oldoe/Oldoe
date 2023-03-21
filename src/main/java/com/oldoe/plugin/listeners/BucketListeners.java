@@ -31,7 +31,7 @@ public class BucketListeners implements Listener {
     }
 
     @EventHandler
-    public void onPlayerBucketFill(PlayerBucketEmptyEvent event){
+    public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event){
         Player player = event.getPlayer();
         OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
         Location loc = event.getBlock().getLocation();

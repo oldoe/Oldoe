@@ -23,7 +23,6 @@ public class BorderCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.RED + "Plot borders disabled! (Type /border to enable)");
             }
 
-
             return true;
         }
         return false;

@@ -2,6 +2,7 @@ package com.oldoe.plugin.listeners;
 
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
+import com.oldoe.plugin.services.ServiceManager;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -119,6 +120,30 @@ public class PlayerMoveListener implements Listener {
                 if (!hasPermsFrom && hasPermsTo) {
                     player.sendMessage(ChatColor.GREEN + "Private plot, you have permissions here.");
                     return;
+                }
+            }
+            // If player falling verticle
+        } else if (fromLoc.getBlockY() != toLoc.getBlockY()) {
+            if (toLoc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
+                Location loc = toLoc.getBlock().getLocation();
+                boolean isTpPortal = false;
+                outerloop:
+                for (int x = -2; x < 3; x++) {
+                    for (int z = -2; z < 3; z++) {
+                        if (x != 0 || z != 0) {
+                            if (toLoc.getWorld().getBlockAt(loc.getBlockX() + x, loc.getBlockY(), loc.getBlockZ() + z).getType() == Material.GOLD_BLOCK) {
+                                isTpPortal = true;
+                            } else {
+                                isTpPortal = false;
+                                break outerloop;
+                            }
+                        }
+                    }
+                }
+
+                if (isTpPortal) {
+                    Player player = event.getPlayer();
+                    player.teleport(ServiceManager.RandomTPLocation());
                 }
             }
         }

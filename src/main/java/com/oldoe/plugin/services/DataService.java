@@ -12,7 +12,6 @@ public class DataService {
 
     public void registerService(Oldoe pl) {
         this.dbConnector = new MYSQLConnector(pl);
-
     }
 
     public void DisableService() {

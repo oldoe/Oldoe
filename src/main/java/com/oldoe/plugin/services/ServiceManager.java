@@ -5,6 +5,7 @@ import com.oldoe.plugin.models.OldoePlayer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -20,6 +21,7 @@ public class ServiceManager {
     private static CommandService commandService = new CommandService();
     private static EventService eventService = new EventService();
     private static DataService dataService = new DataService();
+    private static Location randomTPLocation;
 
     public static PlayerService PlayerService() {
         return playerService;
@@ -36,12 +38,26 @@ public class ServiceManager {
         return dataService;
     }
 
+    public static Location RandomTPLocation() {
+        return randomTPLocation;
+    }
+
     public void Register(JavaPlugin instance) {
         commandService.registerCommands(instance);
         eventService.registerEvents(instance);
         dataService.registerService(Oldoe.getInstance());
 
+        int min = -200; // Minimum value of range
+        int max = 200; // Maximum value of range
+
         BukkitScheduler scheduler = Oldoe.getInstance().getServer().getScheduler();
+
+        scheduler.scheduleSyncRepeatingTask(instance, () -> {
+            int x = (int)Math.floor(Math.random() * (max - min + 1) + min);
+            int z = (int)Math.floor(Math.random() * (max - min + 1) + min);
+            randomTPLocation = Oldoe.getInstance().getServer().getWorlds().get(0).getHighestBlockAt(x, z).getLocation();
+        }, 0L, 1200L);
+
         scheduler.scheduleSyncRepeatingTask(instance, () -> {
             Instant now = Instant.now();
 
@@ -67,7 +83,7 @@ public class ServiceManager {
             }
 
             for (Player player : toKick) {
-                player.kick(Component.text("24H kick"));
+                player.kick(Component.text("24H AFK Kick"));
             }
         }, 0L, 1200L);
     }

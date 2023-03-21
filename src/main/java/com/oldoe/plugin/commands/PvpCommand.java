@@ -17,10 +17,10 @@ public class PvpCommand implements CommandExecutor {
 
             if (!oPlayer.isPvpEnabled()) {
                 oPlayer.setPVP(true);
-                sender.sendMessage(ChatColor.GREEN + "PVP Enabled! (Type /pvp to disable)");
+                sender.sendMessage(ChatColor.RED + "PVP Enabled!" + ChatColor.WHITE +" (Type /pvp to disable pvp)");
             } else {
                 oPlayer.setPVP(false);
-                sender.sendMessage(ChatColor.RED + "PVP Disabled! (Type /pvp to enable)");
+                sender.sendMessage(ChatColor.GREEN + "PVP Disabled!" + ChatColor.WHITE + " (Type /pvp to enable pvp)");
             }
             return true;
 
