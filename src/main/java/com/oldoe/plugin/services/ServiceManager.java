@@ -55,7 +55,7 @@ public class ServiceManager {
         scheduler.scheduleSyncRepeatingTask(instance, () -> {
             int x = (int)Math.floor(Math.random() * (max - min + 1) + min);
             int z = (int)Math.floor(Math.random() * (max - min + 1) + min);
-            randomTPLocation = Oldoe.getInstance().getServer().getWorlds().get(0).getHighestBlockAt(x, z).getLocation();
+            randomTPLocation = Oldoe.getInstance().getServer().getWorlds().get(0).getHighestBlockAt(x, z).getLocation().add(0, 1, 0);
         }, 0L, 6000L);
 
         scheduler.scheduleSyncRepeatingTask(instance, () -> {
