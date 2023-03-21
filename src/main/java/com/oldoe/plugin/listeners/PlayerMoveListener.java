@@ -144,6 +144,7 @@ public class PlayerMoveListener implements Listener {
                 if (isTpPortal) {
                     Player player = event.getPlayer();
                     player.teleport(ServiceManager.RandomTPLocation());
+                    player.sendMessage(ChatColor.GREEN + "You've teleported to a random location! Type /spawn to return");
                 }
             }
         }

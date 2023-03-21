@@ -47,8 +47,8 @@ public class ServiceManager {
         eventService.registerEvents(instance);
         dataService.registerService(Oldoe.getInstance());
 
-        int min = -200; // Minimum value of range
-        int max = 200; // Maximum value of range
+        int min = -9000; // Minimum value of range
+        int max = 9000; // Maximum value of range
 
         BukkitScheduler scheduler = Oldoe.getInstance().getServer().getScheduler();
 
@@ -56,7 +56,7 @@ public class ServiceManager {
             int x = (int)Math.floor(Math.random() * (max - min + 1) + min);
             int z = (int)Math.floor(Math.random() * (max - min + 1) + min);
             randomTPLocation = Oldoe.getInstance().getServer().getWorlds().get(0).getHighestBlockAt(x, z).getLocation();
-        }, 0L, 1200L);
+        }, 0L, 6000L);
 
         scheduler.scheduleSyncRepeatingTask(instance, () -> {
             Instant now = Instant.now();
