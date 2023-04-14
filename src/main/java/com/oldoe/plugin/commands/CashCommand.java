@@ -1,5 +1,6 @@
 package com.oldoe.plugin.commands;
 
+import com.oldoe.plugin.Oldoe;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -55,9 +56,15 @@ public class CashCommand implements CommandExecutor {
                             if (sendAmount.intValue() >= 1) {
                                 // -1 = less than, 0 equal too, 1 greater than
                                 if (cash.compareTo(sendAmount) > -1) {
-                                    UpdateMoney(uuid, false, sendAmount);
+
+                                    BigDecimal finalSendAmount = sendAmount;
+
+                                    Oldoe.GetScheduler().runTaskAsynchronously(Oldoe.getInstance(), () -> {
+                                        UpdateMoney(uuid, false, finalSendAmount);
+                                        UpdateMoney(recipient.getUniqueId().toString(), true, finalSendAmount);
+                                    });
+
                                     player.sendMessage(ChatColor.GREEN + "You have sent $" + df.format(sendAmount) + " to " + recipient.getName());
-                                    UpdateMoney(recipient.getUniqueId().toString(), true, sendAmount);
                                     recipient.sendMessage(ChatColor.GREEN + "You have received $" + df.format(sendAmount) + " from " + player.getName());
                                 } else {
                                     player.sendMessage(ChatColor.RED + "You can't send more cash than you currently have!");
@@ -92,8 +99,12 @@ public class CashCommand implements CommandExecutor {
                         }
 
                         if (sendAmount.intValue() >= 1) {
-                                UpdateMoney(recipient.getUniqueId().toString(), true, sendAmount);
-                                recipient.sendMessage(ChatColor.GREEN + "You have received $" + df.format(sendAmount) + " from " + sender.getName());
+                            BigDecimal finalSendAmount = sendAmount;
+
+                            Oldoe.GetScheduler().runTaskAsynchronously(Oldoe.getInstance(), () -> {
+                                UpdateMoney(recipient.getUniqueId().toString(), true, finalSendAmount);
+                            });
+                            recipient.sendMessage(ChatColor.GREEN + "You have received $" + df.format(sendAmount) + " from " + sender.getName());
 
                         }
                     }

@@ -36,8 +36,11 @@ public class BlockBreakListener implements Listener {
                         "UPDATE `oldoe_users` SET `cash` = `cash` + 1 WHERE `id` = '%s'",
                         oPlayer.getID()
                 );
-                DataService.getDatabase().executeSQL(sql);
-                DataService.getDatabase().close();
+
+                Oldoe.GetScheduler().runTaskAsynchronously(Oldoe.getInstance(), () -> {
+                    DataService.getDatabase().executeSQL(sql);
+                    DataService.getDatabase().close();
+                });
             }
         }
     }

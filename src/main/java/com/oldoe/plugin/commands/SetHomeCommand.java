@@ -1,5 +1,6 @@
 package com.oldoe.plugin.commands;
 
+import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.services.DataService;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import static com.oldoe.plugin.database.PreparedQueries.UpdateMoney;
+
 public class SetHomeCommand implements CommandExecutor {
 
     @Override
@@ -24,7 +27,10 @@ public class SetHomeCommand implements CommandExecutor {
             if (player.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
                 String uuid = player.getUniqueId().toString();
                 Location loc = player.getLocation();
-                saveHome(uuid, loc);
+                Oldoe.GetScheduler().runTaskAsynchronously(Oldoe.getInstance(), () -> {
+                    saveHome(uuid, loc);
+                });
+
                 player.sendMessage(ChatColor.GREEN + "Home saved!");
             } else {
                 player.sendMessage(ChatColor.RED + "The /sethome command does not work here.");

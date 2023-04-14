@@ -8,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 
 public class PvpCommand implements CommandExecutor {
@@ -21,11 +20,10 @@ public class PvpCommand implements CommandExecutor {
                 oPlayer.setPVP(true);
                 sender.sendMessage(ChatColor.RED + "PVP Enabled!" + ChatColor.WHITE +" (Type /pvp to disable pvp)");
             } else {
-                BukkitScheduler scheduler = Oldoe.getInstance().getServer().getScheduler();
 
                 sender.sendMessage(ChatColor.RED + "Disabling pvp in 10 seconds...");
 
-                scheduler.scheduleSyncDelayedTask(Oldoe.getInstance(), () -> {
+                Oldoe.GetScheduler().scheduleSyncDelayedTask(Oldoe.getInstance(), () -> {
                     oPlayer.setPVP(false);
                     sender.sendMessage(ChatColor.GREEN + "PVP Disabled!" + ChatColor.WHITE + " (Type /pvp to enable pvp)");
                 }, 200L);
