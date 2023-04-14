@@ -15,6 +15,7 @@ Welcome to the Oldoe Minecraft plugin repository, designed exclusively for a pri
 - Water does not break Redstone or Torches.
 - Creepers and Enderman do not cause block damage in the OverWorld.
 - Hostile mobs do not spawn within a 128 block radius of the World spawn.
+- Random teleporter for new players (requires special portal frame)
 
 
 ## Commands
@@ -26,3 +27,4 @@ Welcome to the Oldoe Minecraft plugin repository, designed exclusively for a pri
 | /cash  | See users cash balance  |
 | /border  | Visually display plot borders  |
 | /plot  | Display current plot info  |
+| /pvp  | Toggle PVP on/Off  |
