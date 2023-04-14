@@ -192,7 +192,7 @@ public class PlotCommand implements CommandExecutor {
 
             OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
             Location loc = player.getLocation();
-            if (IsPlotOwner(oPlayer.getID(), loc)) {
+            if (IsPlotOwner(oPlayer.getID(), loc) || player.isOp()) {
 
                 int newMemberID = GetPlayerIdByName(args[1]);
 

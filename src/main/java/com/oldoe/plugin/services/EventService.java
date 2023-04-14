@@ -26,5 +26,6 @@ public class EventService {
         pm.registerEvents(new PlayerMoveListener(), instance);
         pm.registerEvents(new BucketListeners(), instance);
         pm.registerEvents(new PlayerSpawnLocationListener(), instance);
+        pm.registerEvents(new PlayerGameModeChangeListener(), instance);
     }
 }

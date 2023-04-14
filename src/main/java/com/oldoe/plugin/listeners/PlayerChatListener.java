@@ -26,7 +26,7 @@ public class PlayerChatListener implements Listener {
             badge = "[Staff] ";
         }
 
-        Component comp = LegacyComponentSerializer.builder().character('&').extractUrls().build().deserialize(Component.text(ChatColor.GOLD + "\u2022 " + ChatColor.RED + badge + ChatColor.WHITE + event.getPlayer().getName() + ": ").content() + msg.content());
+        Component comp = LegacyComponentSerializer.builder().character('&').extractUrls().build().deserialize(Component.text(ChatColor.GREEN + "\u2022 " + ChatColor.RED + badge + ChatColor.WHITE + event.getPlayer().getName() + ": ").content() + msg.content());
 
         for(Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(comp);

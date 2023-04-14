@@ -18,7 +18,7 @@ public class HelpCommand implements CommandExecutor {
         sender.sendMessage(Component.text(ChatColor.GOLD + "/plot buy/sell" + ChatColor.WHITE + " | Buy or sell a plot (Cost: $25,000)"));
         sender.sendMessage(Component.text(ChatColor.GOLD + "/border" + ChatColor.WHITE + " | Visualize plot borders"));
         sender.sendMessage(Component.text(ChatColor.GOLD + "/cash" + ChatColor.WHITE + " | See current balance. You get $1 per block placed or removed"));
-        sender.sendMessage(Component.text(ChatColor.GOLD + "/pvp" + ChatColor.WHITE + " | Toggle PVP"));
+        sender.sendMessage(Component.text(ChatColor.GOLD + "/pvp" + ChatColor.WHITE + " | Toggle PVP on/off"));
         return true;
     }
 }

@@ -1,5 +1,7 @@
 package com.oldoe.plugin.models;
 
+import org.bukkit.Location;
+
 import java.time.Instant;
 
 public class OldoePlayer {
@@ -12,10 +14,13 @@ public class OldoePlayer {
     private String name;
     private String lastDmName;
     private boolean borderEnabled = false;
+    private boolean staffEnabled = false;
 
     private Instant lastMovement;
     private Instant lastPlotMessage;
     private Instant loginTime;
+
+    private Location staffStartLocation;
 
 
     public OldoePlayer(int id, String uuid, String displayName) {
@@ -67,9 +72,15 @@ public class OldoePlayer {
          this.lastDmName = name;
     }
 
+    public void setLastStaffLocation(Location loc) {
+        this.staffStartLocation = loc;
+    }
+
     public void setStaff() {
         this.isStaff = true;
     }
+
+    public void setStaffEnabled(boolean enabled) { this.staffEnabled = enabled; }
 
     public boolean isStaff() { return this.isStaff; }
 
@@ -85,9 +96,13 @@ public class OldoePlayer {
         return dbID;
     }
 
-    public boolean borderEnabled() {
-        return borderEnabled;
+    public Location getStaffStartLocation() {
+        return staffStartLocation;
     }
+
+    public boolean borderEnabled() { return borderEnabled; }
+
+    public boolean isStaffEnabled() { return staffEnabled; }
 
     public void toggleBorder() {
         this.borderEnabled = !borderEnabled;

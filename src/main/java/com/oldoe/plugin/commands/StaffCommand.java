@@ -27,20 +27,53 @@ public class StaffCommand implements CommandExecutor {
                 return false;
             }
 
-            if (args.length > 0) {
-                player.setGameMode(GameMode.SPECTATOR);
-                Player targetP = Bukkit.getPlayer(args[0]);
-                if (targetP == null) {
-                    player.sendMessage(Component.text(ChatColor.RED + "Player is not online!"));
-                } else {
-                    player.setSpectatorTarget(targetP);
-                }
-            } else {
-                if (player.getGameMode() == GameMode.SURVIVAL) {
-                    player.setGameMode(GameMode.SPECTATOR);
-                } else {
+            if (oPlayer.isStaffEnabled()) {
+                if (args.length <= 0) {
+                    oPlayer.setStaffEnabled(false);
+                    player.teleport(oPlayer.getStaffStartLocation());
+                    player.sendMessage(Component.text(ChatColor.GREEN + "Staff Mode Disabled."));
                     player.setGameMode(GameMode.SURVIVAL);
-                    // TP back to start location
+                    player.setSleepingIgnored(false);
+                    player.setInvisible(false);
+                }
+            }
+            else
+            {
+                oPlayer.setStaffEnabled(true);
+                oPlayer.setLastStaffLocation(player.getLocation());
+                player.setGameMode(GameMode.SPECTATOR);
+                player.sendMessage(Component.text(ChatColor.GREEN + "Staff Mode Enabled."));
+                player.setSleepingIgnored(true);
+                player.setInvisible(true);
+            }
+
+            if ( oPlayer.isStaffEnabled() && args.length > 0) {
+
+                if (args.length > 1) {
+
+                    if (args[0].equalsIgnoreCase("end")) {
+                        Player targetP = Bukkit.getPlayer(args[1]);
+                        if (targetP == null) {
+                            player.sendMessage(Component.text(ChatColor.RED + "Player is not online!"));
+                        } else {
+                            player.openInventory(targetP.getEnderChest());
+                        }
+                    } else if (args[0].equalsIgnoreCase("open")) {
+                        Player targetP = Bukkit.getPlayer(args[1]);
+                        if (targetP == null) {
+                            player.sendMessage(Component.text(ChatColor.RED + "Player is not online!"));
+                        } else {
+                            player.openInventory(targetP.getInventory());
+                        }
+                    }
+
+                } else {
+                    Player targetP = Bukkit.getPlayer(args[0]);
+                    if (targetP == null) {
+                        player.sendMessage(Component.text(ChatColor.RED + "Player is not online!"));
+                    } else {
+                        player.setSpectatorTarget(targetP);
+                    }
                 }
             }
         }
