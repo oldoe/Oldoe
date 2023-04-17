@@ -23,8 +23,7 @@ public class EntityDamageListener implements Listener {
     public void onEntityDamageEvent(EntityDamageEvent event) {
         Entity entity = event.getEntity();
 
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.STARVATION)) {
-            Player player = (Player) entity;
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.STARVATION) && entity instanceof Player player) {
             if (player.getHealth() < 10.5) {
                 event.setCancelled(true);
             }

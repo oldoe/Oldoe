@@ -9,7 +9,7 @@ commands:
   spawn:
     description: "Go to spawn location"
     usage: "/spawn"
-    aliases: [s, spawn]
+    aliases: [ spawn ]
   sethome:
     description: "Set home location"
     usage: "/sethome"
@@ -45,4 +45,8 @@ commands:
   staff:
     description: "Staff command"
     usage: "/staff"
-    aliases: [ s, staff ]
+    aliases: [ staff ]
+  s:
+    description: "Staff chat command"
+    usage: "/s"
+    aliases: [ s ]
