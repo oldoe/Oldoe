@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import static com.oldoe.plugin.database.PreparedQueries.GetPlayerHome;
+
 public class HomeCommand implements CommandExecutor {
 
     @Override
@@ -23,7 +25,7 @@ public class HomeCommand implements CommandExecutor {
             String uuid = player.getUniqueId().toString();
 
             if (player.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
-                Location home = GetHome(uuid);
+                Location home = GetPlayerHome(uuid);
                 if (home == null) {
                     player.sendMessage(ChatColor.RED + "You currently have no home. Set your home by typing /sethome");
                 } else {
@@ -46,34 +48,6 @@ public class HomeCommand implements CommandExecutor {
         }
 
         return true;
-    }
-
-    private Location GetHome(String uuid) {
-        Location homeLocation = null;
-        try {
-            String sql = String.format(
-                    "SELECT * FROM `oldoe_homes` sh JOIN `oldoe_users` su ON sh.uuid = su.id WHERE su.uuid = '%s'",
-                    uuid
-            );
-            ResultSet rs = DataService.getDatabase().executeSQL(sql);
-            if (rs != null) {
-                while (rs.next()) {
-                    homeLocation = new Location(
-                            Bukkit.getWorld(rs.getString("world")),
-                            rs.getDouble("x"),
-                            rs.getDouble("y"),
-                            rs.getDouble("z"),
-                            rs.getFloat("yaw"),
-                            rs.getFloat("pitch")
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
-        } finally {
-            DataService.getDatabase().close();
-            return homeLocation;
-        }
     }
 
 }

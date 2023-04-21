@@ -1,7 +1,9 @@
 package com.oldoe.plugin.database;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.models.Plot;
 import com.oldoe.plugin.services.DataService;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.math.BigDecimal;
@@ -31,6 +33,68 @@ public class PreparedQueries {
         }
 
         return userID;
+    }
+
+    public static Location GetPlayerHome(String uuid) {
+        Location homeLocation = null;
+        try {
+            String sql = String.format(
+                    "SELECT * FROM `oldoe_homes` sh JOIN `oldoe_users` su ON sh.uuid = su.id WHERE su.uuid = '%s'",
+                    uuid
+            );
+            ResultSet rs = DataService.getDatabase().executeSQL(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    homeLocation = new Location(
+                            Bukkit.getWorld(rs.getString("world")),
+                            rs.getDouble("x"),
+                            rs.getDouble("y"),
+                            rs.getDouble("z"),
+                            rs.getFloat("yaw"),
+                            rs.getFloat("pitch")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
+        } finally {
+            DataService.getDatabase().close();
+            return homeLocation;
+        }
+    }
+
+    public static Plot GetPlotbyLocation(Location loc) {
+
+        int x = CoordToPlot(loc.getX());
+        int z = CoordToPlot(loc.getZ());
+
+        Plot plot = new Plot();
+        try {
+            String sql = String.format(
+                    "SELECT sh.id, sh.owner, sh.name, sh.x, sh.z, su.user FROM `oldoe_plots` sh JOIN `oldoe_plot_perms` su ON sh.id = su.plot WHERE sh.x = '%d' AND sh.z = '%d'",
+                    x, z
+            );
+            ResultSet rs = DataService.getDatabase().executeSQL(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    plot.dbID = rs.getInt("id");
+                    plot.OwnerID = rs.getInt("owner");
+                    plot.name = rs.getString("name");
+                    plot.X = rs.getInt("x");
+                    plot.Z = rs.getInt("z");
+                    int u = rs.getInt("user");
+                    if (u > 0) {
+                        plot.dbMembers.add(u);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
+        } finally {
+            DataService.getDatabase().close();
+        }
+
+        return plot;
     }
 
     public static Boolean HasPlotPermissions(int userID, Location loc) {
