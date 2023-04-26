@@ -15,7 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import static com.oldoe.plugin.database.PreparedQueries.GetPlotbyLocation;
-import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
 import static com.oldoe.plugin.helpers.CoordConverter.BlockToLocation;
 
 public class BlockPlaceListener implements Listener {

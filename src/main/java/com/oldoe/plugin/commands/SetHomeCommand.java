@@ -14,8 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static com.oldoe.plugin.database.PreparedQueries.UpdateMoney;
-
 public class SetHomeCommand implements CommandExecutor {
 
     @Override

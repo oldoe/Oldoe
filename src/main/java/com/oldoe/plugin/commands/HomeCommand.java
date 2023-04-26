@@ -1,17 +1,11 @@
 package com.oldoe.plugin.commands;
 
-import com.oldoe.plugin.Oldoe;
-import com.oldoe.plugin.services.DataService;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
 
 import static com.oldoe.plugin.database.PreparedQueries.GetPlayerHome;
 

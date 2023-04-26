@@ -17,7 +17,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import static com.oldoe.plugin.database.PreparedQueries.GetPlotbyLocation;
-import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
 
 public class EntityDamageListener implements Listener {
 

@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.oldoe.plugin.database.PreparedQueries.GetPlotbyLocation;
-import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
 import static com.oldoe.plugin.helpers.CoordConverter.BlockToLocation;
 
 public class PlayerInteractListener implements Listener {
