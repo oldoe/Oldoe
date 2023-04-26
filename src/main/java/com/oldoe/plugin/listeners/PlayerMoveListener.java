@@ -1,8 +1,13 @@
 package com.oldoe.plugin.listeners;
 
 import com.oldoe.plugin.models.OldoePlayer;
+import com.oldoe.plugin.models.Plot;
 import com.oldoe.plugin.services.PlayerService;
 import com.oldoe.plugin.services.ServiceManager;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,8 +17,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import java.time.Duration;
 import java.time.Instant;
 
-import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
-import static com.oldoe.plugin.database.PreparedQueries.IsPlotPublic;
+import static com.oldoe.plugin.database.PreparedQueries.*;
 import static com.oldoe.plugin.helpers.CoordConverter.CoordToPlot;
 
 public class PlayerMoveListener implements Listener {
@@ -84,41 +88,37 @@ public class PlayerMoveListener implements Listener {
 
                 oPlayer.setLastPlotMessageNow();
 
-                boolean isFromPublic = IsPlotPublic(event.getFrom());
-                boolean isToPublic = IsPlotPublic(event.getTo());
+                Plot fromPlot = GetPlotbyLocation(event.getFrom());
+
+                Plot toPlot = GetPlotbyLocation(event.getTo());
 
                 // public to public, no message, don't do further queries
-                if (isFromPublic && isToPublic) {
+                if (fromPlot.isPublic() && toPlot.isPublic()) {
                     return;
                 }
 
-                boolean hasPermsFrom = HasPlotPermissions(oPlayer.getID(), event.getFrom());
-                boolean hasPermsTo = HasPlotPermissions(oPlayer.getID(), event.getTo());
-
-                boolean isPrivate = false;
-
-                if (isToPublic) {
-                    player.sendMessage(ChatColor.GREEN + "You have entered a public plot.");
+                if (toPlot.isPublic()) {
+                    player.sendActionBar(Component.text(ChatColor.GREEN + "You have entered a public plot."));
                     return;
                 }
 
-                if (isFromPublic && hasPermsTo) {
-                    player.sendMessage(ChatColor.GREEN + "Private plot, you have permissions here.");
+                if (fromPlot.isPublic() && toPlot.hasPerms(oPlayer.getID())) {
+                    player.sendActionBar(Component.text(ChatColor.GREEN + "Private plot, you have permissions here."));
                     return;
                 }
 
-                if (isFromPublic && !hasPermsTo) {
-                    player.sendMessage(ChatColor.RED + "Private plot, you do not have permissions here.");
+                if (fromPlot.isPublic() && !toPlot.hasPerms(oPlayer.getID())) {
+                    player.sendActionBar(Component.text(ChatColor.RED + "Private plot, you do not have permissions here."));
                     return;
                 }
 
-                if (hasPermsFrom && !hasPermsTo) {
-                    player.sendMessage(ChatColor.RED + "Private plot, you do not have permissions here.");
+                if (fromPlot.hasPerms(oPlayer.getID()) && !toPlot.hasPerms(oPlayer.getID())) {
+                    player.sendActionBar(Component.text(ChatColor.RED + "Private plot, you do not have permissions here."));
                     return;
                 }
 
-                if (!hasPermsFrom && hasPermsTo) {
-                    player.sendMessage(ChatColor.GREEN + "Private plot, you have permissions here.");
+                if (!fromPlot.hasPerms(oPlayer.getID()) && toPlot.hasPerms(oPlayer.getID())) {
+                    player.sendActionBar(Component.text(ChatColor.GREEN + "Private plot, you have permissions here."));
                     return;
                 }
             }
@@ -148,6 +148,5 @@ public class PlayerMoveListener implements Listener {
                 }
             }
         }
-
     }
 }

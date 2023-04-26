@@ -15,6 +15,7 @@ public class OldoePlayer {
     private String lastDmName;
     private boolean borderEnabled = false;
     private boolean staffEnabled = false;
+    private Plot currentPlot;
 
     private Instant lastMovement;
     private Instant lastPlotMessage;
@@ -107,4 +108,8 @@ public class OldoePlayer {
     public void toggleBorder() {
         this.borderEnabled = !borderEnabled;
     }
+
+    public Plot getCurrentPlot() { return currentPlot; }
+
+    public void setCurrentPlot(Plot plot) { this.currentPlot = plot; }
 }

@@ -65,14 +65,15 @@ public class PreparedQueries {
 
     public static Plot GetPlotbyLocation(Location loc) {
 
-        int x = CoordToPlot(loc.getX());
-        int z = CoordToPlot(loc.getZ());
-
         Plot plot = new Plot();
+
+        plot.X = CoordToPlot(loc.getX());
+        plot.Z = CoordToPlot(loc.getZ());
+
         try {
             String sql = String.format(
-                    "SELECT sh.id, sh.owner, sh.name, sh.x, sh.z, su.user FROM `oldoe_plots` sh JOIN `oldoe_plot_perms` su ON sh.id = su.plot WHERE sh.x = '%d' AND sh.z = '%d'",
-                    x, z
+                    "SELECT sh.id, sh.owner, sh.name, su.user FROM `oldoe_plots` sh JOIN `oldoe_plot_perms` su ON sh.id = su.plot WHERE sh.x = '%d' AND sh.z = '%d'",
+                    plot.X, plot.Z
             );
             ResultSet rs = DataService.getDatabase().executeSQL(sql);
             if (rs != null) {
@@ -80,8 +81,6 @@ public class PreparedQueries {
                     plot.dbID = rs.getInt("id");
                     plot.OwnerID = rs.getInt("owner");
                     plot.name = rs.getString("name");
-                    plot.X = rs.getInt("x");
-                    plot.Z = rs.getInt("z");
                     int u = rs.getInt("user");
                     if (u > 0) {
                         plot.dbMembers.add(u);

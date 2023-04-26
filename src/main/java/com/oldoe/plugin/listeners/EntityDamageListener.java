@@ -1,6 +1,7 @@
 package com.oldoe.plugin.listeners;
 
 import com.oldoe.plugin.models.OldoePlayer;
+import com.oldoe.plugin.models.Plot;
 import com.oldoe.plugin.services.PlayerService;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,6 +16,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
+import static com.oldoe.plugin.database.PreparedQueries.GetPlotbyLocation;
 import static com.oldoe.plugin.database.PreparedQueries.HasPlotPermissions;
 
 public class EntityDamageListener implements Listener {
@@ -57,7 +59,8 @@ public class EntityDamageListener implements Listener {
 
                     Location loc = event.getEntity().getLocation();
 
-                    if (!HasPlotPermissions(oDamager.getID(), loc)) {
+                    Plot plot = GetPlotbyLocation(loc);
+                    if (!plot.hasPerms(oDamager.getID())) {
                         damager.sendMessage(ChatColor.RED + "This is a private plot, you do not have permission here.");
                         event.setCancelled(true);
                     }
@@ -81,7 +84,8 @@ public class EntityDamageListener implements Listener {
 
                         Location loc = event.getEntity().getLocation();
 
-                        if (!HasPlotPermissions(oDamager.getID(), loc)) {
+                        Plot plot = GetPlotbyLocation(loc);
+                        if (!plot.hasPerms(oDamager.getID())) {
                             damager.sendMessage(ChatColor.RED + "This is a private plot, you do not have permission here.");
                             event.setCancelled(true);
                         }
