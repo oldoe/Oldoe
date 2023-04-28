@@ -28,3 +28,4 @@ Welcome to the Oldoe Minecraft plugin repository, designed exclusively for a pri
 | /border  | Visually display plot borders  |
 | /plot  | Display current plot info  |
 | /pvp  | Toggle PVP on/Off  |
+| /staff  | Toggle staff mode on/Off  |
