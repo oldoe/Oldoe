@@ -13,7 +13,7 @@ commands:
   sethome:
     description: "Set home location"
     usage: "/sethome"
-    aliases: [ sethome ]
+    aliases: [ sethome, SetHome ]
   home:
     description: "Go to home location"
     usage: "/home"

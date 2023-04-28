@@ -142,6 +142,8 @@ public class PlayerMoveListener implements Listener {
                     Player player = event.getPlayer();
                     player.teleport(ServiceManager.RandomTPLocation());
                     player.sendMessage(ChatColor.GREEN + "You've teleported to a random location! Type /spawn to return");
+                    player.sendMessage(ChatColor.GREEN + "(Random TP machine changes location every 5 minutes)");
+                    player.sendMessage(ChatColor.GREEN + "Once you've found your spot you can /sethome and return to that location with the /home command.");
                 }
             }
         }

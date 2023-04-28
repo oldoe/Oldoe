@@ -7,7 +7,6 @@ import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,10 +33,10 @@ public class PlayerJoinQuitListener implements Listener {
                 Bukkit.broadcast(Component.text(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " has joined for the first time."));
             }
 
-            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------------"));
-            player.sendMessage(Component.text(ChatColor.GOLD + "Welcome to " + ChatColor.WHITE + "Oldoe!"));
-            player.sendMessage(Component.text(ChatColor.GOLD + "Website: " + ChatColor.WHITE + " www.oldoe.com"));
-            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------------"));
+            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------"));
+            player.sendMessage(Component.text(ChatColor.GOLD + "Welcome to Oldoe!"));
+            player.sendMessage(Component.text(ChatColor.GOLD + "Website: " + ChatColor.WHITE + " Oldoe.com"));
+            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------"));
 
             // Add the player to the players table if not already in it
             DataService.getDatabase().executeSQL(String.format("INSERT INTO `oldoe_users` (uuid, name) VALUES ('%s', '%s')", uuid, player.getName()));
@@ -47,7 +46,7 @@ public class PlayerJoinQuitListener implements Listener {
 
             if (!player.hasPlayedBefore()) {
                 // Play a deep welcome sound.
-                player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.9f, 0.5f);
+                //player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.9f, 0.5f);
             }
 
         } else {
@@ -59,11 +58,11 @@ public class PlayerJoinQuitListener implements Listener {
             long year = totalDays / 365;
             long dayOfYear = totalDays - (year * 365);
 
-            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------------"));
+            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------"));
             player.sendMessage(Component.text(ChatColor.GOLD + "Welcome to Oldoe!"));
             player.sendMessage(Component.text(ChatColor.GOLD + "Website: " + ChatColor.WHITE + " Oldoe.com"));
             player.sendMessage(Component.text(ChatColor.GOLD + "Year: " + ChatColor.WHITE +  year + ChatColor.GOLD + " Day: " + ChatColor.WHITE + dayOfYear ));
-            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------------"));
+            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------"));
         }
 
         //int id, String uuid, String displayName
