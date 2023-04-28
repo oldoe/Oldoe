@@ -4,24 +4,28 @@ import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.DataService;
 import com.oldoe.plugin.services.PlayerService;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
 import static com.oldoe.plugin.helpers.CoordConverter.CoordToPlot;
 import static com.oldoe.plugin.database.PreparedQueries.*;
 
-public class PlotCommand implements CommandExecutor {
+public class PlotCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof  Player) {
@@ -132,6 +136,8 @@ public class PlotCommand implements CommandExecutor {
 
             player.sendMessage(ChatColor.GREEN + "Plot purchased! (" + x + ", " + z + ")");
             player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.9f, 0.5f);
+        } else {
+            player.sendMessage(ChatColor.RED + "You do not have enough cash to purchase this plot. For more info, type: /help plots");
         }
     }
 
@@ -247,5 +253,26 @@ public class PlotCommand implements CommandExecutor {
             player.sendMessage(ChatColor.RED + "Command usage: /plot add {player}");
             player.sendMessage(ChatColor.RED + "Command usage: /plot remove {player}");
         }
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
+        if (args.length == 1) {
+            return Arrays.asList("buy", "sell", "list", "add", "remove");
+        }
+
+        if (args.length == 2) {
+            if (!args[0].equals("add") && !args[0].equals("remove")) {
+                return Arrays.asList(ArrayUtils.EMPTY_STRING_ARRAY);
+            }
+            List<String> players = new ArrayList<>();
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                players.add(p.getName());
+            }
+            return players;
+        }
+
+        return null;
     }
 }

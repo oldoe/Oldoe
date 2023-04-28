@@ -39,6 +39,10 @@ public class PlayerInteractListener implements Listener {
         if (loc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
             Plot plot = GetPlotbyLocation(loc);
             if (!plot.hasPerms(oPlayer.getID())) {
+                // If they don't have permission, but they are in staff mode.
+                if (oPlayer.isStaffEnabled()) {
+                    return;
+                }
                 if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && untouchables.contains(event.getClickedBlock().getType())) {
                     event.getPlayer().sendActionBar(Component.text(ChatColor.RED + "This is a private plot, you do not have permission here."));
                     event.setCancelled(true);

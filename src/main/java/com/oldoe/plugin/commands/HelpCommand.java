@@ -5,9 +5,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class HelpCommand implements CommandExecutor {
+import java.util.Arrays;
+import java.util.List;
+
+public class HelpCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
@@ -52,5 +57,15 @@ public class HelpCommand implements CommandExecutor {
         sender.sendMessage(Component.text(ChatColor.GOLD + "/help plots" + ChatColor.WHITE + " | View Plot commands"));
         sender.sendMessage(Component.text(ChatColor.GOLD + "/help cash" + ChatColor.WHITE + " | View Cash commands"));
         sender.sendMessage(Component.text(ChatColor.GOLD + "/help home" + ChatColor.WHITE + " | View Home commands"));
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
+        if (args.length == 1) {
+            return Arrays.asList("plots", "home", "cash");
+        }
+
+        return null;
     }
 }

@@ -10,12 +10,18 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.oldoe.plugin.database.PreparedQueries.GetPlayerHome;
 
-public class StaffCommand implements CommandExecutor {
+public class StaffCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -113,6 +119,30 @@ public class StaffCommand implements CommandExecutor {
             player.setSleepingIgnored(false);
             player.setInvisible(false);
         }
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
+        List<String> players = new ArrayList<>();
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            players.add(p.getName());
+        }
+
+        if (args.length == 1) {
+            List<String> arguments = new ArrayList<>();
+            arguments.add("end");
+            arguments.add("open");
+            arguments.add("home");
+            arguments.addAll(players);
+            return arguments;
+        }
+
+        if (args.length == 2) {
+            return players;
+        }
+
+        return null;
     }
 
 }
