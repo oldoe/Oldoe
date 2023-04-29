@@ -1,5 +1,6 @@
 package com.oldoe.plugin.listeners;
 
+import com.oldoe.plugin.commands.OldoeMute;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
 import io.papermc.paper.event.player.AsyncChatEvent;
@@ -14,12 +15,17 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 public class PlayerChatListener implements Listener {
+    OldoeMute oldoeMute;
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerChat(AsyncChatEvent event) {
         TextComponent msg = (TextComponent) event.message();
 
         OldoePlayer oPlayer = PlayerService.GetPlayer(event.getPlayer().getUniqueId());
+        if (oldoeMute.playerIsMuted(event.getPlayer().getUniqueId())) {
+            event.getPlayer().sendMessage(ChatColor.RED + "You are currently muted");
+            return;
+        }
 
         String badge = new String();
         if (oPlayer.isStaff()) {
