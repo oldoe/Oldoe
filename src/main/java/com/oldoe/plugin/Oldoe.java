@@ -1,5 +1,6 @@
 package com.oldoe.plugin;
 
+import com.oldoe.plugin.commands.OldoeMute;
 import com.oldoe.plugin.services.ServiceManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class Oldoe extends JavaPlugin implements Listener {
 
+    OldoeMute oldoeMute;
     private static List<Material> softBlocks = null;
     private FileConfiguration config = getConfig();
 
@@ -33,18 +35,19 @@ public class Oldoe extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-
         instance = this;
         initConfig();
 
         GetServiceManager().Register(instance);
 
         this.softBlocks = GetSoftBlocksMaterials();
+        oldoeMute.loadMutedPlayers();
     }
 
     @Override
     public void onDisable() {
         GetServiceManager().UnRegister();
+        oldoeMute.saveMutedPlayers();
     }
 
     private void initConfig() {

@@ -9,11 +9,11 @@ commands:
   spawn:
     description: "Go to spawn location"
     usage: "/spawn"
-    aliases: [s, spawn]
+    aliases: [ spawn ]
   sethome:
     description: "Set home location"
     usage: "/sethome"
-    aliases: [ sethome ]
+    aliases: [ sethome, SetHome ]
   home:
     description: "Go to home location"
     usage: "/home"
@@ -38,3 +38,15 @@ commands:
     description: "Display command help"
     usage: "/help"
     aliases: [ h, help ]
+  pvp:
+    description: "Enable PVP"
+    usage: "/pvp"
+    aliases: [ pvp ]
+  staff:
+    description: "Staff command"
+    usage: "/staff"
+    aliases: [ staff ]
+  s:
+    description: "Staff chat command"
+    usage: "/s"
+    aliases: [ s ]

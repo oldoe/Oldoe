@@ -50,3 +50,7 @@ commands:
     description: "Staff chat command"
     usage: "/s"
     aliases: [ s ]
+  mute:
+    description: "Mutes players"
+    usage: "/mute <player>"
+    aliases: [ mute ]

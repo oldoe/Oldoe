@@ -1,6 +1,7 @@
 package com.oldoe.plugin.listeners;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.commands.OldoeMute;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.DataService;
 import com.oldoe.plugin.services.PlayerService;
@@ -13,10 +14,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
 public class PlayerJoinQuitListener implements Listener {
+    OldoeMute oldoeMute;
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -36,6 +39,9 @@ public class PlayerJoinQuitListener implements Listener {
             player.sendMessage(Component.text(ChatColor.WHITE + "-------------------"));
             player.sendMessage(Component.text(ChatColor.GOLD + "Welcome to Oldoe!"));
             player.sendMessage(Component.text(ChatColor.GOLD + "Website: " + ChatColor.WHITE + " Oldoe.com"));
+            if (oldoeMute.playerIsMuted(player.getUniqueId())) {
+                player.sendMessage(Component.text(ChatColor.RED + "You are currently muted"));
+            }
             player.sendMessage(Component.text(ChatColor.WHITE + "-------------------"));
 
             // Add the player to the players table if not already in it
