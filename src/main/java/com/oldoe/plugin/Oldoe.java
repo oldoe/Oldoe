@@ -1,5 +1,6 @@
 package com.oldoe.plugin;
 
+import com.oldoe.plugin.commands.StaffCommand;
 import com.oldoe.plugin.services.ServiceManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -40,6 +41,8 @@ public class Oldoe extends JavaPlugin implements Listener {
         GetServiceManager().Register(instance);
 
         this.softBlocks = GetSoftBlocksMaterials();
+        StaffCommand staffCommand = new StaffCommand();
+        staffCommand.HideSpectatorTabList();
     }
 
     @Override

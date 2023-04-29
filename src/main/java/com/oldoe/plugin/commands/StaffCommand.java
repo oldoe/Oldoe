@@ -1,5 +1,6 @@
 package com.oldoe.plugin.commands;
 
+import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
@@ -12,16 +13,25 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static com.oldoe.plugin.database.PreparedQueries.GetPlayerHome;
 
-public class StaffCommand implements CommandExecutor, TabCompleter {
+public class StaffCommand implements CommandExecutor, TabCompleter, Listener {
+
+    private Set<Player> hiddenPlayers = new HashSet<>();
+    private Scoreboard scoreboard;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -111,6 +121,8 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(Component.text(ChatColor.GREEN + "Staff Mode Enabled."));
             player.setSleepingIgnored(true);
             player.setInvisible(true);
+            hiddenPlayers.add(player);
+            updateTabList();
         } else {
             oPlayer.setStaffEnabled(false);
             player.teleport(oPlayer.getStaffStartLocation());
@@ -118,6 +130,8 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
             player.setGameMode(GameMode.SURVIVAL);
             player.setSleepingIgnored(false);
             player.setInvisible(false);
+            hiddenPlayers.remove(player);
+            updateTabList();
         }
     }
 
@@ -143,6 +157,37 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
         }
 
         return null;
+    }
+
+    public void HideSpectatorTabList() {
+        scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective objective = scoreboard.registerNewObjective("tab", "dummy");
+        objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(this, Oldoe.getInstance());
+    }
+
+    private void updateTabList() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            for (Player hiddenPlayer : hiddenPlayers) {
+                Objects.requireNonNull(scoreboard.getTeam(player.getName())).removeEntry(hiddenPlayer.getName());
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
+        scoreboard.registerNewTeam(player.getName()).addEntry(player.getName());
+        updateTabList();
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        Player player = e.getPlayer();
+        scoreboard.getTeam(player.getName()).unregister();
+        hiddenPlayers.remove(player);
+        updateTabList();
     }
 
 }
