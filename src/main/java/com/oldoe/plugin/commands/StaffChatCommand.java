@@ -3,6 +3,7 @@ package com.oldoe.plugin.commands;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
+import org.apache.logging.log4j.message.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,22 +26,21 @@ public class StaffChatCommand implements CommandExecutor {
                 player.sendMessage(Component.text(ChatColor.RED + "Only staff can use this command!"));
                 return false;
             }
-
             StringBuffer sb = new StringBuffer();
-            for(int i = 0; i < args.length; i++) {
+            for (int i = 0; i < args.length; i++) {
                 sb.append(args[i] + " ");
             }
-
             String msg = sb.toString();
-
-            for( Player p : Bukkit.getOnlinePlayers()) {
-                OldoePlayer oP = PlayerService.GetPlayer(p.getUniqueId());
-                if (oP.isStaff()) {
-                    p.sendMessage(ChatColor.RED + "<s> " + ChatColor.WHITE + sender.getName() + ": " + ChatColor.WHITE + msg);
-                }
+            staffChatHandler(player, msg);
+        }
+        return true;
+    }
+    public void staffChatHandler(Player sender, String msg) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            OldoePlayer oP = PlayerService.GetPlayer(p.getUniqueId());
+            if (oP.isStaff()) {
+                p.sendMessage(ChatColor.RED + "<s> " + ChatColor.WHITE + sender.getName() + ": " + ChatColor.WHITE + msg);
             }
         }
-
-        return true;
     }
 }

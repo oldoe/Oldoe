@@ -1,5 +1,7 @@
 package com.oldoe.plugin.listeners;
 
+import com.oldoe.plugin.commands.StaffChatCommand;
+import com.oldoe.plugin.commands.ToggleCmd;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
 import io.papermc.paper.event.player.AsyncChatEvent;
@@ -14,6 +16,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 public class PlayerChatListener implements Listener {
+    ToggleCmd toggleCmd;
+    StaffChatCommand staffChatCommand;
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerChat(AsyncChatEvent event) {
@@ -23,6 +27,11 @@ public class PlayerChatListener implements Listener {
 
         String badge = new String();
         if (oPlayer.isStaff()) {
+            if (toggleCmd.staffChat.contains(event.getPlayer().getUniqueId())) {
+                staffChatCommand.staffChatHandler(event.getPlayer(), event.message().toString());
+                event.setCancelled(true);
+                return;
+            }
             badge = "[Staff] ";
         }
 
