@@ -22,7 +22,7 @@ public class PlayerChatListener implements Listener {
         OldoePlayer oPlayer = PlayerService.GetPlayer(event.getPlayer().getUniqueId());
 
         String badge = new String();
-        if (oPlayer.isStaff()) {
+        if (oPlayer.isStaff() && oPlayer.isTagEnabled()) {
             badge = "[Staff] ";
         }
 

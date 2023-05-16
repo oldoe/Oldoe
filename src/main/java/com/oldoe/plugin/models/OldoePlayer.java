@@ -8,13 +8,15 @@ public class OldoePlayer {
 
     private int dbID;
     private int permission = 0;
-    private Boolean isStaff = false;
-    private Boolean pvpEnabled = false;
+    private boolean isStaff = false;
+    private boolean isHidden = false;
+    private boolean pvpEnabled = false;
     private String uuid;
     private String name;
     private String lastDmName;
     private boolean borderEnabled = false;
     private boolean staffEnabled = false;
+    private boolean tagEnabled = true;
     private Plot currentPlot;
 
     private Instant lastMovement;
@@ -83,7 +85,15 @@ public class OldoePlayer {
 
     public void setStaffEnabled(boolean enabled) { this.staffEnabled = enabled; }
 
+    public void setHidden(boolean hide) { this.isHidden = hide; }
+
+    public void setShowTag(boolean enabled) { this.tagEnabled = enabled; }
+
     public boolean isStaff() { return this.isStaff; }
+
+    public boolean isHidden() { return this.isHidden; }
+
+    public boolean isTagEnabled() { return this.tagEnabled; }
 
     public boolean isPvpEnabled() { return this.pvpEnabled; }
 

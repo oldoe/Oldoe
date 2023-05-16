@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.oldoe.plugin.database.PreparedQueries.GetPlayerHome;
@@ -72,6 +71,18 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
                                     }
                                     player.teleport(home);
                                 }
+                            }
+                            break;
+                        case ("hide"):
+                            break;
+                        case ("tag"):
+                            if (oPlayer.isTagEnabled()) {
+                                player.sendMessage(Component.text(ChatColor.GREEN + "Staff tag hidden."));
+                                oPlayer.setShowTag(false);
+                            }
+                            else {
+                                player.sendMessage(Component.text(ChatColor.GREEN + "Staff tag is now visible."));
+                                oPlayer.setShowTag(true);
                             }
                             break;
                     }
@@ -134,6 +145,8 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
             arguments.add("end");
             arguments.add("open");
             arguments.add("home");
+            arguments.add("hide");
+            arguments.add("tag");
             arguments.addAll(players);
             return arguments;
         }
