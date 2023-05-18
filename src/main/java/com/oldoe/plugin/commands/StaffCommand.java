@@ -1,5 +1,6 @@
 package com.oldoe.plugin.commands;
 
+import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
@@ -74,6 +75,9 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
                             }
                             break;
                         case ("hide"):
+                            ToggleHideStaff(player, oPlayer, true);
+                        case ("show"):
+                            ToggleHideStaff(player, oPlayer, false);
                             break;
                         case ("tag"):
                             if (oPlayer.isTagEnabled()) {
@@ -99,7 +103,6 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
                     }
                 }
             }
-
         }
 
         return true;
@@ -113,6 +116,25 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
         return targetP;
     }
 
+    // Todo, new players that join will see staff until the re-toggle this.
+    private void ToggleHideStaff(Player player, OldoePlayer oPlayer, boolean hide) {
+        if (!hide) {
+            oPlayer.setHidden(false);
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p != player) {
+                    p.showPlayer(Oldoe.getInstance(), player);
+                }
+            }
+        } else {
+            oPlayer.setHidden(true);
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p != player) {
+                    p.hidePlayer(Oldoe.getInstance(), player);
+                }
+            }
+        }
+    }
+
     private void ToggleStaffMode(Player player, OldoePlayer oPlayer, boolean enable) {
 
         if (enable) {
@@ -122,6 +144,8 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(Component.text(ChatColor.GREEN + "Staff Mode Enabled."));
             player.setSleepingIgnored(true);
             player.setInvisible(true);
+            player.setAllowFlight(true);
+            ToggleHideStaff(player, oPlayer, true);
         } else {
             oPlayer.setStaffEnabled(false);
             player.teleport(oPlayer.getStaffStartLocation());
@@ -129,6 +153,8 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
             player.setGameMode(GameMode.SURVIVAL);
             player.setSleepingIgnored(false);
             player.setInvisible(false);
+            player.setAllowFlight(false);
+            ToggleHideStaff(player, oPlayer, false);
         }
     }
 
@@ -146,6 +172,7 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
             arguments.add("open");
             arguments.add("home");
             arguments.add("hide");
+            arguments.add("show");
             arguments.add("tag");
             arguments.addAll(players);
             return arguments;

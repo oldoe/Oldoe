@@ -47,6 +47,14 @@ public class ServiceManager {
         eventService.registerEvents(instance);
         dataService.registerService(Oldoe.getInstance());
 
+        InitScheduler(instance);
+    }
+
+    public void UnRegister() {
+        dataService.DisableService();
+    }
+
+    private void InitScheduler(JavaPlugin instance) {
         int min = -9000; // Minimum value of range
         int max = 9000; // Maximum value of range
 
@@ -86,9 +94,5 @@ public class ServiceManager {
                 player.kick(Component.text("24H AFK Kick"));
             }
         }, 0L, 1200L);
-    }
-
-    public void UnRegister() {
-        dataService.DisableService();
     }
 }
