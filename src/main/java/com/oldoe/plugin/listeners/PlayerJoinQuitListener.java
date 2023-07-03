@@ -75,12 +75,15 @@ public class PlayerJoinQuitListener implements Listener {
         }
 
         PlayerService.AddPlayer(oldoePlayer);
+
+        ToggleHide(player, true);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
+        ToggleHide(player, false);
         OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
         PlayerService.RemovePlayer(oPlayer);
     }
@@ -91,5 +94,23 @@ public class PlayerJoinQuitListener implements Listener {
 
         OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
         PlayerService.RemovePlayer(oPlayer);
+    }
+
+    private void ToggleHide(Player player, boolean hide) {
+        for (OldoePlayer oPlayer : PlayerService.GetPlayers()) {
+            if (oPlayer.isHidden()) {
+                Player hiddenPlayer = Bukkit.getPlayer(oPlayer.getName());
+
+                if (hiddenPlayer == null) {
+                    break;
+                }
+
+                if (hide) {
+                    player.hidePlayer(Oldoe.getInstance(), hiddenPlayer);
+                } else {
+                    player.showPlayer(Oldoe.getInstance(), hiddenPlayer);
+                }
+            }
+        }
     }
 }

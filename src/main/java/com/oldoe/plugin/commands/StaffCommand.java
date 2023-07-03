@@ -46,6 +46,19 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 
             } else {
 
+                switch(args[0].toLowerCase()) {
+                    case ("tag"):
+                        if (oPlayer.isTagEnabled()) {
+                            player.sendMessage(Component.text(ChatColor.GREEN + "Staff tag hidden."));
+                            oPlayer.setShowTag(false);
+                        }
+                        else {
+                            player.sendMessage(Component.text(ChatColor.GREEN + "Staff tag is now visible."));
+                            oPlayer.setShowTag(true);
+                        }
+                        break;
+                }
+
                 if (args.length > 1) {
 
                     Player targetP = GetPlayer(args[1], player);
@@ -72,21 +85,6 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
                                     }
                                     player.teleport(home);
                                 }
-                            }
-                            break;
-                        case ("hide"):
-                            ToggleHideStaff(player, oPlayer, true);
-                        case ("show"):
-                            ToggleHideStaff(player, oPlayer, false);
-                            break;
-                        case ("tag"):
-                            if (oPlayer.isTagEnabled()) {
-                                player.sendMessage(Component.text(ChatColor.GREEN + "Staff tag hidden."));
-                                oPlayer.setShowTag(false);
-                            }
-                            else {
-                                player.sendMessage(Component.text(ChatColor.GREEN + "Staff tag is now visible."));
-                                oPlayer.setShowTag(true);
                             }
                             break;
                     }
@@ -116,7 +114,6 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
         return targetP;
     }
 
-    // Todo, new players that join will see staff until the re-toggle this.
     private void ToggleHideStaff(Player player, OldoePlayer oPlayer, boolean hide) {
         if (!hide) {
             oPlayer.setHidden(false);
