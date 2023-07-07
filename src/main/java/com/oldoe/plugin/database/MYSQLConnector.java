@@ -33,7 +33,7 @@ public class MYSQLConnector {
     private void getConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").getDeclaredConstructor().newInstance();
-            setConnection(DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s?user=%s&password=%s&autoReconnect=true&useSSL=false&testOnBorrow=true&validationQuery='select 1'&validationInterval=60000", ip , 3306, database, username, password)));
+            setConnection(DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s?user=%s&password=%s&autoReconnect=true&useSSL=false&testOnBorrow=true&validationQuery='SELECT NOW()'&validationInterval=60000&testWhileIdle=true", ip , 3306, database, username, password)));
         } catch (Exception e) {
             plugin.getServer().getLogger().log(Level.SEVERE, plugin.getName() + " - DB Connection Error: " + e.getMessage());
         }
@@ -66,6 +66,17 @@ public class MYSQLConnector {
                 "`uuid` VARCHAR(255) NOT NULL ," +
                 "`name` VARCHAR(255) NOT NULL ," +
                 "`cash` DECIMAL(12,2) NOT NULL DEFAULT 0.00 ," +
+                "PRIMARY KEY (`id`), " +
+                "UNIQUE KEY `uuid` (`uuid`) " +
+                ") ENGINE = InnoDB;", database);
+
+        String bansTable = String.format("CREATE TABLE IF NOT EXISTS `%s`.`oldoe_bans` (" +
+                "`id` INT(11) NOT NULL AUTO_INCREMENT," +
+                "`uuid` VARCHAR(255) NOT NULL ," +
+                "`name` VARCHAR(255) NOT NULL ," +
+                "`reason` VARCHAR(255) NOT NULL ," +
+                "`staff` INT(11) NOT NULL , " +
+                "`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , " +
                 "PRIMARY KEY (`id`), " +
                 "UNIQUE KEY `uuid` (`uuid`) " +
                 ") ENGINE = InnoDB;", database);
@@ -109,6 +120,7 @@ public class MYSQLConnector {
 
         // Execute queries and close statement
         executeSQL(usersTable);
+        executeSQL(bansTable);
         executeSQL(homesTable);
         executeSQL(plotsTable);
         executeSQL(plotPermTable);

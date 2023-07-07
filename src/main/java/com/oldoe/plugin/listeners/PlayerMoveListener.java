@@ -1,10 +1,13 @@
 package com.oldoe.plugin.listeners;
 
+import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.models.Plot;
 import com.oldoe.plugin.services.PlayerService;
 import com.oldoe.plugin.services.ServiceManager;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -141,9 +144,18 @@ public class PlayerMoveListener implements Listener {
                 if (isTpPortal) {
                     Player player = event.getPlayer();
                     player.teleport(ServiceManager.RandomTPLocation());
-                    player.sendMessage(ChatColor.GREEN + "You've teleported to a random location! Type /spawn to return");
-                    player.sendMessage(ChatColor.GREEN + "(Random TP machine changes location every 5 minutes)");
-                    player.sendMessage(ChatColor.GREEN + "Once you've found your spot you can /sethome and return to that location with the /home command.");
+
+                    final Component mainTitle = Component.text("Teleported", NamedTextColor.GREEN);
+                    final Component subtitle = Component.text("(" + ServiceManager.RandomTPLocation().getBlockX() + ", " + ServiceManager.RandomTPLocation().getBlockZ() + ")", NamedTextColor.WHITE);
+                    final Title title = Title.title(mainTitle, subtitle);
+                    player.showTitle(title);
+
+                    player.sendMessage(ChatColor.GREEN + "[Tip] " + ChatColor.WHITE + "Random TP machine changes location every 5 minutes");
+
+                    Oldoe.GetScheduler().scheduleSyncDelayedTask(Oldoe.getInstance(), () -> {
+                        player.sendMessage(ChatColor.GREEN + "[Tip] " + ChatColor.WHITE + "Once you've found a good spot you can type /sethome and return to that location with the /home command.");
+                    }, 300L);
+
                 }
             }
         }

@@ -5,6 +5,9 @@ import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.DataService;
 import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -27,16 +30,19 @@ public class PlayerJoinQuitListener implements Listener {
         String uuid = player.getUniqueId().toString();
         int playerID = -1;
 
+
+        Component intoMessage = Component.text("-------------------", NamedTextColor.WHITE).appendNewline()
+                .append(Component.text("Welcome to Oldoe!", NamedTextColor.GOLD)).appendNewline()
+                .append(Component.text("Website: ", NamedTextColor.GOLD))
+                .append(Component.text("oldoe.com")).appendNewline()
+                .append(Component.text("-------------------", NamedTextColor.WHITE)).clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, "https://oldoe.com"));
+
+
         if ( DataService.getDatabase().getPlayerID(uuid) == -1) {
 
             if (!player.hasPlayedBefore()) {
                 Bukkit.broadcast(Component.text(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " has joined for the first time."));
             }
-
-            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------"));
-            player.sendMessage(Component.text(ChatColor.GOLD + "Welcome to Oldoe!"));
-            player.sendMessage(Component.text(ChatColor.GOLD + "Website: " + ChatColor.WHITE + " Oldoe.com"));
-            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------"));
 
             // Add the player to the players table if not already in it
             DataService.getDatabase().executeSQL(String.format("INSERT INTO `oldoe_users` (uuid, name) VALUES ('%s', '%s')", uuid, player.getName()));
@@ -57,13 +63,9 @@ public class PlayerJoinQuitListener implements Listener {
             long totalDays = timeMS / 24000;
             long year = totalDays / 365;
             long dayOfYear = totalDays - (year * 365);
-
-            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------"));
-            player.sendMessage(Component.text(ChatColor.GOLD + "Welcome to Oldoe!"));
-            player.sendMessage(Component.text(ChatColor.GOLD + "Website: " + ChatColor.WHITE + " Oldoe.com"));
-            player.sendMessage(Component.text(ChatColor.GOLD + "Year: " + ChatColor.WHITE +  year + ChatColor.GOLD + " Day: " + ChatColor.WHITE + dayOfYear ));
-            player.sendMessage(Component.text(ChatColor.WHITE + "-------------------"));
         }
+
+        player.sendMessage(intoMessage);
 
         //int id, String uuid, String displayName
         OldoePlayer oldoePlayer = new OldoePlayer(playerID, uuid, player.getName());
@@ -77,6 +79,9 @@ public class PlayerJoinQuitListener implements Listener {
         PlayerService.AddPlayer(oldoePlayer);
 
         ToggleHide(player, true);
+
+        final Component footer = Component.text("play.olode.com", NamedTextColor.GOLD).append(Component.text(" | Website: ", NamedTextColor.WHITE)).append(Component.text("oldoe.com", NamedTextColor.GOLD));
+        player.sendPlayerListFooter(footer);
     }
 
     @EventHandler

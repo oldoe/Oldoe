@@ -1,10 +1,10 @@
 name: OldoeServer
-version: 1.0.0
+version: 1.1.0
 main: com.oldoe.plugin.Oldoe
 description: Oldoe server plugin.
 author: littlefryingpan
 website: https://www.oldoe.com
-api-version: 1.19
+api-version: '1.20'
 commands:
   spawn:
     description: "Go to spawn location"
@@ -50,3 +50,11 @@ commands:
     description: "Staff chat command"
     usage: "/s"
     aliases: [ s ]
+  death:
+    description: "Display last death location"
+    usage: "/death"
+    aliases: [ death ]
+  ban:
+    description: "Ban player"
+    usage: "/ban {user} {reason}"
+    aliases: [ ban ]

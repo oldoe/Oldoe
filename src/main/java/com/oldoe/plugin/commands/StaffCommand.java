@@ -4,6 +4,7 @@ import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -25,14 +26,12 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player) {
-
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
 
             OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
 
             if (!oPlayer.isStaff()) {
-                player.sendMessage(Component.text(ChatColor.RED + "Only staff can use this command!"));
+                player.sendMessage(Component.text("Only staff can use this command!", NamedTextColor.RED));
                 return false;
             }
 

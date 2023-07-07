@@ -22,9 +22,8 @@ public class CashCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         DecimalFormat df = new DecimalFormat("#,###.##");
 
-        if (sender instanceof Player) {
+        if (sender instanceof Player player) {
 
-            Player player = (Player) sender;
             String uuid = player.getUniqueId().toString();
 
             BigDecimal cash = GetCash(uuid);

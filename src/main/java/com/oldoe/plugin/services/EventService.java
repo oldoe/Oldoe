@@ -20,6 +20,7 @@ public class EventService {
         pm.registerEvents(new BlockBreakListener(), instance);
         pm.registerEvents(new BlockPlaceListener(), instance);
         pm.registerEvents(new PlayerInteractListener(), instance);
+        pm.registerEvents(new SignChangeListener(), instance);
         pm.registerEvents(new PlayerDeathListener(), instance);
         pm.registerEvents(new PlayerChatListener(), instance);
         pm.registerEvents(new EntityDamageListener(), instance);

@@ -4,6 +4,11 @@ import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.DataService;
 import com.oldoe.plugin.services.PlayerService;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -86,12 +91,24 @@ public class PlotCommand implements CommandExecutor, TabCompleter {
                 }
 
                 int plotID = GetPlotID(loc);
-                List<String> members = GetPlotMembers(plotID);
 
-                player.sendMessage(ChatColor.WHITE + "------" + ChatColor.GOLD + "Plot Info" + ChatColor.WHITE + "------",
-                                ChatColor.GOLD + "Plot Owner: " + ChatColor.WHITE + owner,
-                                ChatColor.GOLD + "Coordinates: " + ChatColor.WHITE + "(" + x + ", " + z + ")",
-                                ChatColor.GOLD + "Members: " + ChatColor.WHITE + members.toString());
+                List<String> members = GetPlotMembers(plotID);
+                String plotMembers = members.toString();
+
+                plotMembers = plotMembers.substring(1, plotMembers.length() - 1);
+
+                TextComponent headerComp = Component.text("------", NamedTextColor.WHITE).append(Component.text("Plot Info", NamedTextColor.GOLD)).append(Component.text("------", NamedTextColor.WHITE));
+                TextComponent ownerComp = Component.text("Owner: ", NamedTextColor.GOLD).append(Component.text(owner, NamedTextColor.WHITE));
+                TextComponent cordComp = Component.text("Coodinates: ", NamedTextColor.GOLD).append(Component.text("(" + x + ", " + z + ")", NamedTextColor.WHITE))
+                        .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, x + ", " + z))
+                        .hoverEvent(HoverEvent.showText(Component.text("Click to copy coordinates")));
+                TextComponent memComp = Component.text("Members: ", NamedTextColor.GOLD).append(Component.text(plotMembers, NamedTextColor.WHITE));
+
+
+                player.sendMessage(headerComp);
+                player.sendMessage(ownerComp);
+                player.sendMessage(cordComp);
+                player.sendMessage(memComp);
             }
         }
 

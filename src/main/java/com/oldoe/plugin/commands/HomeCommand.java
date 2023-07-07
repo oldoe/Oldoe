@@ -24,7 +24,7 @@ public class HomeCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "You currently have no home. Set your home by typing /sethome");
                 } else {
                     player.teleport(home);
-                    player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 0.9f, 0.5f);
+                    player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 0.8f, 0.5f);
                     /*
                     Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Oldoe.getInstance(), new Runnable() {
                         @Override

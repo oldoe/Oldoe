@@ -2,7 +2,9 @@ package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,9 +20,9 @@ public class BorderCommand implements CommandExecutor {
             oPlayer.toggleBorder();
 
             if (oPlayer.borderEnabled()) {
-                player.sendMessage(ChatColor.GREEN + "Plot borders enabled! (Type /border to disable)");
+                player.sendMessage(Component.text("Plot borders enabled! ", NamedTextColor.GREEN).append(Component.text("(Type /border to toggle)", NamedTextColor.WHITE)).clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/border")));
             } else {
-                player.sendMessage(ChatColor.RED + "Plot borders disabled! (Type /border to enable)");
+                player.sendMessage(Component.text("Plot borders disabled! ", NamedTextColor.RED).append(Component.text("(Type /border to toggle)", NamedTextColor.WHITE)).clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/border")));
             }
 
             return true;

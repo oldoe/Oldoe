@@ -72,7 +72,7 @@ public class PreparedQueries {
 
         try {
             String sql = String.format(
-                    "SELECT sh.id, sh.owner, sh.name, su.user FROM `oldoe_plots` sh JOIN `oldoe_plot_perms` su ON sh.id = su.plot WHERE sh.x = '%d' AND sh.z = '%d'",
+                    "SELECT sh.id, sh.owner, sh.name, su.user FROM `oldoe_plots` sh LEFT JOIN `oldoe_plot_perms` su ON sh.id = su.plot WHERE sh.x = '%d' AND sh.z = '%d'",
                     plot.X, plot.Z
             );
             ResultSet rs = DataService.getDatabase().executeSQL(sql);
@@ -311,6 +311,20 @@ public class PreparedQueries {
                 mathVal,
                 amt.doubleValue(),
                 uuid
+        );
+        DataService.getDatabase().executeSQL(sql);
+        DataService.getDatabase().close();
+    }
+
+    public static void BanUser(String uuid, String name, String reason, int staffId) {
+
+        String sql = String.format(
+                "INSERT INTO `oldoe_bans` (uuid, name, reason, staff) " +
+                        "VALUES ('%s', '%s', '%s', %d)",
+                uuid,
+                name,
+                reason,
+                staffId
         );
         DataService.getDatabase().executeSQL(sql);
         DataService.getDatabase().close();
