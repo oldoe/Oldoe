@@ -1,6 +1,7 @@
 package com.oldoe.plugin.commands;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -21,7 +22,7 @@ public class SpawnCommand implements CommandExecutor {
                 player.teleport(player.getWorld().getSpawnLocation());
                 player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 0.9f, 0.5f);
             } else {
-                player.sendMessage(ChatColor.RED + "The /spawn command does not work here.");
+                player.sendMessage(Component.text("The /spawn command does not work here.", NamedTextColor.RED));
             }
         }
 

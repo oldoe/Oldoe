@@ -6,10 +6,10 @@ import com.oldoe.plugin.models.Plot;
 import com.oldoe.plugin.services.DataService;
 import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -44,6 +44,15 @@ public class BlockBreakListener implements Listener {
                     DataService.getDatabase().executeSQL(sql);
                     DataService.getDatabase().close();
                 });
+            }
+
+            if (Oldoe.GetValuableBlocks().contains(blockType)) {
+                for( Player p : Bukkit.getOnlinePlayers()) {
+                    OldoePlayer oP = PlayerService.GetPlayer(p.getUniqueId());
+                    if (oP.isStaff()) {
+                        p.sendMessage(Component.text("[INFO] ", NamedTextColor.GRAY).append(Component.text(event.getPlayer().getName() + " mined " + blockType.name() + " at " + event.getBlock().getWorld().getName() + " (" + event.getBlock().getX() + ", " + event.getBlock().getY() + ", " + event.getBlock().getZ() + ")")).clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/staff " + event.getPlayer().getName())));
+                    }
+                }
             }
         }
     }

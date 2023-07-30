@@ -3,8 +3,8 @@ package com.oldoe.plugin.commands;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,7 +22,7 @@ public class StaffChatCommand implements CommandExecutor {
             OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
 
             if (!oPlayer.isStaff()) {
-                player.sendMessage(Component.text(ChatColor.RED + "Only staff can use this command!"));
+                player.sendMessage(Component.text("Only staff can use this command!", NamedTextColor.RED));
                 return false;
             }
 
@@ -36,7 +36,7 @@ public class StaffChatCommand implements CommandExecutor {
             for( Player p : Bukkit.getOnlinePlayers()) {
                 OldoePlayer oP = PlayerService.GetPlayer(p.getUniqueId());
                 if (oP.isStaff()) {
-                    p.sendMessage(ChatColor.DARK_PURPLE + "<s> " + ChatColor.WHITE + sender.getName() + ": " + msg);
+                    p.sendMessage(Component.text("<S> ", NamedTextColor.DARK_PURPLE).append(Component.text(sender.getName() + ": " + msg, NamedTextColor.WHITE)));
                 }
             }
         }

@@ -35,7 +35,7 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
                 return false;
             }
 
-            if (args.length <=0) {
+            if (args.length <= 0) {
 
                 if (oPlayer.isStaffEnabled()) {
                     ToggleStaffMode(player,oPlayer, false);
@@ -48,14 +48,14 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
                 switch(args[0].toLowerCase()) {
                     case ("tag"):
                         if (oPlayer.isTagEnabled()) {
-                            player.sendMessage(Component.text(ChatColor.GREEN + "Staff tag hidden."));
+                            player.sendMessage(Component.text("Staff tag hidden.", NamedTextColor.GREEN));
                             oPlayer.setShowTag(false);
                         }
                         else {
-                            player.sendMessage(Component.text(ChatColor.GREEN + "Staff tag is now visible."));
+                            player.sendMessage(Component.text("Staff tag is now visible.", NamedTextColor.GREEN));
                             oPlayer.setShowTag(true);
                         }
-                        break;
+                        return true;
                 }
 
                 if (args.length > 1) {
@@ -91,7 +91,7 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
                 } else {
                     Player targetP = Bukkit.getPlayer(args[0]);
                     if (targetP == null) {
-                        player.sendMessage(Component.text(ChatColor.RED + "Player is not online!"));
+                        player.sendMessage(Component.text("Player is not online!", NamedTextColor.RED));
                     } else {
                         if (!oPlayer.isStaffEnabled()) {
                             ToggleStaffMode(player,oPlayer, true);

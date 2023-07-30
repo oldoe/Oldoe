@@ -5,7 +5,6 @@ import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.DataService;
 import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -80,7 +79,7 @@ public class PlayerJoinQuitListener implements Listener {
 
         ToggleHide(player, true);
 
-        final Component footer = Component.text("play.olode.com", NamedTextColor.GOLD).append(Component.text(" | Website: ", NamedTextColor.WHITE)).append(Component.text("oldoe.com", NamedTextColor.GOLD));
+        final Component footer = Component.text("play.oldoe.com", NamedTextColor.GOLD).append(Component.text(" | ", NamedTextColor.WHITE)).append(Component.text("www.oldoe.com", NamedTextColor.GOLD));
         player.sendPlayerListFooter(footer);
     }
 

@@ -8,15 +8,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Oldoe extends JavaPlugin implements Listener {
 
     private static List<Material> softBlocks = null;
+    private static final List<Material> valuableBlocks = Arrays.asList(Material.DEEPSLATE_DIAMOND_ORE, Material.DIAMOND_ORE, Material.ANCIENT_DEBRIS);
     private FileConfiguration config = getConfig();
 
-    public static List<Material> GetSoftBlocks() {
+    public static final List<Material> GetSoftBlocks() {
         return softBlocks;
+    }
+
+    public static final List<Material> GetValuableBlocks() {
+        return valuableBlocks;
     }
 
     private static ServiceManager serviceManager = new ServiceManager();
@@ -57,7 +63,7 @@ public class Oldoe extends JavaPlugin implements Listener {
         saveConfig();
     }
 
-    private List<Material> GetSoftBlocksMaterials() {
+    private final List<Material> GetSoftBlocksMaterials() {
         List<Material> materials = new ArrayList<>();
         for (Material mat : Material.values()) {
             if (mat.isBlock() && mat.getHardness() < 0.2f) {

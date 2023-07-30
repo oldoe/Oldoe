@@ -2,8 +2,9 @@ package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.PlayerService;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public class MsgCommand implements CommandExecutor {
             if (otherPlayer != null) {
 
                 if (otherPlayer == sender) {
-                    sender.sendMessage(ChatColor.RED + "You can't message yourself!");
+                    sender.sendMessage(Component.text("You can't message yourself!", NamedTextColor.RED));
                     return true;
                 }
 
@@ -31,8 +32,8 @@ public class MsgCommand implements CommandExecutor {
                 }
 
                 String msg = sb.toString();
-                otherPlayer.sendMessage(ChatColor.GREEN + "<msg> " + ChatColor.WHITE + sender.getName() + " > " + ChatColor.WHITE + otherPlayer.getName() + ": " + msg);
-                sender.sendMessage(ChatColor.GREEN + "<msg> " + ChatColor.WHITE + sender.getName() + " > " + ChatColor.WHITE + otherPlayer.getName() + ": " + msg);
+                otherPlayer.sendMessage(Component.text("<Message> ", NamedTextColor.GREEN).append(Component.text(otherPlayer.getName() + " > Me: " + msg, NamedTextColor.WHITE)));
+                sender.sendMessage(Component.text("<Message> ", NamedTextColor.GREEN).append(Component.text("Me > " + otherPlayer.getName() + ": " + msg, NamedTextColor.WHITE)));
 
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
@@ -62,8 +63,8 @@ public class MsgCommand implements CommandExecutor {
                             }
 
                             String msg = sb.toString();
-                            recPlayer.sendMessage(ChatColor.GREEN + "<msg> " + ChatColor.WHITE + sender.getName() + " > " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
-                            sender.sendMessage(ChatColor.GREEN + "<msg> " + ChatColor.WHITE + sender.getName() + " > " + ChatColor.WHITE + recPlayer.getName() + ": " + msg);
+                            recPlayer.sendMessage(Component.text("<Message> ", NamedTextColor.GREEN).append(Component.text(recPlayer.getName() + " > Me: " + msg, NamedTextColor.WHITE)));
+                            sender.sendMessage(Component.text("<Message> ", NamedTextColor.GREEN).append(Component.text("Me > " + recPlayer.getName() + ": " + msg, NamedTextColor.WHITE)));
 
                             // Save each other for /reply and msg functions
                             oPlayer.setLastMessaged(recPlayer.getName());
