@@ -66,7 +66,7 @@ public class PlotCommand implements CommandExecutor, TabCompleter {
                 }
             }
             else {
-                String owner = "None";
+                String owner = "None (Public)";
 
                 Location loc = player.getLocation();
 
@@ -97,12 +97,12 @@ public class PlotCommand implements CommandExecutor, TabCompleter {
 
                 plotMembers = plotMembers.substring(1, plotMembers.length() - 1);
 
-                TextComponent headerComp = Component.text("------", NamedTextColor.WHITE).append(Component.text("Plot Info", NamedTextColor.GOLD)).append(Component.text("------", NamedTextColor.WHITE));
-                TextComponent ownerComp = Component.text("Owner: ", NamedTextColor.GOLD).append(Component.text(owner, NamedTextColor.WHITE));
-                TextComponent cordComp = Component.text("Coodinates: ", NamedTextColor.GOLD).append(Component.text("(" + x + ", " + z + ")", NamedTextColor.WHITE))
+                TextComponent headerComp = Component.text("------", NamedTextColor.WHITE).append(Component.text(" Plot Info ", NamedTextColor.DARK_GREEN)).append(Component.text("------", NamedTextColor.WHITE));
+                TextComponent ownerComp = Component.text("Owner: ", NamedTextColor.DARK_GREEN).append(Component.text(owner, NamedTextColor.WHITE));
+                TextComponent cordComp = Component.text("Coodinates: ", NamedTextColor.DARK_GREEN).append(Component.text("(" + x + ", " + z + ")", NamedTextColor.WHITE))
                         .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, x + ", " + z))
                         .hoverEvent(HoverEvent.showText(Component.text("Click to copy coordinates")));
-                TextComponent memComp = Component.text("Members: ", NamedTextColor.GOLD).append(Component.text(plotMembers, NamedTextColor.WHITE));
+                TextComponent memComp = Component.text("Members: ", NamedTextColor.DARK_GREEN).append(Component.text(plotMembers, NamedTextColor.WHITE));
 
 
                 player.sendMessage(headerComp);
@@ -197,7 +197,7 @@ public class PlotCommand implements CommandExecutor, TabCompleter {
             DataService.getDatabase().close();
         }
 
-        player.sendMessage(ChatColor.WHITE + "------" + ChatColor.GOLD + "Plot List" + ChatColor.WHITE + "------");
+        player.sendMessage(ChatColor.WHITE + "------" + ChatColor.DARK_GREEN + " Plot List " + ChatColor.WHITE + "------");
         for (String p : Plots) {
             player.sendMessage(ChatColor.WHITE + p);
         }

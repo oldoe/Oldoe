@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PlayerJoinQuitListener implements Listener {
 
@@ -31,16 +32,17 @@ public class PlayerJoinQuitListener implements Listener {
 
 
         Component intoMessage = Component.text("-------------------", NamedTextColor.WHITE).appendNewline()
-                .append(Component.text("Welcome to Oldoe!", NamedTextColor.GOLD)).appendNewline()
-                .append(Component.text("Website: ", NamedTextColor.GOLD))
-                .append(Component.text("oldoe.com")).appendNewline()
+                .append(Component.text("Welcome to ", NamedTextColor.GREEN))
+                .append(Component.text("Oldoe", NamedTextColor.WHITE)).appendNewline()
+                .append(Component.text("Website: ", NamedTextColor.GREEN))
+                .append(Component.text("www.oldoe.com", NamedTextColor.WHITE)).appendNewline()
                 .append(Component.text("-------------------", NamedTextColor.WHITE)).clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, "https://oldoe.com"));
 
 
         if ( DataService.getDatabase().getPlayerID(uuid) == -1) {
 
             if (!player.hasPlayedBefore()) {
-                Bukkit.broadcast(Component.text(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " has joined for the first time."));
+                Bukkit.broadcast(Component.text(ChatColor.WHITE + player.getName() + ChatColor.YELLOW + " has joined for the first time!"));
             }
 
             // Add the player to the players table if not already in it
@@ -79,8 +81,16 @@ public class PlayerJoinQuitListener implements Listener {
 
         ToggleHide(player, true);
 
-        final Component footer = Component.text("play.oldoe.com", NamedTextColor.GOLD).append(Component.text(" | ", NamedTextColor.WHITE)).append(Component.text("www.oldoe.com", NamedTextColor.GOLD));
+        final Component footer = Component.text("play.oldoe.com", NamedTextColor.GREEN).append(Component.text(" | ", NamedTextColor.WHITE)).append(Component.text("www.oldoe.com", NamedTextColor.GREEN));
         player.sendPlayerListFooter(footer);
+
+        // Display client info to staff
+        for( Player p : Bukkit.getOnlinePlayers()) {
+            OldoePlayer oP = PlayerService.GetPlayer(p.getUniqueId());
+            if (oP.isStaff()) {
+                p.sendMessage(Component.text("[INFO] " + player.getName() + " - Client: " + Objects.toString(player.getClientBrandName(), "Modded (Fabric/Forge)"), NamedTextColor.GRAY));
+            }
+        }
     }
 
     @EventHandler

@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -13,6 +14,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ServiceManager {
@@ -22,6 +24,7 @@ public class ServiceManager {
     private static EventService eventService = new EventService();
     private static DataService dataService = new DataService();
     private static Location randomTPLocation;
+    private static final List<Biome> BlockedRtpBiomes = Arrays.asList(Biome.DEEP_COLD_OCEAN, Biome.DEEP_OCEAN, Biome.COLD_OCEAN, Biome.DEEP_FROZEN_OCEAN, Biome.DEEP_LUKEWARM_OCEAN);
 
     public static PlayerService PlayerService() {
         return playerService;
@@ -61,9 +64,19 @@ public class ServiceManager {
         BukkitScheduler scheduler = Oldoe.getInstance().getServer().getScheduler();
 
         scheduler.scheduleSyncRepeatingTask(instance, () -> {
-            int x = (int)Math.floor(Math.random() * (max - min + 1) + min);
-            int z = (int)Math.floor(Math.random() * (max - min + 1) + min);
-            randomTPLocation = Oldoe.getInstance().getServer().getWorlds().get(0).getHighestBlockAt(x, z).getLocation().add(0, 1, 0);
+            boolean foundLoc = false;
+
+            // Set RTP to random location that is not in the Blocked list (oceans)
+            while(!foundLoc) {
+                int x = (int)Math.floor(Math.random() * (max - min + 1) + min);
+                int z = (int)Math.floor(Math.random() * (max - min + 1) + min);
+                Biome biome = Oldoe.getInstance().getServer().getWorlds().get(0).getBiome(x, 90, z);
+
+                if (!BlockedRtpBiomes.contains(biome)) {
+                    randomTPLocation = Oldoe.getInstance().getServer().getWorlds().get(0).getHighestBlockAt(x, z).getLocation().add(0, 1, 0);
+                    foundLoc = true;
+                }
+            }
         }, 0L, 6000L);
 
         scheduler.scheduleSyncRepeatingTask(instance, () -> {

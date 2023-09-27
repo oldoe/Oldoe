@@ -36,7 +36,7 @@ public class StaffChatCommand implements CommandExecutor {
             for( Player p : Bukkit.getOnlinePlayers()) {
                 OldoePlayer oP = PlayerService.GetPlayer(p.getUniqueId());
                 if (oP.isStaff()) {
-                    p.sendMessage(Component.text("<S> ", NamedTextColor.DARK_PURPLE).append(Component.text(sender.getName() + ": " + msg, NamedTextColor.WHITE)));
+                    p.sendMessage(Component.text("<staff> ", NamedTextColor.DARK_PURPLE).append(Component.text(sender.getName() + ": " + msg, NamedTextColor.WHITE)));
                 }
             }
         }

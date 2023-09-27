@@ -5,6 +5,7 @@ import com.oldoe.plugin.services.PlayerService;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,6 +28,8 @@ public class PlayerChatListener implements Listener {
         }
 
         Component comp = LegacyComponentSerializer.builder().character('&').extractUrls().build().deserialize(Component.text(ChatColor.GREEN + "\u2022 " + ChatColor.RED + badge + ChatColor.WHITE + event.getPlayer().getName() + ": ").content() + msg.content());
+
+        //Component comp2 = Component.text("\u2022 ", NamedTextColor.GREEN).append(Component.text(badge, NamedTextColor.RED).append(Component.text(event.getPlayer().getName() + ": " + msg.content(), NamedTextColor.WHITE)));
 
         for(Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(comp);

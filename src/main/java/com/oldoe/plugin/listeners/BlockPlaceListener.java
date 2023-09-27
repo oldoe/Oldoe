@@ -3,16 +3,18 @@ package com.oldoe.plugin.listeners;
 import com.oldoe.plugin.Oldoe;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.models.Plot;
+import com.oldoe.plugin.models.UUIDDataType;
 import com.oldoe.plugin.services.DataService;
 import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.TileState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.time.Instant;
 
 import static com.oldoe.plugin.database.PreparedQueries.GetPlotbyLocation;
 import static com.oldoe.plugin.helpers.CoordConverter.BlockToLocation;
@@ -34,7 +36,16 @@ public class BlockPlaceListener implements Listener {
 
         if (!event.isCancelled()) {
             Material blockType = event.getBlock().getType();
+
+            // Store owner and created timestamp on storage blocks
+            if (Oldoe.GetStorageBlocks().contains(blockType) && event.getBlock().getState() instanceof TileState tState) {
+                tState.getPersistentDataContainer().set(NamespacedKey.fromString("owner"), new UUIDDataType(), event.getPlayer().getUniqueId());
+                tState.getPersistentDataContainer().set(NamespacedKey.fromString("created"), PersistentDataType.STRING, Instant.now().toString());
+                tState.update();
+            }
+
             if (!Oldoe.GetSoftBlocks().contains(blockType)) {
+
                 String sql = String.format(
                         "UPDATE `oldoe_users` SET `cash` = `cash` + 1 WHERE `id` = '%s'",
                         oPlayer.getID()

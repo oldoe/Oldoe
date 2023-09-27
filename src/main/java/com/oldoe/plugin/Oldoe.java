@@ -15,6 +15,7 @@ public class Oldoe extends JavaPlugin implements Listener {
 
     private static List<Material> softBlocks = null;
     private static final List<Material> valuableBlocks = Arrays.asList(Material.DEEPSLATE_DIAMOND_ORE, Material.DIAMOND_ORE, Material.ANCIENT_DEBRIS);
+    private static final List<Material> storageBlocks = Arrays.asList(Material.CHEST, Material.FURNACE, Material.SHULKER_BOX, Material.BLAST_FURNACE);
     private FileConfiguration config = getConfig();
 
     public static final List<Material> GetSoftBlocks() {
@@ -23,6 +24,10 @@ public class Oldoe extends JavaPlugin implements Listener {
 
     public static final List<Material> GetValuableBlocks() {
         return valuableBlocks;
+    }
+
+    public static final List<Material> GetStorageBlocks() {
+        return storageBlocks;
     }
 
     private static ServiceManager serviceManager = new ServiceManager();
