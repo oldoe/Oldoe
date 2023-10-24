@@ -15,7 +15,9 @@ public class Oldoe extends JavaPlugin implements Listener {
 
     private static List<Material> softBlocks = null;
     private static final List<Material> valuableBlocks = Arrays.asList(Material.DEEPSLATE_DIAMOND_ORE, Material.DIAMOND_ORE, Material.ANCIENT_DEBRIS);
-    private static final List<Material> storageBlocks = Arrays.asList(Material.CHEST, Material.FURNACE, Material.SHULKER_BOX, Material.BLAST_FURNACE);
+    private static final List<Material> storageBlocks = Arrays.asList(Material.CHEST, Material.FURNACE, Material.SHULKER_BOX, Material.BLAST_FURNACE, Material.BARREL);
+    private static final List<Material> lockableMaterials = Arrays.asList(Material.ACACIA_TRAPDOOR, Material.BAMBOO_TRAPDOOR, Material.BIRCH_TRAPDOOR, Material.CHERRY_TRAPDOOR, Material.CRIMSON_TRAPDOOR, Material.JUNGLE_TRAPDOOR, Material.MANGROVE_TRAPDOOR, Material.OAK_TRAPDOOR, Material.SPRUCE_TRAPDOOR, Material.WARPED_TRAPDOOR,
+            Material.LEVER);
     private FileConfiguration config = getConfig();
 
     public static final List<Material> GetSoftBlocks() {
@@ -24,6 +26,10 @@ public class Oldoe extends JavaPlugin implements Listener {
 
     public static final List<Material> GetValuableBlocks() {
         return valuableBlocks;
+    }
+
+    public static final List<Material> GetLockableMaterials() {
+        return lockableMaterials;
     }
 
     public static final List<Material> GetStorageBlocks() {

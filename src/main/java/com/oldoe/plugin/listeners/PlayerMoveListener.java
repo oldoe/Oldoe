@@ -40,35 +40,37 @@ public class PlayerMoveListener implements Listener {
             if (toLoc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
 
                 if (oPlayer.borderEnabled()) {
+                    // Fairy attack
+                    //player.spawnParticle(Particle.END_ROD, player.getLocation().getBlockX(), player.getLocation().getBlockY() +1.5, player.getLocation().getBlockZ(),  50, 5, 0, 5);
 
                     // if user has /border on.
                     int PlotXCenter = CoordToPlot(toLoc.getX());
                     int PlotZCenter = CoordToPlot(toLoc.getZ());
 
                     for(int i=0;i<=128;i++){
-                        int x = PlotXCenter -64 + i;
-                        int z = PlotZCenter -64;
+                        int x = PlotXCenter - 64 + i;
+                        int z = PlotZCenter - 64;
                         int y = event.getPlayer().getWorld().getHighestBlockAt(x, z).getY();
                         player.spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
                     }
 
                     for(int i=0;i<=128;i++){
-                        int x = PlotXCenter -64 + i;
-                        int z = PlotZCenter +64;
+                        int x = PlotXCenter - 64 + i;
+                        int z = PlotZCenter + 64;
                         int y = event.getPlayer().getWorld().getHighestBlockAt(x, z).getY();
                         player.spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
                     }
 
                     for(int i=0;i<=128;i++){
-                        int x = PlotXCenter +64;
-                        int z = PlotZCenter -64 + i;
+                        int x = PlotXCenter + 64;
+                        int z = PlotZCenter - 64 + i;
                         int y = event.getPlayer().getWorld().getHighestBlockAt(x, z).getY();
                         player.spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
                     }
 
                     for(int i=0;i<=128;i++){
-                        int x = PlotXCenter -64;
-                        int z = PlotZCenter -64 + i;
+                        int x = PlotXCenter - 64;
+                        int z = PlotZCenter - 64 + i;
                         int y = event.getPlayer().getWorld().getHighestBlockAt(x, z).getY();
                         player.spawnParticle(Particle.END_ROD, x, y +1.5, z,  0);
                     }

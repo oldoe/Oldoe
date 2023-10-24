@@ -11,6 +11,7 @@ public class OldoePlayer {
     private boolean isStaff = false;
     private boolean isHidden = false;
     private boolean pvpEnabled = false;
+    private boolean lockMode = false;
     private String uuid;
     private String name;
     private String lastDmName;
@@ -98,6 +99,10 @@ public class OldoePlayer {
     public boolean isPvpEnabled() { return this.pvpEnabled; }
 
     public void setPVP(Boolean isEnabled) { this.pvpEnabled = isEnabled; }
+
+    public boolean isLockMode() { return this.lockMode; }
+
+    public void setLockMode(Boolean isEnabled) { this.lockMode = isEnabled; }
 
     public String getUUID() {
         return uuid;

@@ -58,3 +58,7 @@ commands:
     description: "Ban player"
     usage: "/ban {user} {reason}"
     aliases: [ ban ]
+  lock:
+    description: "Lock item on private plot"
+    usage: "/lock"
+    aliases: [ lock ]

@@ -24,7 +24,7 @@ public class ServiceManager {
     private static EventService eventService = new EventService();
     private static DataService dataService = new DataService();
     private static Location randomTPLocation;
-    private static final List<Biome> BlockedRtpBiomes = Arrays.asList(Biome.DEEP_COLD_OCEAN, Biome.DEEP_OCEAN, Biome.COLD_OCEAN, Biome.DEEP_FROZEN_OCEAN, Biome.DEEP_LUKEWARM_OCEAN);
+    private static final List<Biome> BlockedRtpBiomes = Arrays.asList(Biome.DEEP_COLD_OCEAN, Biome.DEEP_OCEAN, Biome.COLD_OCEAN, Biome.DEEP_FROZEN_OCEAN, Biome.DEEP_LUKEWARM_OCEAN, Biome.OCEAN, Biome.WARM_OCEAN);
 
     public static PlayerService PlayerService() {
         return playerService;

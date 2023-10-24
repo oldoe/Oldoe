@@ -84,6 +84,7 @@ public class PlayerJoinQuitListener implements Listener {
         final Component footer = Component.text("play.oldoe.com", NamedTextColor.GREEN).append(Component.text(" | ", NamedTextColor.WHITE)).append(Component.text("www.oldoe.com", NamedTextColor.GREEN));
         player.sendPlayerListFooter(footer);
 
+        /*
         // Display client info to staff
         for( Player p : Bukkit.getOnlinePlayers()) {
             OldoePlayer oP = PlayerService.GetPlayer(p.getUniqueId());
@@ -91,6 +92,7 @@ public class PlayerJoinQuitListener implements Listener {
                 p.sendMessage(Component.text("[INFO] " + player.getName() + " - Client: " + Objects.toString(player.getClientBrandName(), "Modded (Fabric/Forge)"), NamedTextColor.GRAY));
             }
         }
+         */
     }
 
     @EventHandler
