@@ -1,6 +1,8 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -33,7 +35,7 @@ public class CashCommand implements CommandExecutor {
             // /cash send {user} amount
             // comm, args[0], args[1], args[2]
             if (args.length < 1) {
-                player.sendMessage(ChatColor.GREEN + "Cash: " + ChatColor.WHITE + "$" + df.format(cash));
+                player.sendMessage(Component.text("Cash: ", NamedTextColor.GREEN).append(Component.text("$" + df.format(cash), NamedTextColor.WHITE)));
             } else {
                 if (args[0].equals("send")) {
                     if (args.length > 1) {
@@ -42,13 +44,13 @@ public class CashCommand implements CommandExecutor {
                         Player recipient = Bukkit.getPlayer(user);
 
                         if (recipient == null) {
-                            player.sendMessage(ChatColor.RED + "User must be online in order to send cash.");
+                            player.sendMessage(Component.text("User must be online in order to send cash.", NamedTextColor.RED));
                         } else {
                             BigDecimal sendAmount = new BigDecimal(0.00);
                             try {
                                 sendAmount = new BigDecimal(args[2]).setScale(2, RoundingMode.HALF_UP);
                             } catch (NumberFormatException ex) {
-                                player.sendMessage(ChatColor.RED + "Invalid number. Command usage: /cash send {user} {amount}.");
+                                player.sendMessage(Component.text("Invalid number. Command usage: /cash send {user} {amount}.", NamedTextColor.RED));
                                 return true;
                             }
 
@@ -93,7 +95,7 @@ public class CashCommand implements CommandExecutor {
                         try {
                             sendAmount = new BigDecimal(args[2]).setScale(2, RoundingMode.HALF_UP);
                         } catch (NumberFormatException ex) {
-                            sender.sendMessage(ChatColor.RED + "Invalid number. Command usage: /cash send {user} {amount}.");
+                            sender.sendMessage(Component.text("Invalid number. Command usage: /cash send {user} {amount}.", NamedTextColor.RED));
                             return true;
                         }
 
