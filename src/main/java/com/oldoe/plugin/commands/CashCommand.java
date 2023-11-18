@@ -117,6 +117,6 @@ public class CashCommand implements CommandExecutor {
     }
 
     private void SendCommandUsage(Player p) {
-        p.sendMessage(ChatColor.RED + "Command usage: /cash send {user} {amount}");
+        p.sendMessage(Component.text("Command usage: /cash send {user} {amount}", NamedTextColor.RED));
     }
 }
