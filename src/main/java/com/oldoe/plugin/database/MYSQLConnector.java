@@ -154,6 +154,12 @@ public class MYSQLConnector {
         return userID;
     }
 
+    public void UpdatePlayerName(String uuid, String name) {
+        String sql = String.format("UPDATE `oldoe_users` SET `name` = '%s' WHERE `uuid` LIKE '%s'", name, uuid);
+        executeSQL(sql);
+        close();
+    }
+
     public void close() {
         if (this.rs != null) {
             try {

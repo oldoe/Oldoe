@@ -51,14 +51,12 @@ public class PlayerJoinQuitListener implements Listener {
 
             playerID = DataService.getDatabase().getPlayerID(uuid);
 
-            if (!player.hasPlayedBefore()) {
-                // Play a deep welcome sound.
-                //player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.9f, 0.5f);
-            }
-
         } else {
 
             playerID = DataService.getDatabase().getPlayerID(uuid);
+
+            // Update DB with the users name (For instances where it changes)
+            DataService.getDatabase().UpdatePlayerName(uuid, player.getName());
 
             long timeMS = player.getWorld().getFullTime();
             long totalDays = timeMS / 24000;
