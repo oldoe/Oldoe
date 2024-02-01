@@ -64,6 +64,7 @@ public class MYSQLConnector {
         String usersTable = String.format("CREATE TABLE IF NOT EXISTS `%s`.`oldoe_users` (" +
                 "`id` INT(11) NOT NULL AUTO_INCREMENT," +
                 "`uuid` VARCHAR(255) NOT NULL ," +
+                "`permission` INT(2) NOT NULL DEFAULT 5 ," +
                 "`name` VARCHAR(255) NOT NULL ," +
                 "`cash` DECIMAL(12,2) NOT NULL DEFAULT 0.00 ," +
                 "PRIMARY KEY (`id`), " +
