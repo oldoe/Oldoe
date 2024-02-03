@@ -99,6 +99,8 @@ public class PlayerJoinQuitListener implements Listener {
         ToggleHide(player, false);
         OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
         PlayerService.RemovePlayer(oPlayer);
+
+        DataService.getDatabase().UpdatePlayerLastSeen(player.getUniqueId().toString());
     }
 
     @EventHandler
@@ -107,6 +109,8 @@ public class PlayerJoinQuitListener implements Listener {
 
         OldoePlayer oPlayer = PlayerService.GetPlayer(player.getUniqueId());
         PlayerService.RemovePlayer(oPlayer);
+
+        DataService.getDatabase().UpdatePlayerLastSeen(player.getUniqueId().toString());
     }
 
     private void ToggleHide(Player player, boolean hide) {

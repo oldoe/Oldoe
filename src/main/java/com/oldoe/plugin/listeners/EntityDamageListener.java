@@ -2,6 +2,7 @@ package com.oldoe.plugin.listeners;
 
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.models.Plot;
+import com.oldoe.plugin.services.DataService;
 import com.oldoe.plugin.services.PlayerService;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -20,6 +21,15 @@ public class EntityDamageListener implements Listener {
     @EventHandler
     public void onEntityDamageEvent(EntityDamageEvent event) {
         Entity entity = event.getEntity();
+
+        if (entity instanceof Player player) {
+            int permission = DataService.getDatabase().getPlayerPermission(player.getUniqueId().toString());
+
+            // Cancel damage for noobs
+            if (permission == 6) {
+                event.setCancelled(true);
+            }
+        }
 
         if (event.getCause().equals(EntityDamageEvent.DamageCause.STARVATION) && entity instanceof Player player) {
             if (player.getHealth() < 10.5) {

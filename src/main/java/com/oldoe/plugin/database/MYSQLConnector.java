@@ -157,8 +157,34 @@ public class MYSQLConnector {
         return userID;
     }
 
+    public int getPlayerPermission(String uuid) {
+        int permission = 5;
+
+        try {
+            String sql = String.format("SELECT `permission` FROM oldoe_users WHERE uuid LIKE '%s'", uuid);
+            ResultSet resultSet = executeSQL(sql);
+
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    permission = resultSet.getInt("permission");
+                }
+            }
+
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, e.getMessage());
+        }
+
+        return permission;
+    }
+
     public void UpdatePlayerName(String uuid, String name) {
-        String sql = String.format("UPDATE `oldoe_users` SET `name` = '%s' WHERE `uuid` LIKE '%s'", name, uuid);
+        String sql = String.format("UPDATE `oldoe_users` SET `name` = '%s' , `last_seen` = CURRENT_TIMESTAMP WHERE `uuid` LIKE '%s'", name, uuid);
+        executeSQL(sql);
+        close();
+    }
+
+    public void UpdatePlayerLastSeen(String uuid) {
+        String sql = String.format("UPDATE `oldoe_users` SET `last_seen` = CURRENT_TIMESTAMP WHERE `uuid` LIKE '%s'", uuid);
         executeSQL(sql);
         close();
     }
