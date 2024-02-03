@@ -8,7 +8,6 @@ import com.oldoe.plugin.services.PlayerService;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -102,6 +101,7 @@ public class PlayerInteractListener implements Listener {
 
             }
             else {
+                /*
                 if (oPlayer.isLockMode() && !plot.isPublic()) {
                     event.getPlayer().sendMessage(Component.text("1", NamedTextColor.GREEN));
                     if (Oldoe.GetLockableMaterials().contains(event.getClickedBlock().getType())) {
@@ -122,6 +122,8 @@ public class PlayerInteractListener implements Listener {
 
                     }
                 }
+
+                 */
             }
         }
     }

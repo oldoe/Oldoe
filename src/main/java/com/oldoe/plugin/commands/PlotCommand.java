@@ -1,6 +1,7 @@
 package com.oldoe.plugin.commands;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.helpers.SafeParse;
 import com.oldoe.plugin.models.OldoePlayer;
 import com.oldoe.plugin.services.DataService;
 import com.oldoe.plugin.services.PlayerService;
@@ -51,7 +52,8 @@ public class PlotCommand implements CommandExecutor, TabCompleter {
                         Sell(player, uuid);
                         break;
                     case("list"):
-                        List(player, uuid);
+                        int page = SafeParse.tryParseInt(args[1], 1);
+                        List(player, uuid, page);
                         break;
                     case("add"):
                         ModifyMembers(player, uuid, args, true);
@@ -178,7 +180,7 @@ public class PlotCommand implements CommandExecutor, TabCompleter {
 
     }
 
-    private void List(Player player, String uuid) {
+    private void List(Player player, String uuid, int page) {
         int userID =  DataService.getDatabase().getPlayerID(uuid);
 
         List<String> Plots = new ArrayList<>();
