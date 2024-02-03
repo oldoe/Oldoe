@@ -67,6 +67,8 @@ public class MYSQLConnector {
                 "`permission` INT(2) NOT NULL DEFAULT 5 ," +
                 "`name` VARCHAR(255) NOT NULL ," +
                 "`cash` DECIMAL(12,2) NOT NULL DEFAULT 0.00 ," +
+                "`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , " +
+                "`last_seen` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , " +
                 "PRIMARY KEY (`id`), " +
                 "UNIQUE KEY `uuid` (`uuid`) " +
                 ") ENGINE = InnoDB;", database);
@@ -105,6 +107,7 @@ public class MYSQLConnector {
                 "`name` VARCHAR(255) NOT NULL , " +
                 "`x` Int(11) NOT NULL , " +
                 "`z` Int(11) NOT NULL , " +
+                "`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , " +
                 "PRIMARY KEY (`id`)," +
                 "FOREIGN KEY (`owner`) REFERENCES oldoe_users(`id`) ON UPDATE CASCADE ON DELETE CASCADE" +
                 ") ENGINE = InnoDB;", database);

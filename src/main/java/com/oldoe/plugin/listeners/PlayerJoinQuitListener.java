@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.List;
-import java.util.Objects;
 
 public class PlayerJoinQuitListener implements Listener {
 
@@ -55,7 +54,7 @@ public class PlayerJoinQuitListener implements Listener {
 
             playerID = DataService.getDatabase().getPlayerID(uuid);
 
-            // Update DB with the users name (For instances where it changes)
+            // Update DB with the users name (For instances where it changes) TODO update last_seen date on login/logout
             DataService.getDatabase().UpdatePlayerName(uuid, player.getName());
 
             long timeMS = player.getWorld().getFullTime();
