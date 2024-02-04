@@ -80,7 +80,7 @@ public class ServiceManager {
             }
 
             // Keep alive for DB to prevent connection timeout
-            String sql = String.format("SELECT TOP 1 * FROM `oldoe_users`");
+            String sql = String.format("SELECT * FROM `oldoe_users` LIMIT 1");
             DataService.getDatabase().executeSQL(sql);
             DataService.getDatabase().close();
 
