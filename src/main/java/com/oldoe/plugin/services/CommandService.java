@@ -20,6 +20,7 @@ public class CommandService {
         instance.getCommand("death").setExecutor(new DeathCommand());
         instance.getCommand("ban").setExecutor(new BanCommand());
         instance.getCommand("lock").setExecutor(new LockCommand());
+        instance.getCommand("seen").setExecutor(new SeenCommand());
 
         instance.getCommand("help").setTabCompleter(new HelpCommand());
         instance.getCommand("plot").setTabCompleter(new PlotCommand());

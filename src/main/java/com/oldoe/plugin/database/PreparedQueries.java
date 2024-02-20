@@ -1,6 +1,7 @@
 package com.oldoe.plugin.database;
 
 import com.oldoe.plugin.Oldoe;
+import com.oldoe.plugin.models.LastSeenDTO;
 import com.oldoe.plugin.models.Plot;
 import com.oldoe.plugin.services.DataService;
 import org.bukkit.Bukkit;
@@ -9,6 +10,7 @@ import org.bukkit.Location;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,6 +35,27 @@ public class PreparedQueries {
         }
 
         return userID;
+    }
+
+    public static LastSeenDTO GetLastSeenByName(String name) {
+        Timestamp lastSeen = null;
+        String dbName = null;
+
+        try {
+            String sql = String.format("SELECT `name`, `last_seen` FROM `oldoe_users` WHERE `name` LIKE '%s'", name);
+            ResultSet resultSet = DataService.getDatabase().executeSQL(sql);
+
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    dbName = resultSet.getString("name");
+                    lastSeen = resultSet.getTimestamp("last_seen");
+                }
+            }
+        } catch (SQLException e) {
+            Oldoe.getInstance().getLogger().log(Level.WARNING, e.getMessage());
+        }
+
+        return new LastSeenDTO(dbName, lastSeen);
     }
 
     public static Location GetPlayerHome(String uuid) {

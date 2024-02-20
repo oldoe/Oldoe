@@ -57,11 +57,10 @@ public class PlayerInteractListener implements Listener {
                     Instant createdInstant = Instant.parse(createdDate);
                     Duration duration = Duration.between(createdInstant, Instant.now());
 
-
                     Component comp = Component.text("--- X: " + event.getClickedBlock().getX() + ", Y: " + event.getClickedBlock().getY() + ", Z: " + event.getClickedBlock().getZ() + " ---", NamedTextColor.WHITE).appendNewline()
                             .append(Component.text("Type: ", NamedTextColor.DARK_GREEN)).append(Component.text(event.getClickedBlock().getType().name().toLowerCase())).appendNewline()
                             .append(Component.text("Owner: ", NamedTextColor.DARK_GREEN).append(Component.text(offlinePlayer.getName(), NamedTextColor.WHITE)).appendNewline()
-                            .append(Component.text("Created: ", NamedTextColor.DARK_GREEN)).append(Component.text(duration.toDays() + " days " + duration.toHours() + " hours " + duration.toMinutes() + " minutes ago", NamedTextColor.WHITE)));
+                            .append(Component.text("Created: ", NamedTextColor.DARK_GREEN)).append(Component.text(duration.toDaysPart() + " days " + duration.toHoursPart() + " hours " + duration.toMinutesPart() + " minutes ago", NamedTextColor.WHITE)));
 
                     event.getPlayer().sendMessage(comp);
 

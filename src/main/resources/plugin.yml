@@ -1,5 +1,5 @@
 name: OldoeServer
-version: 1.1.0
+version: 1.1.1
 main: com.oldoe.plugin.Oldoe
 description: Oldoe server plugin.
 author: littlefryingpan
@@ -53,7 +53,7 @@ commands:
   death:
     description: "Display last death location"
     usage: "/death"
-    aliases: [ death ]
+    aliases: [ death, d ]
   ban:
     description: "Ban player"
     usage: "/ban {user} {reason}"
@@ -62,3 +62,7 @@ commands:
     description: "Lock item on private plot"
     usage: "/lock"
     aliases: [ lock ]
+  seen:
+    description: "Check when given player was last online"
+    usage: "/seen {playername}"
+    aliases: [ seen, profile ]
